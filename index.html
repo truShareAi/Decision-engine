@@ -3,47 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Engine | Clear Answers</title>
+    <title>Decision Engine | Your Friendly Deal Finder</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-    <header style="text-align: center; margin-bottom: 3rem;">
-        <h1>Decision Engine</h1>
-        <p>Stop comparing. Start deciding.</p>
+    <header style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Decision Engine</h1>
+        <p style="font-size: 1.1rem; opacity: 0.9;">The independent guide that cuts through the noise.</p>
     </header>
 
-    <section class="input-card">
+    <section class="category-grid">
+        <div class="selection-box highlight" onclick="toggleView('supermarket')">
+            <div class="box-icon">🍎</div>
+            <h3>Daily Living</h3>
+            <p>Live grocery prices & budget guides.</p>
+            <span class="live-tag">LIVE: Milk ↓ 5p</span>
+        </div>
+
+        <div class="selection-box active" onclick="toggleView('engine')">
+            <div class="box-icon">⚡</div>
+            <h3>Energy & Utils</h3>
+            <p>Find the true cost, not the teaser rate.</p>
+        </div>
+
+        <div class="selection-box" onclick="toggleView('engine')">
+            <div class="box-icon">🛡️</div>
+            <h3>Insurance</h3>
+            <p>Spot the hidden excess traps.</p>
+        </div>
+
+        <div class="selection-box" onclick="toggleView('engine')">
+            <div class="box-icon">🌐</div>
+            <h3>Broadband</h3>
+            <p>No mid-contract price hike finder.</p>
+        </div>
+    </section>
+
+    <section class="input-card" id="mainEngine">
+        <h2 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem;">Let's find your best deal:</h2>
         <div class="form-group">
-            <label>What are you buying?</label>
-            <input type="text" id="itemName" placeholder="e.g. Broadband, Car Insurance">
+            <label>What are we looking at?</label>
+            <input type="text" id="itemName" placeholder="e.g. Car Insurance, Gas & Electric">
         </div>
         <div class="form-group">
-            <label>Priority</label>
+            <label>What matters most to you?</label>
             <select id="priority">
-                <option value="value">Best Long-term Value</option>
-                <option value="cheap">Lowest Initial Cost</option>
-                <option value="quality">Premium Features</option>
+                <option value="value">Best Long-term Value (Recommended)</option>
+                <option value="cheap">Cheapest Right Now</option>
+                <option value="quality">Most Reliable / Best Support</option>
             </select>
         </div>
         <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
     </section>
 
-    <div id="resultSection">
+    <section class="input-card" id="supermarketView" style="display: none;">
+        <h2 style="margin-top: 0; color: var(--success-green);">🍎 Daily Living & Grocery Tracker</h2>
+        <p>This is where we track live supermarket price drops and yellow-sticker timings.</p>
+        <div class="detail-item">
+            <span>💡</span>
+            <p><strong>Pro Tip:</strong> Most supermarkets start their deepest discounts at 6:30 PM on weekdays.</p>
+        </div>
+        <button class="analyze-btn" style="background: #334155; color: white;" onclick="toggleView('engine')">Back to Main Engine</button>
+    </section>
+
+    <div id="resultSection" style="display: none;">
         <div class="result-card">
             <div class="result-header">
-                <h3>Analysis Complete</h3>
+                <h3>Our Recommendation</h3>
                 <span class="decision-badge">Best Match</span>
             </div>
             
             <div class="main-decision">
                 <div class="stat">
-                    <label>Recommended</label>
+                    <label>Fair Price</label>
                     <span class="value success">£420<small>/yr</small></span>
                 </div>
                 <div class="stat">
-                    <label>Engine Score</label>
+                    <label>Value Score</label>
                     <span class="score-pill">9.8 / 10</span>
                 </div>
             </div>
@@ -51,27 +90,43 @@
             <div class="details-grid">
                 <div class="detail-item">
                     <span>💡</span>
-                    <p><strong>The "Why":</strong> High reliability score and lowest hidden fees.</p>
+                    <p><strong>The "Why":</strong> This provider has the lowest history of price hikes after month 12.</p>
                 </div>
                 <div class="detail-item warning">
                     <span>⚠️</span>
-                    <p><strong>Avoid:</strong> Budget options in this category have 30% higher failure rates.</p>
+                    <p><strong>The Trap:</strong> Avoid the £310 offer; it has a £500 mandatory excess you'll hate later.</p>
                 </div>
             </div>
 
             <div class="saving-footer">
-                <p>Estimated Saving: <strong>£180</strong></p>
+                <p>Estimated Yearly Saving: <strong>£180</strong></p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Toggle between the Engine and the Supermarket guide
+    function toggleView(view) {
+        const engine = document.getElementById('mainEngine');
+        const supermarket = document.getElementById('supermarketView');
+        const result = document.getElementById('resultSection');
+
+        if(view === 'supermarket') {
+            engine.style.display = 'none';
+            supermarket.style.display = 'block';
+            result.style.display = 'none';
+        } else {
+            engine.style.display = 'block';
+            supermarket.style.display = 'none';
+        }
+    }
+
     function runAnalysis() {
         const btn = document.querySelector('.analyze-btn');
         const result = document.getElementById('resultSection');
         
-        btn.innerText = "Processing Data...";
+        btn.innerText = "Scanning Market for Traps...";
         btn.style.opacity = "0.5";
 
         setTimeout(() => {
