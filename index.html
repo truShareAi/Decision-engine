@@ -3,10 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Engine | Your Friendly Deal Finder</title>
+    <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<nav class="top-nav" id="mainNav">
+    <div class="nav-container">
+        <div class="nav-logo">🍌 BANANA</div>
+        <div class="nav-links">
+            <a href="#" onclick="setCategory('Car Insurance')">Car</a>
+            <a href="#" onclick="setCategory('Home Insurance')">Home</a>
+            <a href="#" onclick="setCategory('Pet Insurance')">Pet</a>
+            <a href="#" onclick="setCategory('Life Insurance')">Life</a>
+            <a href="#" onclick="setCategory('Electricity')">Electricity</a>
+            <a href="#" onclick="setCategory('Mortgages')">Mortgages</a>
+            <a href="#" onclick="setCategory('Loans')">Loans</a>
+            <a href="#" onclick="setCategory('Grocery Deals')">Groceries</a>
+        </div>
+        <div class="nav-auth">
+            <a href="#" class="sign-in-btn">Sign in</a>
+        </div>
+    </div>
+</nav>
 
 <section class="hero-area">
     <div class="hero-container">
@@ -44,15 +63,9 @@
             <div class="box-art life-art"></div>
             <h3>Life Insurance</h3>
         </div>
-
-        <div class="selection-box" onclick="setCategory('Energy')">
+        <div class="selection-box" onclick="setCategory('Electricity')">
             <div class="box-art energy-art"></div>
-            <h3>Gas & Electric</h3>
-        </div>
-        <div class="selection-box highlight" onclick="setCategory('Supermarkets')">
-            <div class="box-art daily-art"></div>
-            <h3>Daily Living</h3>
-            <span class="deal-badge">Hot Deals</span>
+            <h3>Electricity</h3>
         </div>
         <div class="selection-box" onclick="setCategory('Mortgages')">
             <div class="box-art mortgage-art"></div>
@@ -61,6 +74,11 @@
         <div class="selection-box" onclick="setCategory('Loans')">
             <div class="box-art loan-art"></div>
             <h3>Loans</h3>
+        </div>
+        <div class="selection-box highlight" onclick="setCategory('Grocery Deals')">
+            <div class="box-art daily-art"></div>
+            <h3>Grocery Deals</h3>
+            <span class="deal-badge">Hot Deals</span>
         </div>
     </section>
 
@@ -77,16 +95,38 @@
         <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
     </section>
 
-    <div id="resultSection" style="display: none;">
-        </div>
+    <div id="resultSection" style="display: none;"></div>
 </div>
 
 <script>
+    // Navigation Scroll Behavior
+    let lastScrollTop = 0;
+    const nav = document.getElementById('mainNav');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down
+            nav.style.top = "-80px"; 
+        } else {
+            // Scrolling up
+            nav.style.top = "0";
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
     function setCategory(cat) {
         document.getElementById('itemName').value = cat;
         document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + " for you...";
         document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+        
+        // Match selection box if clicked from nav
+        const boxes = document.querySelectorAll('.selection-box h3');
+        boxes.forEach(h3 => {
+            if(h3.innerText === cat) h3.parentElement.classList.add('active');
+        });
+
         document.getElementById('mainEngine').scrollIntoView({ behavior: 'smooth' });
     }
 
