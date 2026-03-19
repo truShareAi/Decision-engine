@@ -38,11 +38,16 @@
             </div>
         </div>
         <div class="hero-mascot">
-            <div class="mascot-eyes">
-                <div class="eye"></div>
-                <div class="eye"></div>
-            </div>
-            <div class="mascot-smile"></div>
+            <svg width="220" height="280" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M40,60 C30,120 60,240 160,260 C140,200 100,100 110,40" stroke="#FDE047" stroke-width="60" stroke-linecap="round" />
+                <path d="M40,60 C30,120 60,240 160,260 C140,200 100,100 110,40" stroke="#F9D423" stroke-width="50" stroke-linecap="round" />
+                
+                <path d="M108,40 L115,10" stroke="#4d3a00" stroke-width="15" stroke-linecap="round" />
+                
+                <circle cx="65" cy="110" r="6" fill="black"/>
+                <circle cx="95" cy="105" r="6" fill="black"/>
+                <path d="M60,140 C70,160 100,155 110,135" stroke="black" stroke-width="4" fill="none" stroke-linecap="round" />
+            </svg>
         </div>
     </div>
 </section>
@@ -138,9 +143,6 @@
     });
 
     function setCategory(cat) {
-        // This will eventually link to specific pages like 'grocery.html' or 'energy.html'
-        console.log("Navigating to " + cat + " engine...");
-        // For now, it highlights the selection
         document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
         const boxes = document.querySelectorAll('.selection-box h3');
         boxes.forEach(h3 => {
