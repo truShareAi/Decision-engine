@@ -82,63 +82,58 @@
         </div>
     </section>
 
-    <section class="input-card" id="mainEngine">
-        <h3 id="dynamicLabel">Pick a category above to start!</h3>
-        <div class="form-group">
-            <input type="hidden" id="itemName">
-            <label>Priority</label>
-            <select id="priority">
-                <option value="value">Best Long-term Value</option>
-                <option value="cheap">Lowest Initial Cost</option>
-            </select>
-        </div>
-        <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
-    </section>
-
     <div id="resultSection" style="display: none;"></div>
 </div>
 
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-header">
+            <div class="nav-logo">🍌 BANANA</div>
+            <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                BACK TO TOP ↑
+            </button>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-links">
+            <a href="#">All products</a>
+            <a href="#">Contact</a>
+            <a href="#">FAQs</a>
+            <a href="#">About us</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Cookie policy</a>
+            <a href="#">Privacy policy</a>
+        </div>
+
+        <div class="footer-legal">
+            <p class="legal-text"><strong>Disclaimer:</strong> Banana operates as an independent information provider and decision-engine platform. The content provided on this site is for informational purposes only and does not constitute financial, investment, or professional advice. While we employ rigorous data-validation processes to ensure market accuracy, all rates, terms, and deal structures are provided by third-party entities and are subject to change without notice.</p>
+            <p class="legal-text">Users are encouraged to verify final contract details with the specific provider before entering into any binding agreement. Banana shall not be held liable for discrepancies between our data-driven insights and final third-party offerings. You assume full responsibility for your financial decisions.</p>
+            <p class="copyright">© Banana 2026. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
 <script>
-    // Navigation Scroll Behavior
     let lastScrollTop = 0;
     const nav = document.getElementById('mainNav');
 
     window.addEventListener('scroll', function() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
         if (scrollTop > lastScrollTop) {
-            // Scrolling down
             nav.style.top = "-80px"; 
         } else {
-            // Scrolling up
             nav.style.top = "0";
         }
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 
     function setCategory(cat) {
-        document.getElementById('itemName').value = cat;
-        document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + " for you...";
         document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
-        
-        // Match selection box if clicked from nav
         const boxes = document.querySelectorAll('.selection-box h3');
         boxes.forEach(h3 => {
             if(h3.innerText === cat) h3.parentElement.classList.add('active');
         });
-
-        document.getElementById('mainEngine').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function runAnalysis() {
-        const btn = document.querySelector('.analyze-btn');
-        const result = document.getElementById('resultSection');
-        btn.innerText = "Checking the market...";
-        setTimeout(() => {
-            btn.innerText = "Check Another";
-            result.style.display = "block";
-            result.scrollIntoView({ behavior: 'smooth' });
-        }, 1200);
     }
 </script>
 
