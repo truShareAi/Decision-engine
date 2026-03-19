@@ -8,6 +8,11 @@ body {
 
 .hero {
   padding: 100px 20px;
+  background: linear-gradient(180deg, #0f172a, #020617);
+}
+
+.hero.small {
+  padding: 60px 20px;
 }
 
 h1 {
@@ -15,9 +20,14 @@ h1 {
   margin-bottom: 20px;
 }
 
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
 p {
   font-size: 1.2rem;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 button {
@@ -28,4 +38,34 @@ button {
   color: black;
   cursor: pointer;
   border-radius: 8px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #0ea5e9;
+}
+
+.section {
+  padding: 80px 20px;
+}
+
+.section.alt {
+  background: #020617;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.card {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
 }
