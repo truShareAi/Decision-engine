@@ -101,8 +101,14 @@ body {
 
 .hero-text h1 {
   font-size: 3.5rem;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
   line-height: 1.1;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 600px;
 }
 
 .pop { color: var(--brand-yellow); }
@@ -173,6 +179,14 @@ body {
   background: #243147;
 }
 
+.selection-box.go-green:hover {
+  border-color: var(--success-green);
+}
+
+.selection-box.go-green h3 {
+  color: var(--success-green);
+}
+
 .box-art {
   width: 80px;
   height: 80px;
@@ -191,6 +205,11 @@ body {
   border-radius: 10px;
   font-weight: 800;
   color: white;
+}
+
+.green-badge {
+  background: var(--success-green);
+  color: var(--bg-dark);
 }
 
 /* --- FOOTER STYLING --- */
