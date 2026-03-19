@@ -140,63 +140,18 @@ body {
   cursor: pointer;
 }
 
-/* --- THE BANANA MASCOT --- */
+/* --- THE BANANA MASCOT CONTAINER --- */
 .hero-mascot {
-  position: relative;
-  width: 200px;
-  height: 280px;
-  background: var(--brand-yellow);
-  /* This creates a curved, tapered banana silhouette */
-  border-radius: 45% 55% 50% 50% / 80% 80% 20% 20%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  transform: rotate(-8deg); 
+  max-width: 300px;
 }
 
-/* The Stem */
-.hero-mascot::before {
-  content: '';
-  position: absolute;
-  top: -15px;
-  width: 35px;
-  height: 25px;
-  background: #4d3a00;
-  border-radius: 8px 8px 0 0;
-}
-
-/* The Bottom Nib */
-.hero-mascot::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  width: 20px;
-  height: 10px;
-  background: #2b2100;
-  border-radius: 0 0 10px 10px;
-}
-
-.mascot-eyes {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 20px;
-}
-
-.eye {
-  width: 16px;
-  height: 16px;
-  background: #000;
-  border-radius: 50%;
-}
-
-.mascot-smile {
-  width: 65px;
-  height: 30px;
-  border: 5px solid #000;
-  border-top: 0;
-  border-radius: 0 0 50px 50px;
+.hero-mascot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
 }
 
 /* --- CONTAINER & GRID --- */
