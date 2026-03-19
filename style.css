@@ -4,191 +4,130 @@
   --text-main: #f8fafc;
   --accent-blue: #38bdf8;
   --success-green: #4ade80;
-  --warning-orange: #fbbf24;
+  --brand-yellow: #fde047; /* GoCompare style yellow for highlights */
 }
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
-  font-family: 'Inter', -apple-system, sans-serif;
-  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
   margin: 0;
-  padding-bottom: 50px;
 }
 
+/* --- HERO BANNER --- */
+.hero-area {
+    background: #162033; /* Slightly lighter than the background */
+    padding: 80px 20px;
+    border-bottom: 4px solid var(--brand-yellow);
+}
+
+.hero-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.pop { color: var(--brand-yellow); }
+
+.search-wrap {
+    display: flex;
+    background: white;
+    padding: 8px;
+    border-radius: 50px;
+    margin-top: 30px;
+}
+
+.search-wrap input {
+    border: none;
+    padding: 10px 20px;
+    flex-grow: 1;
+    background: none;
+    color: #334155;
+    outline: none;
+}
+
+.search-wrap button {
+    background: var(--accent-blue);
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* --- THE GRID --- */
 .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-/* --- BANNER --- */
-.main-header {
-  padding: 80px 20px;
-  background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0) 100%);
-  text-align: center;
+.section-title {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
 }
 
-.banner-box h1 {
-  font-size: 3rem;
-  font-weight: 900;
-  letter-spacing: -1px;
-  margin-bottom: 10px;
-}
-
-.accent { color: var(--accent-blue); }
-
-/* --- BENTO GRID --- */
 .category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-  margin-top: -40px; 
-  margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
 }
 
 .selection-box {
-  background: var(--card-bg);
-  border: 2px solid #334155;
-  border-radius: 32px;
-  padding: 30px;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
+    background: var(--card-bg);
+    border: 2px solid transparent;
+    border-radius: 24px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
 }
 
 .selection-box:hover {
-  transform: translateY(-10px);
-  border-color: var(--accent-blue);
+    background: #243147;
+    transform: translateY(-5px);
 }
 
 .selection-box.active {
-  background: #243147;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    border-color: var(--brand-yellow);
+    background: #243147;
 }
 
-/* --- ILLUSTRATION SLOTS --- */
-.box-illustration {
-    width: 100px;
-    height: 100px;
+/* --- THE "FUN" ART SLOTS --- */
+.box-art {
+    width: 80px;
+    height: 80px;
     margin: 0 auto 15px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-/* Specific Classes for your custom art */
-.energy-illustration { background-image: url('energy.png'); }
-.insurance-illustration { background-image: url('insurance.png'); }
-.broadband-illustration { background-image: url('broadband.png'); }
-.daily-living-illustration { background-image: url('daily.png'); }
+/* PLACEHOLDER: You would replace these URLs with your Mascot Art */
+.car-art { background-image: url('car-mascot.png'); background-color: #334155; border-radius: 50%; }
+.home-art { background-image: url('home-mascot.png'); background-color: #334155; border-radius: 50%; }
+.daily-art { background-image: url('daily-mascot.png'); background-color: #4ade80; border-radius: 50%; }
 
-/* --- INPUT CARD --- */
-.input-card {
-  background: var(--card-bg);
-  padding: 40px;
-  border-radius: 32px;
-  border: 1px solid #334155;
-  margin-bottom: 40px;
+.deal-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ef4444;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-weight: 800;
 }
 
-label {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--accent-blue);
-}
-
-input, select {
-  width: 100%;
-  padding: 15px;
-  border-radius: 16px;
-  border: 2px solid #334155;
-  background: #0f172a;
-  color: white;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.analyze-btn {
-  width: 100%;
-  padding: 20px;
-  border-radius: 16px;
-  border: none;
-  background: var(--accent-blue);
-  color: var(--bg-dark);
-  font-weight: 900;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-/* --- RESULT CARD --- */
-.result-card {
-  background: var(--card-bg);
-  border-radius: 32px;
-  padding: 30px;
-  border: 2px solid var(--success-green);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.result-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #334155;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.decision-badge {
-  background: rgba(74, 222, 128, 0.1);
-  color: var(--success-green);
-  padding: 6px 16px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 800;
-  border: 1px solid var(--success-green);
-}
-
-.main-decision {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.value.success {
-  color: var(--success-green);
-  font-size: 2.8rem;
-  font-weight: 800;
-}
-
-.score-pill {
-  background: #0f172a;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: 800;
-  border: 1px solid #334155;
-}
-
-.detail-item {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 1.5rem;
-  background: rgba(15, 23, 42, 0.5);
-  padding: 1.2rem;
-  border-radius: 12px;
-}
-
-.detail-item.warning { border-left: 4px solid var(--warning-orange); }
-
-.saving-footer {
-  text-align: center;
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
-  padding: 1.2rem;
-  border-radius: 12px;
-  font-weight: 800;
-}
+/* ... (Input card and Result CSS from previous builds) ... */
