@@ -5,68 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Engine | Your Friendly Deal Finder</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<header class="main-header">
+    <div class="banner-box">
+        <h1>Stop Overpaying. <span class="accent">Decide with Confidence.</span></h1>
+        <p>We analyze the fine print so you don't have to. No ads, just answers.</p>
+    </div>
+</header>
+
 <div class="container">
-    <header style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Decision Engine</h1>
-        <p style="font-size: 1.1rem; opacity: 0.9;">The independent guide that cuts through the noise.</p>
-    </header>
-
     <section class="category-grid">
-        <div class="selection-box highlight" onclick="toggleView('supermarket')">
-            <div class="box-icon">🍎</div>
-            <h3>Daily Living</h3>
-            <p>Live grocery prices & budget guides.</p>
-            <span class="live-tag">LIVE: Milk ↓ 5p</span>
+        <div class="selection-box active" onclick="setCategory('Energy')">
+            <div class="box-illustration energy-illustration"></div>
+            <h3>Energy Bills</h3>
+            <p>Beat the price hikes.</p>
         </div>
 
-        <div class="selection-box active" onclick="toggleView('engine')">
-            <div class="box-icon">⚡</div>
-            <h3>Energy & Utils</h3>
-            <p>Find the true cost, not the teaser rate.</p>
-        </div>
-
-        <div class="selection-box" onclick="toggleView('engine')">
-            <div class="box-icon">🛡️</div>
+        <div class="selection-box" onclick="setCategory('Insurance')">
+            <div class="box-illustration insurance-illustration"></div>
             <h3>Insurance</h3>
-            <p>Spot the hidden excess traps.</p>
+            <p>Spot hidden fees.</p>
         </div>
 
-        <div class="selection-box" onclick="toggleView('engine')">
-            <div class="box-icon">🌐</div>
+        <div class="selection-box" onclick="setCategory('Broadband')">
+            <div class="box-illustration broadband-illustration"></div>
             <h3>Broadband</h3>
-            <p>No mid-contract price hike finder.</p>
+            <p>Fair-price finder.</p>
+        </div>
+
+        <div class="selection-box highlight" onclick="setCategory('Supermarkets')">
+            <div class="box-illustration daily-living-illustration"></div>
+            <h3>Daily Living</h3>
+            <p>Grocery trackers.</p>
         </div>
     </section>
 
     <section class="input-card" id="mainEngine">
-        <h2 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.2rem;">Let's find your best deal:</h2>
         <div class="form-group">
-            <label>What are we looking at?</label>
+            <label id="dynamicLabel">What are we looking at?</label>
             <input type="text" id="itemName" placeholder="e.g. Car Insurance, Gas & Electric">
         </div>
         <div class="form-group">
-            <label>What matters most to you?</label>
+            <label>What's your main priority?</label>
             <select id="priority">
-                <option value="value">Best Long-term Value (Recommended)</option>
-                <option value="cheap">Cheapest Right Now</option>
-                <option value="quality">Most Reliable / Best Support</option>
+                <option value="value">Best Long-term Value</option>
+                <option value="cheap">Lowest Initial Cost</option>
+                <option value="quality">Reliability & Service</option>
             </select>
         </div>
-        <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
-    </section>
-
-    <section class="input-card" id="supermarketView" style="display: none;">
-        <h2 style="margin-top: 0; color: var(--success-green);">🍎 Daily Living & Grocery Tracker</h2>
-        <p>This is where we track live supermarket price drops and yellow-sticker timings.</p>
-        <div class="detail-item">
-            <span>💡</span>
-            <p><strong>Pro Tip:</strong> Most supermarkets start their deepest discounts at 6:30 PM on weekdays.</p>
-        </div>
-        <button class="analyze-btn" style="background: #334155; color: white;" onclick="toggleView('engine')">Back to Main Engine</button>
+        <button class="analyze-btn" onclick="runAnalysis()">Analyze My Decision</button>
     </section>
 
     <div id="resultSection" style="display: none;">
@@ -75,7 +65,6 @@
                 <h3>Our Recommendation</h3>
                 <span class="decision-badge">Best Match</span>
             </div>
-            
             <div class="main-decision">
                 <div class="stat">
                     <label>Fair Price</label>
@@ -86,18 +75,16 @@
                     <span class="score-pill">9.8 / 10</span>
                 </div>
             </div>
-
             <div class="details-grid">
                 <div class="detail-item">
                     <span>💡</span>
-                    <p><strong>The "Why":</strong> This provider has the lowest history of price hikes after month 12.</p>
+                    <p><strong>The "Why":</strong> Lowest history of mid-contract price hikes.</p>
                 </div>
                 <div class="detail-item warning">
                     <span>⚠️</span>
-                    <p><strong>The Trap:</strong> Avoid the £310 offer; it has a £500 mandatory excess you'll hate later.</p>
+                    <p><strong>The Trap:</strong> Avoid the cheaper £310 offer—hidden fees are 40% higher.</p>
                 </div>
             </div>
-
             <div class="saving-footer">
                 <p>Estimated Yearly Saving: <strong>£180</strong></p>
             </div>
@@ -106,35 +93,22 @@
 </div>
 
 <script>
-    // Toggle between the Engine and the Supermarket guide
-    function toggleView(view) {
-        const engine = document.getElementById('mainEngine');
-        const supermarket = document.getElementById('supermarketView');
-        const result = document.getElementById('resultSection');
-
-        if(view === 'supermarket') {
-            engine.style.display = 'none';
-            supermarket.style.display = 'block';
-            result.style.display = 'none';
-        } else {
-            engine.style.display = 'block';
-            supermarket.style.display = 'none';
-        }
+    function setCategory(cat) {
+        document.getElementById('itemName').value = cat;
+        document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + "...";
+        document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
+        event.currentTarget.classList.add('active');
     }
 
     function runAnalysis() {
         const btn = document.querySelector('.analyze-btn');
         const result = document.getElementById('resultSection');
-        
-        btn.innerText = "Scanning Market for Traps...";
-        btn.style.opacity = "0.5";
-
+        btn.innerText = "Scanning the market...";
         setTimeout(() => {
             btn.innerText = "Analysis Complete";
-            btn.style.background = "#4ade80";
             result.style.display = "block";
             result.scrollIntoView({ behavior: 'smooth' });
-        }, 1500);
+        }, 1200);
     }
 </script>
 
