@@ -20,17 +20,93 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
 }
 
-/* Input Section */
+/* --- THE SELECTION GRID (GoCompare Style) --- */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.selection-box {
+  background: var(--card-bg);
+  border: 2px solid #334155;
+  border-radius: 24px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.selection-box:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px -10px rgba(56, 189, 248, 0.3);
+}
+
+.selection-box.active {
+  border-color: var(--accent-blue);
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.selection-box.highlight {
+  border-color: var(--success-green);
+}
+
+.box-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.selection-box h3 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.selection-box p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* Live Badge for Supermarkets */
+.live-tag {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  background: var(--success-green);
+  color: var(--bg-dark);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- CARDS & FORMS --- */
 .input-card {
   background: var(--card-bg);
   border: 1px solid #334155;
   border-radius: 16px;
-  padding: 2rem;
+  padding: 2.5rem;
   margin-bottom: 2rem;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .form-group {
@@ -40,44 +116,51 @@ body {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--accent-blue);
 }
 
 input, select {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #0f172a;
-  border: 1px solid #475569;
-  border-radius: 8px;
+  border: 2px solid #334155;
+  border-radius: 12px;
   color: white;
-  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
 }
 
 .analyze-btn {
   width: 100%;
-  padding: 1rem;
+  padding: 1.2rem;
   background: var(--accent-blue);
   color: var(--bg-dark);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 800;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s;
 }
 
 .analyze-btn:hover {
-  transform: translateY(-2px);
   filter: brightness(1.1);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
 }
 
-/* Result Card (Your Code) */
+/* --- RESULTS SECTION --- */
 .result-card {
   background: var(--card-bg);
   border: 1px solid #334155;
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
 }
 
 .result-header {
@@ -85,48 +168,49 @@ input, select {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #334155;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .decision-badge {
   background: rgba(74, 222, 128, 0.1);
   color: var(--success-green);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 800;
   border: 1px solid var(--success-green);
 }
 
 .main-decision {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .value.success {
   color: var(--success-green);
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
-  display: block;
+  line-height: 1;
 }
 
 .score-pill {
-  background: #334155;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
+  background: #0f172a;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  border: 1px solid #334155;
 }
 
 .detail-item {
   display: flex;
-  gap: 12px;
-  margin-bottom: 1rem;
-  background: rgba(255,255,255,0.03);
-  padding: 1rem;
-  border-radius: 8px;
+  gap: 15px;
+  margin-bottom: 1.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 1.2rem;
+  border-radius: 12px;
 }
 
 .detail-item.warning {
@@ -135,12 +219,14 @@ input, select {
 
 .saving-footer {
   text-align: center;
-  background: linear-gradient(90deg, #0ea5e9, #2563eb);
-  padding: 1rem;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  padding: 1.2rem;
+  border-radius: 12px;
   margin-top: 1rem;
+  font-weight: 600;
 }
 
-#resultSection {
-  display: none; /* Hidden until button is clicked */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
