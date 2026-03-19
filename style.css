@@ -10,17 +10,73 @@
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
-  font-family: 'Inter', sans-serif; /* A clean, modern font */
+  font-family: 'Inter', -apple-system, sans-serif;
   line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.container {
+  max-width: 800px;
+  width: 100%;
+}
+
+/* Input Section */
+.input-card {
+  background: var(--card-bg);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.analyze-btn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent-blue);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.analyze-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Result Card (Your Code) */
 .result-card {
   background: var(--card-bg);
   border: 1px solid #334155;
   border-radius: 16px;
   padding: 2rem;
-  max-width: 600px;
-  margin: 2rem auto;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
@@ -83,4 +139,8 @@ body {
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
+}
+
+#resultSection {
+  display: none; /* Hidden until button is clicked */
 }
