@@ -1,146 +1,217 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana | Peel Back the Savings</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+:root {
+  --bg-dark: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --accent-blue: #38bdf8;
+  --success-green: #4ade80;
+  --brand-yellow: #fde047;
+}
 
-<nav class="top-nav" id="mainNav">
-    <div class="nav-container">
-        <div class="nav-logo">🍌 BANANA</div>
-        <div class="nav-links">
-            <a href="#" onclick="setCategory('Car Insurance')">Car</a>
-            <a href="#" onclick="setCategory('Home Insurance')">Home</a>
-            <a href="#" onclick="setCategory('Pet Insurance')">Pet</a>
-            <a href="#" onclick="setCategory('Life Insurance')">Life</a>
-            <a href="#" onclick="setCategory('Electricity')">Electricity</a>
-            <a href="#" onclick="setCategory('Mortgages')">Mortgages</a>
-            <a href="#" onclick="setCategory('Loans')">Loans</a>
-            <a href="#" onclick="setCategory('Grocery Deals')">Groceries</a>
-        </div>
-        <div class="nav-auth">
-            <a href="#" class="sign-in-btn">Sign in</a>
-        </div>
-    </div>
-</nav>
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding-top: 70px; /* Space for fixed nav */
+}
 
-<section class="hero-area">
-    <div class="hero-container">
-        <div class="hero-text">
-            <h1>Save money, <span class="pop">the easy way.</span></h1>
-            <p>We've helped 50,000+ people find the right deal today. No stress, just savings.</p>
-            <div class="search-wrap">
-                <input type="text" placeholder="Search for a deal... e.g. Car Insurance">
-                <button>Search</button>
-            </div>
-        </div>
-        <div class="hero-mascot">
-            <div class="character-placeholder">Friendly Mascot Art</div>
-        </div>
-    </div>
-</section>
+/* --- TOP NAVIGATION BAR --- */
+.top-nav {
+  width: 100%;
+  height: 70px;
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: top 0.3s ease-in-out; /* Smooth hide/show */
+}
 
-<div class="container">
-    <h2 class="section-title">Popular Categories</h2>
-    
-    <section class="category-grid">
-        <div class="selection-box" onclick="setCategory('Car Insurance')">
-            <div class="box-art car-art"></div>
-            <h3>Car Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Home Insurance')">
-            <div class="box-art home-art"></div>
-            <h3>Home Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Pet Insurance')">
-            <div class="box-art pet-art"></div>
-            <h3>Pet Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Life Insurance')">
-            <div class="box-art life-art"></div>
-            <h3>Life Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Electricity')">
-            <div class="box-art energy-art"></div>
-            <h3>Electricity</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Mortgages')">
-            <div class="box-art mortgage-art"></div>
-            <h3>Mortgages</h3>
-        </div>
-        <div class="selection-box" onclick="setCategory('Loans')">
-            <div class="box-art loan-art"></div>
-            <h3>Loans</h3>
-        </div>
-        <div class="selection-box highlight" onclick="setCategory('Grocery Deals')">
-            <div class="box-art daily-art"></div>
-            <h3>Grocery Deals</h3>
-            <span class="deal-badge">Hot Deals</span>
-        </div>
-    </section>
+.nav-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
 
-    <section class="input-card" id="mainEngine">
-        <h3 id="dynamicLabel">Pick a category above to start!</h3>
-        <div class="form-group">
-            <input type="hidden" id="itemName">
-            <label>Priority</label>
-            <select id="priority">
-                <option value="value">Best Long-term Value</option>
-                <option value="cheap">Lowest Initial Cost</option>
-            </select>
-        </div>
-        <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
-    </section>
+.nav-logo {
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -1px;
+  color: var(--brand-yellow);
+  cursor: pointer;
+}
 
-    <div id="resultSection" style="display: none;"></div>
-</div>
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
 
-<script>
-    // Navigation Scroll Behavior
-    let lastScrollTop = 0;
-    const nav = document.getElementById('mainNav');
+.nav-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
 
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop) {
-            // Scrolling down
-            nav.style.top = "-80px"; 
-        } else {
-            // Scrolling up
-            nav.style.top = "0";
-        }
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    });
+.nav-links a:hover {
+  opacity: 1;
+  color: var(--accent-blue);
+}
 
-    function setCategory(cat) {
-        document.getElementById('itemName').value = cat;
-        document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + " for you...";
-        document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
-        
-        // Match selection box if clicked from nav
-        const boxes = document.querySelectorAll('.selection-box h3');
-        boxes.forEach(h3 => {
-            if(h3.innerText === cat) h3.parentElement.classList.add('active');
-        });
+.nav-auth .sign-in-btn {
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 6px 18px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
 
-        document.getElementById('mainEngine').scrollIntoView({ behavior: 'smooth' });
-    }
+.nav-auth .sign-in-btn:hover {
+  background: var(--accent-blue);
+  color: var(--bg-dark);
+}
 
-    function runAnalysis() {
-        const btn = document.querySelector('.analyze-btn');
-        const result = document.getElementById('resultSection');
-        btn.innerText = "Checking the market...";
-        setTimeout(() => {
-            btn.innerText = "Check Another";
-            result.style.display = "block";
-            result.scrollIntoView({ behavior: 'smooth' });
-        }, 1200);
-    }
-</script>
+/* --- HERO AREA --- */
+.hero-area {
+  background: #162033;
+  padding: 80px 20px;
+  border-bottom: 4px solid var(--brand-yellow);
+}
 
-</body>
-</html>
+.hero-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  margin: 0 0 20px 0;
+  line-height: 1.1;
+}
+
+.pop { color: var(--brand-yellow); }
+
+.search-wrap {
+  display: flex;
+  background: white;
+  padding: 8px;
+  border-radius: 50px;
+  margin-top: 30px;
+}
+
+.search-wrap input {
+  border: none;
+  padding: 10px 20px;
+  flex-grow: 1;
+  background: none;
+  color: #334155;
+  outline: none;
+}
+
+.search-wrap button {
+  background: var(--accent-blue);
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* --- CONTAINER & GRID --- */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.selection-box {
+  background: var(--card-bg);
+  border: 2px solid transparent;
+  border-radius: 24px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.selection-box:hover {
+  background: #243147;
+  transform: translateY(-5px);
+}
+
+.selection-box.active {
+  border-color: var(--brand-yellow);
+  background: #243147;
+}
+
+.box-art {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px;
+  background-color: #334155;
+  border-radius: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.deal-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ef4444;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+/* --- ENGINE CARD --- */
+.input-card {
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: 32px;
+  border: 1px solid #334155;
+  margin: 40px 0;
+}
+
+.analyze-btn {
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  border: none;
+  background: var(--accent-blue);
+  color: var(--bg-dark);
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
