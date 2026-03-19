@@ -1,34 +1,87 @@
-<section class="result-container">
-  <div class="result-card">
-    <div class="result-header">
-      <h3>Analysis Complete</h3>
-      <span class="decision-badge">Best Match</span>
-    </div>
-    
-    <div class="main-decision">
-      <div class="stat">
-        <label>Recommended Option</label>
-        <span class="value success">£420<small>/year</small></span>
-      </div>
-      <div class="stat">
-        <label>Decision Score</label>
-        <span class="score-pill">9.8 / 10</span>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Engine | Clear Answers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <div class="details-grid">
-      <div class="detail-item">
-        <span class="icon">💡</span>
-        <p><strong>The "Why":</strong> Best long-term value based on your risk profile.</p>
-      </div>
-      <div class="detail-item warning">
-        <span class="icon">⚠️</span>
-        <p><strong>Avoid:</strong> The £310 policy. High excess fees make this 40% more expensive in a claim.</p>
-      </div>
-    </div>
+<div class="container">
+    <header style="text-align: center; margin-bottom: 3rem;">
+        <h1>Decision Engine</h1>
+        <p>Stop comparing. Start deciding.</p>
+    </header>
 
-    <div class="saving-footer">
-      <p>Estimated Annual Saving: <strong>£180</strong></p>
+    <section class="input-card">
+        <div class="form-group">
+            <label>What are you buying?</label>
+            <input type="text" id="itemName" placeholder="e.g. Broadband, Car Insurance">
+        </div>
+        <div class="form-group">
+            <label>Priority</label>
+            <select id="priority">
+                <option value="value">Best Long-term Value</option>
+                <option value="cheap">Lowest Initial Cost</option>
+                <option value="quality">Premium Features</option>
+            </select>
+        </div>
+        <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
+    </section>
+
+    <div id="resultSection">
+        <div class="result-card">
+            <div class="result-header">
+                <h3>Analysis Complete</h3>
+                <span class="decision-badge">Best Match</span>
+            </div>
+            
+            <div class="main-decision">
+                <div class="stat">
+                    <label>Recommended</label>
+                    <span class="value success">£420<small>/yr</small></span>
+                </div>
+                <div class="stat">
+                    <label>Engine Score</label>
+                    <span class="score-pill">9.8 / 10</span>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span>💡</span>
+                    <p><strong>The "Why":</strong> High reliability score and lowest hidden fees.</p>
+                </div>
+                <div class="detail-item warning">
+                    <span>⚠️</span>
+                    <p><strong>Avoid:</strong> Budget options in this category have 30% higher failure rates.</p>
+                </div>
+            </div>
+
+            <div class="saving-footer">
+                <p>Estimated Saving: <strong>£180</strong></p>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
+</div>
+
+<script>
+    function runAnalysis() {
+        const btn = document.querySelector('.analyze-btn');
+        const result = document.getElementById('resultSection');
+        
+        btn.innerText = "Processing Data...";
+        btn.style.opacity = "0.5";
+
+        setTimeout(() => {
+            btn.innerText = "Analysis Complete";
+            btn.style.background = "#4ade80";
+            result.style.display = "block";
+            result.scrollIntoView({ behavior: 'smooth' });
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
