@@ -5,107 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Engine | Your Friendly Deal Finder</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="main-header">
-    <div class="banner-box">
-        <h1>Stop Overpaying. <span class="accent">Decide with Confidence.</span></h1>
-        <p>We analyze the fine print so you don't have to. No ads, just answers.</p>
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Save money, <span class="pop">the easy way.</span></h1>
+            <p>We've helped 50,000+ people find the right deal today. No stress, just savings.</p>
+            <div class="search-wrap">
+                <input type="text" placeholder="Search for a deal... e.g. Car Insurance">
+                <button>Search</button>
+            </div>
+        </div>
+        <div class="hero-mascot">
+            <div class="character-placeholder">Friendly Mascot Art</div>
+        </div>
     </div>
-</header>
+</section>
 
 <div class="container">
+    <h2 class="section-title">Popular Categories</h2>
+    
     <section class="category-grid">
-        <div class="selection-box active" onclick="setCategory('Energy')">
-            <div class="box-illustration energy-illustration"></div>
-            <h3>Energy Bills</h3>
-            <p>Beat the price hikes.</p>
+        <div class="selection-box" onclick="setCategory('Car Insurance')">
+            <div class="box-art car-art"></div>
+            <h3>Car Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Home Insurance')">
+            <div class="box-art home-art"></div>
+            <h3>Home Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Pet Insurance')">
+            <div class="box-art pet-art"></div>
+            <h3>Pet Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Life Insurance')">
+            <div class="box-art life-art"></div>
+            <h3>Life Insurance</h3>
         </div>
 
-        <div class="selection-box" onclick="setCategory('Insurance')">
-            <div class="box-illustration insurance-illustration"></div>
-            <h3>Insurance</h3>
-            <p>Spot hidden fees.</p>
+        <div class="selection-box" onclick="setCategory('Energy')">
+            <div class="box-art energy-art"></div>
+            <h3>Gas & Electric</h3>
         </div>
-
-        <div class="selection-box" onclick="setCategory('Broadband')">
-            <div class="box-illustration broadband-illustration"></div>
-            <h3>Broadband</h3>
-            <p>Fair-price finder.</p>
-        </div>
-
         <div class="selection-box highlight" onclick="setCategory('Supermarkets')">
-            <div class="box-illustration daily-living-illustration"></div>
+            <div class="box-art daily-art"></div>
             <h3>Daily Living</h3>
-            <p>Grocery trackers.</p>
+            <span class="deal-badge">Hot Deals</span>
+        </div>
+        <div class="selection-box" onclick="setCategory('Mortgages')">
+            <div class="box-art mortgage-art"></div>
+            <h3>Mortgages</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Loans')">
+            <div class="box-art loan-art"></div>
+            <h3>Loans</h3>
         </div>
     </section>
 
     <section class="input-card" id="mainEngine">
+        <h3 id="dynamicLabel">Pick a category above to start!</h3>
         <div class="form-group">
-            <label id="dynamicLabel">What are we looking at?</label>
-            <input type="text" id="itemName" placeholder="e.g. Car Insurance, Gas & Electric">
-        </div>
-        <div class="form-group">
-            <label>What's your main priority?</label>
+            <input type="hidden" id="itemName">
+            <label>Priority</label>
             <select id="priority">
                 <option value="value">Best Long-term Value</option>
                 <option value="cheap">Lowest Initial Cost</option>
-                <option value="quality">Reliability & Service</option>
             </select>
         </div>
-        <button class="analyze-btn" onclick="runAnalysis()">Analyze My Decision</button>
+        <button class="analyze-btn" onclick="runAnalysis()">Analyze Options</button>
     </section>
 
     <div id="resultSection" style="display: none;">
-        <div class="result-card">
-            <div class="result-header">
-                <h3>Our Recommendation</h3>
-                <span class="decision-badge">Best Match</span>
-            </div>
-            <div class="main-decision">
-                <div class="stat">
-                    <label>Fair Price</label>
-                    <span class="value success">£420<small>/yr</small></span>
-                </div>
-                <div class="stat">
-                    <label>Value Score</label>
-                    <span class="score-pill">9.8 / 10</span>
-                </div>
-            </div>
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span>💡</span>
-                    <p><strong>The "Why":</strong> Lowest history of mid-contract price hikes.</p>
-                </div>
-                <div class="detail-item warning">
-                    <span>⚠️</span>
-                    <p><strong>The Trap:</strong> Avoid the cheaper £310 offer—hidden fees are 40% higher.</p>
-                </div>
-            </div>
-            <div class="saving-footer">
-                <p>Estimated Yearly Saving: <strong>£180</strong></p>
-            </div>
         </div>
-    </div>
 </div>
 
 <script>
     function setCategory(cat) {
         document.getElementById('itemName').value = cat;
-        document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + "...";
+        document.getElementById('dynamicLabel').innerText = "Analyzing " + cat + " for you...";
         document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
         event.currentTarget.classList.add('active');
+        document.getElementById('mainEngine').scrollIntoView({ behavior: 'smooth' });
     }
 
     function runAnalysis() {
         const btn = document.querySelector('.analyze-btn');
         const result = document.getElementById('resultSection');
-        btn.innerText = "Scanning the market...";
+        btn.innerText = "Checking the market...";
         setTimeout(() => {
-            btn.innerText = "Analysis Complete";
+            btn.innerText = "Check Another";
             result.style.display = "block";
             result.scrollIntoView({ behavior: 'smooth' });
         }, 1200);
