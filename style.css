@@ -1,232 +1,138 @@
-:root {
-  --bg-dark: #0f172a;
-  --card-bg: #1e293b;
-  --text-main: #f8fafc;
-  --accent-blue: #38bdf8;
-  --success-green: #4ade80;
-  --warning-orange: #fbbf24;
+/* ... (Keep your previous :root variables and body styling) ... */
+
+/* BANNER */
+.main-header {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0) 100%);
+  text-align: center;
 }
 
-body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  font-family: 'Inter', -apple-system, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.banner-box h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -1px;
 }
+
+.accent { color: var(--accent-blue); }
 
 .container {
   max-width: 900px;
-  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* --- THE SELECTION GRID (GoCompare Style) --- */
+/* SELECTION GRID */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-  width: 100%;
+  gap: 20px;
+  margin-top: -40px; 
+  margin-bottom: 40px;
 }
 
 .selection-box {
   background: var(--card-bg);
   border: 2px solid #334155;
-  border-radius: 24px;
-  padding: 1.5rem;
+  border-radius: 32px;
+  padding: 30px;
   text-align: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
 }
 
 .selection-box:hover {
+  transform: translateY(-10px);
   border-color: var(--accent-blue);
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px -10px rgba(56, 189, 248, 0.3);
 }
 
 .selection-box.active {
+  background: #243147;
   border-color: var(--accent-blue);
-  background: rgba(56, 189, 248, 0.05);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
 }
 
-.selection-box.highlight {
-  border-color: var(--success-green);
+/* --- ILLUSTRATION STYLING --- */
+.box-illustration {
+    width: 80px;  /* Size of your illustration */
+    height: 80px; /* Size of your illustration */
+    margin: 0 auto 15px; /* Center it with some bottom margin */
+    background-size: contain; /* Ensures the whole illustration fits */
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); /* Adds depth */
 }
 
-.box-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  display: block;
+/* --- UNIQUE ILLUSTRATIONS FOR EACH BOX --- */
+.energy-illustration {
+    /* REPLACE 'path/to/your-energy-illustration.svg' with your actual image file */
+    background-image: url('path/to/your-energy-illustration.svg'); 
 }
 
-.selection-box h3 {
-  margin: 0.5rem 0;
-  font-size: 1.2rem;
-  font-weight: 700;
+.insurance-illustration {
+    background-image: url('path/to/your-insurance-illustration.svg');
 }
 
-.selection-box p {
-  font-size: 0.9rem;
-  opacity: 0.7;
-  margin: 0;
+.broadband-illustration {
+    background-image: url('path/to/your-broadband-illustration.svg');
 }
 
-/* Live Badge for Supermarkets */
-.live-tag {
-  display: inline-block;
-  margin-top: 1rem;
-  font-size: 0.7rem;
-  background: var(--success-green);
-  color: var(--bg-dark);
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  animation: pulse 2s infinite;
+.daily-living-illustration {
+    background-image: url('path/to/your-daily-living-illustration.svg');
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 1; }
-}
 
-/* --- CARDS & FORMS --- */
+/* INPUT CARD */
 .input-card {
   background: var(--card-bg);
+  padding: 40px;
+  border-radius: 32px;
   border: 1px solid #334155;
-  border-radius: 16px;
-  padding: 2.5rem;
-  margin-bottom: 2rem;
-  animation: fadeIn 0.5s ease-out;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 40px;
 }
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  margin-bottom: 10px;
   color: var(--accent-blue);
 }
 
 input, select {
   width: 100%;
-  padding: 14px;
-  background: #0f172a;
+  padding: 15px;
+  border-radius: 16px;
   border: 2px solid #334155;
-  border-radius: 12px;
+  background: #0f172a;
   color: white;
   font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-input:focus, select:focus {
-  outline: none;
-  border-color: var(--accent-blue);
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .analyze-btn {
   width: 100%;
-  padding: 1.2rem;
+  padding: 20px;
+  border-radius: 16px;
+  border: none;
   background: var(--accent-blue);
   color: var(--bg-dark);
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.2s;
 }
 
 .analyze-btn:hover {
   filter: brightness(1.1);
-  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+  transform: scale(1.01);
 }
 
-/* --- RESULTS SECTION --- */
+/* RESULTS */
 .result-card {
   background: var(--card-bg);
-  border: 1px solid #334155;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  border-radius: 32px;
+  padding: 30px;
+  border: 2px solid var(--success-green);
 }
 
-.result-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #334155;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.decision-badge {
-  background: rgba(74, 222, 128, 0.1);
-  color: var(--success-green);
-  padding: 6px 16px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 800;
-  border: 1px solid var(--success-green);
-}
-
-.main-decision {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.value.success {
-  color: var(--success-green);
-  font-size: 2.8rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.score-pill {
-  background: #0f172a;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: 800;
-  border: 1px solid #334155;
-}
-
-.detail-item {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 1.5rem;
-  background: rgba(15, 23, 42, 0.5);
-  padding: 1.2rem;
-  border-radius: 12px;
-}
-
-.detail-item.warning {
-  border-left: 4px solid var(--warning-orange);
-}
-
-.saving-footer {
-  text-align: center;
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
-  padding: 1.2rem;
-  border-radius: 12px;
-  margin-top: 1rem;
-  font-weight: 600;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ... (Include previous result-card children styling here) ... */
