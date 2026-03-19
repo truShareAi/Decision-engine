@@ -14,9 +14,11 @@
         <div class="nav-links">
             <a href="#" onclick="setCategory('Car Insurance')">Car</a>
             <a href="#" onclick="setCategory('Home Insurance')">Home</a>
-            <a href="#" onclick="setCategory('Shopping')">Shopping</a>
-            <a href="#" onclick="setCategory('Gas & Electricity')">Energy</a>
+            <a href="#" onclick="setCategory('Pet Insurance')">Pet</a>
+            <a href="#" onclick="setCategory('Life Insurance')">Life</a>
+            <a href="#" onclick="setCategory('Gas & Electricity')">Gas & Electricity</a>
             <a href="#" onclick="setCategory('Mortgages')">Mortgages</a>
+            <a href="#" onclick="setCategory('Loans')">Loans</a>
             <a href="#" onclick="setCategory('Grocery Deals')">Groceries</a>
         </div>
         <div class="nav-auth">
@@ -32,8 +34,8 @@
             <p>Don't go bananas searching for just the cheapest price. At Banana, we shuffle through the latest deals to give you the best money-saving options available. <strong>So just banana it and split.</strong></p>
             
             <div class="search-wrap">
-                <input type="text" id="mainSearch" placeholder="Search any product or shop... e.g. Nike trainers or 4K TV">
-                <button onclick="simulateSearch()">Search</button>
+                <input type="text" placeholder="Search for a deal... e.g. Car Insurance">
+                <button>Search</button>
             </div>
         </div>
         <div class="hero-mascot">
@@ -43,21 +45,36 @@
 </section>
 
 <div class="container">
-    <h2 class="section-title" id="catTitle">Popular Categories</h2>
+    <h2 class="section-title">Popular Categories</h2>
     
-    <section class="category-grid" id="mainGrid">
+    <section class="category-grid">
         <div class="selection-box" onclick="setCategory('Car Insurance')">
             <div class="box-art car-art"></div>
             <h3>Car Insurance</h3>
         </div>
-        <div class="selection-box" onclick="setCategory('Shopping')">
-            <div class="box-art shopping-art"></div>
-            <h3>Best Deals</h3>
-            <span class="deal-badge">All Shops</span>
-        </div>
         <div class="selection-box" onclick="setCategory('Home Insurance')">
             <div class="box-art home-art"></div>
             <h3>Home Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Pet Insurance')">
+            <div class="box-art pet-art"></div>
+            <h3>Pet Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Life Insurance')">
+            <div class="box-art life-art"></div>
+            <h3>Life Insurance</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Gas & Electricity')">
+            <div class="box-art energy-art"></div>
+            <h3>Gas & Electricity</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Mortgages')">
+            <div class="box-art mortgage-art"></div>
+            <h3>Mortgages</h3>
+        </div>
+        <div class="selection-box" onclick="setCategory('Loans')">
+            <div class="box-art loan-art"></div>
+            <h3>Loans</h3>
         </div>
         <div class="selection-box highlight" onclick="setCategory('Grocery Deals')">
             <div class="box-art daily-art"></div>
@@ -67,27 +84,11 @@
         <div class="selection-box go-green" onclick="setCategory('Go Green')">
             <div class="box-art green-art"></div>
             <h3>Go Green</h3>
+            <span class="deal-badge green-badge">Eco Choice</span>
         </div>
     </section>
 
-    <div id="resultSection" style="display: none; margin-top: 40px;">
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-img-placeholder"></div>
-                <span class="retailer-tag">Top Deal</span>
-                <h4>Universal Shopping Item</h4>
-                <p class="price">Was £150 <span class="now">Now £89</span></p>
-                <button class="deal-btn">Peel the Deal</button>
-            </div>
-            <div class="product-card">
-                <div class="product-img-placeholder"></div>
-                <span class="retailer-tag">Limited Time</span>
-                <h4>Trending Product</h4>
-                <p class="price">Was £90 <span class="now">Now £55</span></p>
-                <button class="deal-btn">Peel the Deal</button>
-            </div>
-        </div>
-    </div>
+    <div id="resultSection" style="display: none;"></div>
 </div>
 
 <footer class="site-footer">
@@ -98,26 +99,47 @@
                 BACK TO TOP ↑
             </button>
         </div>
+
         <hr class="footer-divider">
+
         <div class="footer-links">
-            <a href="#">Contact</a> <a href="#">FAQs</a> <a href="#">Terms</a> <a href="#">Privacy</a>
+            <a href="#">All products</a>
+            <a href="#">Contact</a>
+            <a href="#">FAQs</a>
+            <a href="#">About us</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Cookie policy</a>
+            <a href="#">Privacy policy</a>
         </div>
+
         <div class="footer-legal">
-            <p class="legal-text">© Banana 2026. All Rights Reserved. Banana is an independent multi-shop comparison engine.</p>
+            <p class="legal-text"><strong>Disclaimer:</strong> Banana operates as an independent information provider and decision-engine platform. The content provided on this site is for informational purposes only and does not constitute financial, investment, or professional advice. While we employ rigorous data-validation processes to ensure market accuracy, all rates, terms, and deal structures are provided by third-party entities and are subject to change without notice.</p>
+            <p class="legal-text">Users are encouraged to verify final contract details with the specific provider before entering into any binding agreement. Banana shall not be held liable for discrepancies between our data-driven insights and final third-party offerings. You assume full responsibility for your financial decisions.</p>
+            <p class="copyright">© Banana 2026. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
 
 <script>
-    function setCategory(cat) {
-        document.getElementById('catTitle').innerText = cat + " Results";
-        document.getElementById('mainGrid').style.display = 'none';
-        document.getElementById('resultSection').style.display = 'block';
-    }
+    let lastScrollTop = 0;
+    const nav = document.getElementById('mainNav');
 
-    function simulateSearch() {
-        const query = document.getElementById('mainSearch').value;
-        if(query) setCategory('Search: ' + query);
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop) {
+            nav.style.top = "-80px"; 
+        } else {
+            nav.style.top = "0";
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+    function setCategory(cat) {
+        document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
+        const boxes = document.querySelectorAll('.selection-box h3');
+        boxes.forEach(h3 => {
+            if(h3.innerText === cat) h3.parentElement.classList.add('active');
+        });
     }
 </script>
 
