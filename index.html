@@ -38,7 +38,11 @@
             </div>
         </div>
         <div class="hero-mascot">
-            <div class="character-placeholder">Friendly Mascot Art</div>
+            <div class="mascot-eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="mascot-smile"></div>
         </div>
     </div>
 </section>
@@ -134,6 +138,9 @@
     });
 
     function setCategory(cat) {
+        // This will eventually link to specific pages like 'grocery.html' or 'energy.html'
+        console.log("Navigating to " + cat + " engine...");
+        // For now, it highlights the selection
         document.querySelectorAll('.selection-box').forEach(box => box.classList.remove('active'));
         const boxes = document.querySelectorAll('.selection-box h3');
         boxes.forEach(h3 => {
