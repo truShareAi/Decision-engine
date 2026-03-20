@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Banana | Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .user-sidebar {
+            background: #1a222f;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+            height: fit-content;
+        }
+        .stat-card {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ffcc00;
+        }
+        .history-list {
+            background: #1a222f;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #334155;
+        }
+        .history-item:last-child { border: none; }
+        .tag {
+            background: #2d3a4f;
+            color: #ffcc00;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .empty-state {
+            text-align: center;
+            opacity: 0.5;
+            padding: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<div class="container">
+    <div class="dashboard-grid">
+        <aside class="user-sidebar">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🍌</div>
+            <h2 id="dashWelcome">Hi, <span class="pop">User</span></h2>
+            <p style="font-size: 0.9rem; color: #64748b;">Member since 2026</p>
+            
+            <div class="stat-card">
+                <div style="font-size: 0.8rem; color: #64748b;">Total Peels</div>
+                <div style="font-size: 1.5rem; font-weight: 800;" id="peelCount">0</div>
+            </div>
+
+            <button class="peel-btn" style="margin-top: 30px;" onclick="logout()">Logout</button>
+        </aside>
+
+        <main class="history-list">
+            <h3>Recent <span class="pop">Activity</span></h3>
+            <div id="historyContainer">
+                <div class="empty-state">No recent searches yet. Start peeling!</div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Security: Redirect to signin if not logged in
+    const user = localStorage.getItem('bananaUser');
+    if (!user) {
+        window.location.href = 'signin.html';
+    }
+
+    document.getElementById('dashWelcome').innerHTML = `Hi, <span class="pop">${user}</span>`;
+
+    // Load History
+    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    const container = document.getElementById('historyContainer');
+    document.getElementById('peelCount').innerText = history.length;
+
+    if (history.length > 0) {
+        container.innerHTML = history.reverse().map(item => `
+            <div class="history-item">
+                <div>
+                    <div style="font-weight: bold;">${item}</div>
+                    <div style="font-size: 0.8rem; color: #64748b;">Searched on ${new Date().toLocaleDateString()}</div>
+                </div>
+                <span class="tag">Search</span>
+            </div>
+        `).join('');
+    }
+
+    function logout() {
+        localStorage.removeItem('bananaUser');
+        window.location.href = '../index.html';
+    }
+
+    // Load components
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+    });
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+</script>
+</body>
+</html>
