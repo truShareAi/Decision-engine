@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Deals | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .deal-card {
+            background: #1a222f;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #334155;
+            text-align: center;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .deal-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffcc00;
+        }
+        .price-tag {
+            font-size: 1.5rem;
+            color: #ffcc00;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        .discount-badge {
+            background: #e11d48;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .peel-btn {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Top <span class="pop">Retail Picks</span></h1>
+        <p>We've peeled back the prices on the web's biggest stores. Grab a bargain before they're gone.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="deals-grid">
+        <div class="deal-card">
+            <div>
+                <span class="discount-badge">40% OFF</span>
+                <h3>Wireless Headphones</h3>
+                <div class="price-tag">£59.99</div>
+                <p>Noise-cancelling tech at a fraction of the cost. Top rated by the Banana team.</p>
+            </div>
+            <button class="peel-btn">Peel the Deal</button>
+        </div>
+
+        <div class="deal-card">
+            <div>
+                <span class="discount-badge">SAVE £200</span>
+                <h3>4K Smart TV - 55"</h3>
+                <div class="price-tag">£349.00</div>
+                <p>Ultra HD crystal clear display. Limited stock available at this price.</p>
+            </div>
+            <button class="peel-btn">Peel the Deal</button>
+        </div>
+
+        <div class="deal-card">
+            <div>
+                <span class="discount-badge">BOGOF</span>
+                <h3>Designer Fragrance</h3>
+                <div class="price-tag">From £45.00</div>
+                <p>Buy one get one free on selected luxury scents this weekend only.</p>
+            </div>
+            <button class="peel-btn">Peel the Deal</button>
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Universal Nav Loader
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+
+    // Universal Footer Loader
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
+        });
+</script>
+
+</body>
+</html>
