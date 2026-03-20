@@ -16,25 +16,16 @@
     </div>
 </div>
 
+<script src="/js/app.js"></script>
+
 <script>
-    // Use a function that we can call manually if the auto-run fails
-    function checkBananaAuth() {
-        const userInStorage = localStorage.getItem('bananaUser');
-        const target = document.getElementById('navAuthSection');
-
-        if (userInStorage && target) {
-            target.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${userInStorage}</a>
-                </div>
-            `;
-        }
+    // This triggers the central logic inside app.js as soon as the nav is fetched
+    if (typeof checkBananaAuth === "function") {
+        checkBananaAuth();
+    } else {
+        // Fallback in case of slow loading
+        setTimeout(() => {
+            if (typeof checkBananaAuth === "function") checkBananaAuth();
+        }, 150);
     }
-
-    // Run immediately
-    checkBananaAuth();
-
-    // Run again in 100ms just in case the DOM was still painting
-    setTimeout(checkBananaAuth, 100);
 </script>
