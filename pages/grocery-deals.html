@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Deals | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .deal-card {
+            background: #1a222f;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #334155;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .deal-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffcc00;
+        }
+        .price-tag {
+            font-size: 1.5rem;
+            color: #ffcc00;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        .store-badge {
+            background: #2d3a4f;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+        }
+        .peel-btn {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Fresh <span class="pop">Grocery Splits</span></h1>
+        <p>We've hunted down the biggest savings from the top supermarkets so you don't have to.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="deals-grid">
+        <div class="deal-card">
+            <span class="store-badge">ASDA</span>
+            <h3>Extra Large Bananas</h3>
+            <div class="price-tag">£0.14 <small style="font-size: 0.8rem; color: white;">/ea</small></div>
+            <p>Rollback pricing on premium produce.</p>
+            <button class="peel-btn">View Deal</button>
+        </div>
+
+        <div class="deal-card">
+            <span class="store-badge">Tesco</span>
+            <h3>Clubcard Coffee Deal</h3>
+            <div class="price-tag">£3.50</div>
+            <p>Better than half price on selected roast & ground.</p>
+            <button class="peel-btn">View Deal</button>
+        </div>
+
+        <div class="deal-card">
+            <span class="store-badge">Sainsbury's</span>
+            <h3>Nectar Price Pasta</h3>
+            <div class="price-tag">£0.75</div>
+            <p>Stock up for less with your Nectar card this week.</p>
+            <button class="peel-btn">View Deal</button>
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Universal Nav Loader
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+
+    // Universal Footer Loader
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
+        });
+</script>
+
+</body>
+</html>
