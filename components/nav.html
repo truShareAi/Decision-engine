@@ -17,7 +17,8 @@
 </div>
 
 <script>
-    (function() {
+    // Use a function that we can call manually if the auto-run fails
+    function checkBananaAuth() {
         const userInStorage = localStorage.getItem('bananaUser');
         const target = document.getElementById('navAuthSection');
 
@@ -29,5 +30,11 @@
                 </div>
             `;
         }
-    })();
+    }
+
+    // Run immediately
+    checkBananaAuth();
+
+    // Run again in 100ms just in case the DOM was still painting
+    setTimeout(checkBananaAuth, 100);
 </script>
