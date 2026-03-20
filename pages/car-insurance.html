@@ -10,26 +10,40 @@
             background: #1a222f;
             border: 1px solid #334155;
             border-radius: 15px;
-            padding: 25px;
             margin-top: 30px;
+            overflow: hidden;
+        }
+        /* The Header Box you wanted back */
+        .table-header {
+            background: rgba(15, 23, 42, 0.5);
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 150px;
+            padding: 15px 25px;
+            border-bottom: 2px solid #334155;
+            color: #ffcc00;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
         }
         .quote-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 150px;
+            grid-template-columns: 1.5fr 1fr 1fr 150px;
             align-items: center;
-            padding: 20px;
+            padding: 25px;
             border-bottom: 1px solid #334155;
+            transition: 0.2s;
         }
+        .quote-row:hover { background: rgba(255, 255, 255, 0.02); }
         .quote-row:last-child { border: none; }
         .price { font-size: 1.5rem; font-weight: 800; color: #ffcc00; }
         .provider-logo { font-weight: bold; font-size: 1.1rem; color: white; }
         
-        /* The Correct Button: Yellow, #ffcc00, 8px rounded corners */
         .peel-btn {
             background: #ffcc00;
             color: black;
             border: none;
-            padding: 12px 20px;
+            padding: 12px;
             border-radius: 8px; 
             font-weight: 800;
             cursor: pointer;
@@ -37,9 +51,7 @@
             text-align: center;
             transition: 0.3s;
         }
-        .peel-btn:hover {
-            background: white;
-        }
+        .peel-btn:hover { background: white; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -53,21 +65,28 @@
     </div>
 
     <div class="comparison-card">
+        <div class="table-header">
+            <div>Provider</div>
+            <div>Cover Type</div>
+            <div>Monthly</div>
+            <div>Action</div>
+        </div>
+
         <div class="quote-row">
             <div class="provider-logo">Direct Line</div>
-            <div>Comprehensive</div>
+            <div style="color: #cbd5e1;">Comprehensive</div>
             <div class="price">£420.00</div>
             <button class="peel-btn" onclick="savePeel('Direct Line')">Peel Deal</button>
         </div>
         <div class="quote-row">
             <div class="provider-logo">Aviva</div>
-            <div>Comprehensive</div>
+            <div style="color: #cbd5e1;">Comprehensive</div>
             <div class="price">£455.50</div>
             <button class="peel-btn" onclick="savePeel('Aviva')">Peel Deal</button>
         </div>
         <div class="quote-row">
             <div class="provider-logo">Admiral</div>
-            <div>Comprehensive</div>
+            <div style="color: #cbd5e1;">Comprehensive</div>
             <div class="price">£489.00</div>
             <button class="peel-btn" onclick="savePeel('Admiral')">Peel Deal</button>
         </div>
@@ -77,9 +96,17 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Load components simply
+    // 1. Fetch the Nav and Footer
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
+        
+        // 2. Inject the Global Brain (app.js) and run the Name Check
+        const script = document.createElement('script');
+        script.src = '../js/app.js';
+        script.onload = () => {
+            if (typeof checkBananaAuth === "function") checkBananaAuth();
+        };
+        document.body.appendChild(script);
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
