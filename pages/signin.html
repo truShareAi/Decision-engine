@@ -1,121 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | Banana</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        .login-card {
-            max-width: 400px;
-            margin: 100px auto;
-            background: #1a222f;
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            text-align: center;
-        }
-        /* Forces inputs to stack vertically and stay full width */
-        input {
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            margin: 12px 0;
-            border-radius: 5px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
-            font-size: 1rem;
-        }
-        .peel-btn {
-            background: #ffcc00;
-            color: black;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            font-weight: 800;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .peel-btn:hover {
-            background: white;
-            transform: scale(1.02);
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-        }
-        .modal-content {
-            background: #1a222f;
-            margin: 10% auto;
-            padding: 35px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid #ffcc00;
-            position: relative;
-            text-align: center;
-        }
-        .close {
-            color: #64748b;
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            font-size: 28px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-
-<nav class="top-nav" id="mainNav"></nav>
-
-<div class="container">
-    <div class="login-card">
-        <h1>Welcome <span class="pop">Back</span></h1>
-        <p>Sign in to see your saved peels.</p>
-        
-        <input type="text" id="userName" placeholder="Username or Email">
-        <input type="password" id="userPass" placeholder="Password">
-        <button class="peel-btn" id="loginBtn" onclick="handleLogin('userName')">Sign In</button>
-
-        <p style="margin-top: 25px; font-size: 0.9rem;">
-            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
-        </p>
-    </div>
-</div>
-
-<div id="regModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Join the <span class="pop">Bunch</span></h2>
-        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 20px;">Create an account to track your history.</p>
-        
-        <input type="text" id="regName" placeholder="Full Name">
-        <input type="email" placeholder="Email Address">
-        <input type="password" placeholder="Create Password">
-        
-        <button class="peel-btn" onclick="handleLogin('regName')">Create Account</button>
-    </div>
-</div>
-
-<footer class="site-footer" id="mainFooter"></footer>
-
 <script>
-    function openModal() { document.getElementById('regModal').style.display = "block"; }
-    function closeModal() { document.getElementById('regModal').style.display = "none"; }
+    function openModal() { 
+        document.getElementById('regModal').style.display = "block"; 
+    }
+    function closeModal() { 
+        document.getElementById('regModal').style.display = "none"; 
+    }
     
     window.onclick = function(event) {
         if (event.target == document.getElementById('regModal')) { closeModal(); }
@@ -124,7 +13,8 @@
     function handleLogin(sourceId) {
         const inputElement = document.getElementById(sourceId);
         const name = inputElement ? inputElement.value : "";
-        const btn = event.target;
+        // Use event.currentTarget to ensure we hit the button correctly
+        const btn = event.currentTarget || event.target;
 
         if (!name || name.trim() === "") {
             alert("Please enter a name to continue.");
@@ -134,10 +24,12 @@
         // Feedback
         btn.innerHTML = "Peeling...";
         btn.disabled = true;
+        btn.style.opacity = "0.7";
 
         setTimeout(() => {
             localStorage.setItem('bananaUser', name);
-            window.location.href = '../index.html';
+            // LOCK: Redirecting to your new landing page
+            window.location.href = 'dashboard.html';
         }, 1000);
     }
 
@@ -149,5 +41,3 @@
         document.getElementById('mainFooter').innerHTML = data;
     });
 </script>
-</body>
-</html>
