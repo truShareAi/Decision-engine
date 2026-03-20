@@ -123,7 +123,6 @@
         const passValue = passElement ? passElement.value : "";
         const btn = e.currentTarget || e.target;
 
-        // ADMIN BACKDOOR CHECK
         const isAdmin = (nameValue === "Admin" && passValue === "pass1234");
 
         if (!isAdmin && (!nameValue || nameValue.trim() === "")) {
@@ -131,22 +130,24 @@
             return;
         }
 
-        // Feedback
         btn.innerHTML = "Peeling...";
         btn.disabled = true;
         btn.style.opacity = "0.7";
 
-        // Save to browser
         localStorage.setItem('bananaUser', isAdmin ? "Administrator" : nameValue);
 
-        // Redirect to dashboard.html
         setTimeout(() => {
             window.location.href = 'dashboard.html';
         }, 1000);
     }
 
+    // FIXED FETCH: Loads nav then immediately runs the check from app.js
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
+        // This ensures checkBananaAuth runs ONLY after the Nav HTML actually exists
+        if (typeof checkBananaAuth === "function") {
+            checkBananaAuth();
+        }
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
