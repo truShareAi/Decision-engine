@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
+        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <div class="nav-container">
+        <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
+        <div class="nav-links">
+            <a href="car-insurance.html" style="color: #ffcc00;">Car</a>
+            <a href="home-insurance.html">Home</a>
+            <a href="pet-insurance.html">Pet</a>
+            <a href="life-insurance.html">Life</a>
+            <a href="utilities.html">Gas & Electricity</a>
+            <a href="grocery-deals.html">Groceries</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Compare <span class="pop">Car Insurance</span></h1>
+        <p>We've shuffled the top providers to find the best cover for your wheels.</p>
+    </div>
+</section>
+
+<div class="container">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Monthly</th>
+                <th>Annual</th>
+                <th>Key Feature</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Direct Peel</strong></td>
+                <td>£22.50</td>
+                <td>£240</td>
+                <td>Free Courtesy Car</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Yellow Cover</strong></td>
+                <td>£19.99</td>
+                <td>£215</td>
+                <td>No Claims Protection</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Split & Save</strong></td>
+                <td>£25.10</td>
+                <td>£280</td>
+                <td>Legal Cover Included</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-header">
+            <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-top: 20px;">© Banana 2026. All Rights Reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
