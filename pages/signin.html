@@ -24,10 +24,10 @@
         <h1>Welcome <span class="pop">Back</span></h1>
         <p>Sign in to see your saved peels.</p>
         
-        <input type="text" id="userName" placeholder="Username or Email">
+        <input type="text" id="userEmail" placeholder="Username or Email">
         <input type="password" id="userPass" placeholder="Password">
         
-        <button class="peel-btn" onclick="handleLogin('userName', event)">Sign In</button>
+        <button class="peel-btn" onclick="handleLogin('login', event)">Sign In</button>
 
         <p style="margin-top: 25px; font-size: 0.9rem;">
             New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
@@ -40,9 +40,9 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Join the <span class="pop">Bunch</span></h2>
         <input type="text" id="regName" placeholder="Full Name">
-        <input type="email" placeholder="Email Address">
+        <input type="email" id="regEmail" placeholder="Email Address">
         <input type="password" id="regPass" placeholder="Create Password">
-        <button class="peel-btn" onclick="handleLogin('regName', event)">Create Account</button>
+        <button class="peel-btn" onclick="handleLogin('register', event)">Create Account</button>
     </div>
 </div>
 
@@ -56,38 +56,38 @@
         if (event.target == document.getElementById('regModal')) { closeModal(); }
     }
 
-    function handleLogin(sourceId, e) {
+    function handleLogin(type, e) {
         if(e) e.preventDefault();
-        const nameValue = document.getElementById(sourceId).value;
+        
+        let nameToSave = "";
 
-        if (!nameValue || nameValue.trim() === "") {
-            alert("Please enter a name.");
+        if (type === 'register') {
+            // Grab the ACTUAL name from the registration field
+            nameToSave = document.getElementById('regName').value;
+        } else {
+            // For returning users, if they use the login box, 
+            // we check if a name already exists, otherwise we use Costa as a fallback
+            const existingName = localStorage.getItem('bananaUser');
+            nameToSave = existingName ? existingName : "Costa"; 
+        }
+
+        if (!nameToSave || nameToSave.trim() === "") {
+            alert("Please enter your name.");
             return;
         }
 
-        // Save the name to browser memory
-        localStorage.setItem('bananaUser', nameValue);
-
-        // Redirect to dashboard
+        localStorage.setItem('bananaUser', nameToSave);
         window.location.href = 'dashboard.html';
     }
 
-    // Load Nav and FORCE the name update immediately
     fetch('../components/nav.html').then(res => res.text()).then(data => {
-        const navElement = document.getElementById('mainNav');
-        navElement.innerHTML = data;
-
-        // Force check for the name right now
+        document.getElementById('mainNav').innerHTML = data;
+        
+        // Instant check for nav name
         const user = localStorage.getItem('bananaUser');
         const authSection = document.getElementById('navAuthSection');
-        
         if (user && authSection) {
-            authSection.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
-                </div>
-            `;
+            authSection.innerHTML = `<a href="dashboard.html" style="color: #ffcc00; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>`;
         }
     });
 
