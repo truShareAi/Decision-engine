@@ -17,17 +17,16 @@
 </div>
 
 <script>
-    // Self-executing function to update the Nav state
-    (function updateNav() {
-        const user = localStorage.getItem('bananaUser');
-        const authSection = document.getElementById('navAuthSection');
-        
-        if (user && authSection) {
-            // Replace "Sign in" with "Home" and the User's Name
-            authSection.innerHTML = `
+    // This script MUST be inside nav.html to work across all pages
+    (function() {
+        const userInStorage = localStorage.getItem('bananaUser');
+        const target = document.getElementById('navAuthSection');
+
+        if (userInStorage && target) {
+            target.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${userInStorage}</a>
                 </div>
             `;
         }
