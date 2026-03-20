@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Insurance | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
+        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Protect Your <span class="pop">Home Bunch</span></h1>
+        <p>Compare buildings and contents insurance to keep your habitat safe and sound.</p>
+    </div>
+</section>
+
+<div class="container">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Monthly</th>
+                <th>Cover Type</th>
+                <th>Extra Benefits</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Safe Peel</strong></td>
+                <td>£12.40</td>
+                <td>Buildings & Contents</td>
+                <td>Accidental Damage</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Home Ripen</strong></td>
+                <td>£9.50</td>
+                <td>Buildings Only</td>
+                <td>Fire & Theft</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Eco-Nest</strong></td>
+                <td>£15.00</td>
+                <td>Full Comprehensive</td>
+                <td>Home Emergency Cover</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-header">
+            <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-top: 20px;">© Banana 2026. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Universal Nav Loader
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+</script>
+
+</body>
+</html>
