@@ -17,21 +17,25 @@
 </div>
 
 <script>
-(function() {
-    function updateNav() {
-        const user = localStorage.getItem('bananaUser');
-        const target = document.getElementById('navAuthSection');
-        if (user && target) {
-            target.innerHTML = `<a href="/pages/dashboard.html" style="color: #ffcc00; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>`;
+    (function() {
+        function updateNav() {
+            const user = localStorage.getItem('bananaUser');
+            const target = document.getElementById('navAuthSection');
+            
+            // If the name exists in memory, swap "Sign In" for the name
+            if (user && target) {
+                target.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
+                    </div>
+                `;
+            }
         }
-    }
-    updateNav();
-    const observer = new MutationObserver(() => {
-        if (document.getElementById('navAuthSection')) {
-            updateNav();
-            observer.disconnect();
-        }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-})();
+
+        // Run immediately when this file is injected
+        updateNav();
+
+        // Also check again after a tiny delay to ensure the HTML is fully rendered
+        setTimeout(updateNav, 50);
+    })();
 </script>
