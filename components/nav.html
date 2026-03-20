@@ -1,37 +1,37 @@
 <div class="nav-container">
-    <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
+    <div class="nav-logo" onclick="window.location.href='/index.html'">🍌 BANANA</div>
     <div class="nav-links">
-        <a href="car-insurance.html">Car</a>
-        <a href="home-insurance.html">Home</a>
-        <a href="pet-insurance.html">Pet</a>
-        <a href="life-insurance.html">Life</a>
-        <a href="utilities.html">Gas & Electricity</a>
-        <a href="mortgages.html">Mortgages</a>
-        <a href="loans.html">Loans</a>
-        <a href="grocery-deals.html">Groceries</a>
-        <a href="shopping.html">Shopping</a>
+        <a href="/pages/car-insurance.html">Car</a>
+        <a href="/pages/home-insurance.html">Home</a>
+        <a href="/pages/pet-insurance.html">Pet</a>
+        <a href="/pages/life-insurance.html">Life</a>
+        <a href="/pages/utilities.html">Gas & Electricity</a>
+        <a href="/pages/mortgages.html">Mortgages</a>
+        <a href="/pages/loans.html">Loans</a>
+        <a href="/pages/grocery-deals.html">Groceries</a>
+        <a href="/pages/shopping.html">Shopping</a>
     </div>
     <div class="nav-auth" id="navAuthSection">
-        <a href="signin.html" class="sign-in-btn">Sign in</a>
+        <a href="/pages/signin.html" class="sign-in-btn">Sign in</a>
     </div>
 </div>
 
-<script src="../js/app.js"></script>
-
 <script>
-    // Self-contained check to ensure it works even if app.js is moody
-    function localNavCheck() {
+(function() {
+    function updateNav() {
         const user = localStorage.getItem('bananaUser');
-        const authSection = document.getElementById('navAuthSection');
-        if (user && authSection) {
-            authSection.innerHTML = `<a href="dashboard.html" style="color: #ffcc00; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>`;
+        const target = document.getElementById('navAuthSection');
+        if (user && target) {
+            target.innerHTML = `<a href="/pages/dashboard.html" style="color: #ffcc00; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>`;
         }
     }
-
-    // Run it immediately and try the app.js version too
-    localNavCheck();
-    
-    if (typeof checkBananaAuth === "function") {
-        checkBananaAuth();
-    }
+    updateNav();
+    const observer = new MutationObserver(() => {
+        if (document.getElementById('navAuthSection')) {
+            updateNav();
+            observer.disconnect();
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
 </script>
