@@ -19,12 +19,27 @@
             align-items: center;
             padding: 20px;
             border-bottom: 1px solid #334155;
-            transition: 0.3s;
         }
-        .quote-row:hover { background: #1e293b; }
         .quote-row:last-child { border: none; }
         .price { font-size: 1.5rem; font-weight: 800; color: #ffcc00; }
-        .provider-logo { font-weight: bold; font-size: 1.1rem; }
+        .provider-logo { font-weight: bold; font-size: 1.1rem; color: white; }
+        
+        /* The Correct Button: Yellow, #ffcc00, 8px rounded corners */
+        .peel-btn {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px; 
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .peel-btn:hover {
+            background: white;
+        }
     </style>
 </head>
 <body>
@@ -34,27 +49,27 @@
 <div class="container" style="margin-top: 50px;">
     <div style="text-align: center; margin-bottom: 40px;">
         <h1>Car <span class="pop">Insurance</span></h1>
-        <p>We've found the best "peels" for your registration.</p>
+        <p>Find the best deals for your set of wheels.</p>
     </div>
 
     <div class="comparison-card">
         <div class="quote-row">
-            <div class="provider-logo">🐒 Monkey Cover</div>
+            <div class="provider-logo">Direct Line</div>
             <div>Comprehensive</div>
             <div class="price">£420.00</div>
-            <button class="peel-btn" onclick="savePeel('Monkey Cover Car')">Peel Deal</button>
+            <button class="peel-btn" onclick="savePeel('Direct Line')">Peel Deal</button>
         </div>
         <div class="quote-row">
-            <div class="provider-logo">🌴 Jungle Policy</div>
+            <div class="provider-logo">Aviva</div>
             <div>Comprehensive</div>
             <div class="price">£455.50</div>
-            <button class="peel-btn" onclick="savePeel('Jungle Policy Car')">Peel Deal</button>
+            <button class="peel-btn" onclick="savePeel('Aviva')">Peel Deal</button>
         </div>
         <div class="quote-row">
-            <div class="provider-logo">🍌 Yellow Shield</div>
+            <div class="provider-logo">Admiral</div>
             <div>Comprehensive</div>
             <div class="price">£489.00</div>
-            <button class="peel-btn" onclick="savePeel('Yellow Shield Car')">Peel Deal</button>
+            <button class="peel-btn" onclick="savePeel('Admiral')">Peel Deal</button>
         </div>
     </div>
 </div>
@@ -62,38 +77,19 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Logic to sync the Name in the Nav
-    function syncNav() {
-        const user = localStorage.getItem('bananaUser');
-        const authArea = document.getElementById('navAuthSection');
-        
-        if (user && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
-                </div>
-            `;
-        }
-    }
-
-    // Load components and trigger sync
+    // Load components simply
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        syncNav();
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
 
-    // Save the specific deal to the Dashboard
     function savePeel(provider) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(provider + " - Car Quote");
-        if (history.length > 10) history.pop();
+        history.unshift(provider + " - Car Insurance");
         localStorage.setItem('searchHistory', JSON.stringify(history));
-        
         window.location.href = 'dashboard.html';
     }
 </script>
