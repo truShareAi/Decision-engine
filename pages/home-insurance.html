@@ -61,14 +61,7 @@
     </table>
 </div>
 
-<footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-header">
-            <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
-        </div>
-        <p style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-top: 20px;">© Banana 2026. All Rights Reserved.</p>
-    </div>
-</footer>
+<footer class="site-footer" id="mainFooter"></footer>
 
 <script>
     // Universal Nav Loader
@@ -76,6 +69,13 @@
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
+        });
+
+    // Universal Footer Loader
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
         });
 </script>
 
