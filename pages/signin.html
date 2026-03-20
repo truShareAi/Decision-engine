@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #1a222f;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+        }
+        .peel-btn {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<div class="container">
+    <div class="login-card">
+        <h1>Welcome <span class="pop">Back</span></h1>
+        <p>Sign in to see your saved peels.</p>
+        <input type="text" id="userName" placeholder="Enter your name">
+        <input type="password" placeholder="Password (any for now)">
+        <button class="peel-btn" onclick="handleLogin()">Sign In</button>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    function handleLogin() {
+        const name = document.getElementById('userName').value;
+        if (name) {
+            localStorage.setItem('bananaUser', name);
+            window.location.href = '../index.html';
+        }
+    }
+
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+    });
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+</script>
+</body>
+</html>
