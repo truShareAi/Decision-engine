@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgages | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
+        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Find Your <span class="pop">Dream Bunch</span></h1>
+        <p>From first-time buyers to remortgaging, we help you find the right rate for your home.</p>
+    </div>
+</section>
+
+<div class="container">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th>Lender</th>
+                <th>Initial Rate</th>
+                <th>Type</th>
+                <th>Product Fee</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Banana Bank</strong></td>
+                <td>3.85%</td>
+                <td>2 Year Fixed</td>
+                <td>£999</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Yellow Brick Mortgages</strong></td>
+                <td>4.10%</td>
+                <td>5 Year Fixed</td>
+                <td>£0</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Top Branch Finance</strong></td>
+                <td>5.20%</td>
+                <td>Standard Variable</td>
+                <td>£499</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Universal Nav Loader
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+
+    // Universal Footer Loader
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
+        });
+</script>
+
+</body>
+</html>
