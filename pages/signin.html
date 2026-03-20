@@ -1,72 +1,157 @@
-<script>
-    // 1. Modal Toggle Logic
-    function openModal() { 
-        const modal = document.getElementById('regModal');
-        if (modal) modal.style.display = "block"; 
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #1a222f;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 5px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-size: 1rem;
+        }
+        .peel-btn {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .peel-btn:hover {
+            background: white;
+            transform: scale(1.02);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: #1a222f;
+            margin: 10% auto;
+            padding: 35px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #ffcc00;
+            position: relative;
+            text-align: center;
+        }
+        .close {
+            color: #64748b;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
+<nav class="top-nav" id="mainNav"></nav>
+
+<div class="container">
+    <div class="login-card">
+        <h1>Welcome <span class="pop">Back</span></h1>
+        <p>Sign in to see your saved peels.</p>
+        
+        <input type="text" id="userName" placeholder="Username or Email">
+        <input type="password" id="userPass" placeholder="Password">
+        <button class="peel-btn" id="loginBtn" onclick="handleLogin('userName', event)">Sign In</button>
+
+        <p style="margin-top: 25px; font-size: 0.9rem;">
+            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
+        </p>
+    </div>
+</div>
+
+<div id="regModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Join the <span class="pop">Bunch</span></h2>
+        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 20px;">Create an account to track your history.</p>
+        
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="password" placeholder="Create Password">
+        
+        <button class="peel-btn" onclick="handleLogin('regName', event)">Create Account</button>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    function openModal() { 
+        document.getElementById('regModal').style.display = "block"; 
+    }
     function closeModal() { 
-        const modal = document.getElementById('regModal');
-        if (modal) modal.style.display = "none"; 
+        document.getElementById('regModal').style.display = "none"; 
     }
     
-    // Close modal if user clicks the dark background overlay
     window.onclick = function(event) {
         const modal = document.getElementById('regModal');
-        if (event.target === modal) { 
-            closeModal(); 
-        }
+        if (event.target == modal) { closeModal(); }
     }
 
-    /**
-     * The Master Login/Register Handler
-     * @param {string} sourceId - The ID of the input field (userName or regName)
-     * @param {HTMLElement} btn - Passing 'this' from the HTML ensures we grab the right button
-     */
-    function handleLogin(sourceId, btn) {
+    function handleLogin(sourceId, e) {
         const inputElement = document.getElementById(sourceId);
+        const name = inputElement ? inputElement.value : "";
         
-        // Validation
-        if (!inputElement || inputElement.value.trim() === "") {
+        // Grab the button from the click event reliably
+        const btn = e.currentTarget || e.target;
+
+        if (!name || name.trim() === "") {
             alert("Please enter a name to continue.");
             return;
         }
 
-        const name = inputElement.value.trim();
+        // Visual feedback
+        btn.innerHTML = "Peeling...";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
 
-        // Visual Feedback (Changing the button that was actually clicked)
-        if (btn) {
-            btn.innerHTML = "Peeling...";
-            btn.disabled = true;
-            btn.style.opacity = "0.7";
-            btn.style.cursor = "not-allowed";
-        }
-
-        // Save the session to the browser
-        localStorage.setItem('bananaUser', name);
-
-        // LOCK: The Redirect to Dashboard
         setTimeout(() => {
-            // This assumes dashboard.html is in the same 'pages' folder
+            localStorage.setItem('bananaUser', name);
+            // Redirect to dashboard in the same folder
             window.location.href = 'dashboard.html';
         }, 1000);
     }
 
-    // 2. Component Loader (Nav/Footer)
-    // IMPORTANT: If you aren't using a Local Server (like Live Server), 
-    // these fetch calls will fail due to browser security (CORS).
-    async function loadTemplate(elementId, filePath) {
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-            const html = await response.text();
-            document.getElementById(elementId).innerHTML = html;
-        } catch (error) {
-            console.warn("Component load failed: You likely need to run this through a Local Server (VS Code Live Server).");
-        }
-    }
+    // Load components
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+    }).catch(err => console.log("Nav failed: Use a local server"));
 
-    // Fire the loaders
-    loadTemplate('mainNav', '../components/nav.html');
-    loadTemplate('mainFooter', '../components/footer.html');
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
 </script>
+</body>
+</html>
