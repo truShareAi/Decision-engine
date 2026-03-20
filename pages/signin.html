@@ -30,26 +30,26 @@
         .social-login { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
         .social-btn {
             display: flex; align-items: center; justify-content: center;
-            gap: 10px; padding: 10px; border-radius: 5px;
+            gap: 10px; padding: 12px; border-radius: 5px;
             font-weight: 600; cursor: pointer; border: 1px solid #334155;
             transition: 0.3s; color: white; text-decoration: none;
         }
         .apple-btn { background: #000; }
         .google-btn { background: #fff; color: #000; }
         .email-btn { background: #2d3a4f; }
-        .social-btn:hover { opacity: 0.8; transform: scale(1.02); }
+        .social-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
-        .divider { margin: 20px 0; color: #64748b; font-size: 0.8rem; display: flex; align-items: center; }
+        .divider { margin: 25px 0; color: #64748b; font-size: 0.8rem; display: flex; align-items: center; }
         .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #334155; margin: 0 10px; }
 
         /* Modal Styles */
         .modal {
             display: none; position: fixed; z-index: 1000;
             left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
         }
         .modal-content {
-            background: #1a222f; margin: 10% auto; padding: 30px;
+            background: #1a222f; margin: 10% auto; padding: 35px;
             border-radius: 15px; width: 90%; max-width: 400px;
             border: 1px solid #ffcc00; position: relative;
         }
@@ -66,19 +66,19 @@
         <p>Sign in to see your saved peels.</p>
         
         <input type="text" id="userName" placeholder="Username or Email">
-        <input type="password" placeholder="Password">
-        <button class="peel-btn" onclick="handleLogin('userName')">Sign In</button>
+        <input type="password" id="userPass" placeholder="Password">
+        <button class="peel-btn" id="loginBtn" onclick="handleLogin('userName')">Sign In</button>
 
-        <p style="margin-top: 15px; font-size: 0.9rem;">
-            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold;">Register now</a>
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
         </p>
 
         <div class="divider">OR</div>
 
         <div class="social-login">
-            <div class="social-btn apple-btn" onclick="handleLogin('Apple User')"> Sign in with Apple</div>
-            <div class="social-btn google-btn" onclick="handleLogin('Google User')">G Sign in with Google</div>
-            <div class="social-btn email-btn" onclick="openModal()">✉ Sign up with Email</div>
+            <div class="social-btn apple-btn" onclick="handleLogin('Apple User')">Sign in with Apple</div>
+            <div class="social-btn google-btn" onclick="handleLogin('Google User')">Sign in with Google</div>
+            <div class="social-btn email-btn" onclick="openModal()">Sign up with Email</div>
         </div>
     </div>
 </div>
@@ -86,12 +86,12 @@
 <div id="regModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="text-align: center;">Join the <span class="pop">Bunch</span></h2>
-        <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Create an account to track your history.</p>
+        <h2 style="text-align: center; margin-bottom: 10px;">Join the <span class="pop">Bunch</span></h2>
+        <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1; margin-bottom: 20px;">Create an account to track your history.</p>
         
-        <input type="text" id="regName" placeholder="Full Name" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; background: #0f172a; border: 1px solid #334155; color: white;">
-        <input type="email" placeholder="Email Address" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; background: #0f172a; border: 1px solid #334155; color: white;">
-        <input type="password" placeholder="Create Password" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; background: #0f172a; border: 1px solid #334155; color: white;">
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="password" placeholder="Create Password">
         
         <button class="peel-btn" onclick="handleLogin('regName')">Create Account</button>
     </div>
@@ -100,28 +100,35 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Modal Logic
     function openModal() { document.getElementById('regModal').style.display = "block"; }
     function closeModal() { document.getElementById('regModal').style.display = "none"; }
     
-    // Close modal if clicking outside of it
     window.onclick = function(event) {
         if (event.target == document.getElementById('regModal')) { closeModal(); }
     }
 
-    function handleLogin(id) {
-        // If it's a fixed string (social), use it. If it's an ID, get the value.
-        const nameInput = document.getElementById(id);
-        const name = nameInput ? nameInput.value : id;
+    function handleLogin(sourceId) {
+        const btn = document.getElementById('loginBtn');
+        const inputElement = document.getElementById(sourceId);
+        const name = inputElement ? inputElement.value : sourceId;
 
-        if (name) {
+        if (!name || name.trim() === "") {
+            alert("Please enter a name to continue.");
+            return;
+        }
+
+        // Visual feedback
+        btn.innerHTML = "Peeling...";
+        btn.style.opacity = "0.7";
+        btn.disabled = true;
+
+        setTimeout(() => {
             localStorage.setItem('bananaUser', name);
             window.location.href = '../index.html';
-        } else {
-            alert("Please enter a name!");
-        }
+        }, 1200);
     }
 
+    // Load components
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
     });
