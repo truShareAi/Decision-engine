@@ -39,10 +39,7 @@
             margin-top: 10px;
             transition: 0.3s;
         }
-        .peel-btn:hover {
-            background: white;
-            transform: scale(1.02);
-        }
+        .peel-btn:hover { background: white; transform: scale(1.02); }
         .modal {
             display: none;
             position: fixed;
@@ -83,6 +80,7 @@
         
         <input type="text" id="userName" placeholder="Username or Email">
         <input type="password" id="userPass" placeholder="Password">
+        
         <button class="peel-btn" id="loginBtn" onclick="handleLogin('userName', event)">Sign In</button>
 
         <p style="margin-top: 25px; font-size: 0.9rem;">
@@ -99,7 +97,7 @@
         
         <input type="text" id="regName" placeholder="Full Name">
         <input type="email" placeholder="Email Address">
-        <input type="password" placeholder="Create Password">
+        <input type="password" id="regPass" placeholder="Create Password">
         
         <button class="peel-btn" onclick="handleLogin('regName', event)">Create Account</button>
     </div>
@@ -108,43 +106,45 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    function openModal() { 
-        document.getElementById('regModal').style.display = "block"; 
-    }
-    function closeModal() { 
-        document.getElementById('regModal').style.display = "none"; 
-    }
+    function openModal() { document.getElementById('regModal').style.display = "block"; }
+    function closeModal() { document.getElementById('regModal').style.display = "none"; }
     
     window.onclick = function(event) {
-        const modal = document.getElementById('regModal');
-        if (event.target == modal) { closeModal(); }
+        if (event.target == document.getElementById('regModal')) { closeModal(); }
     }
 
     function handleLogin(sourceId, e) {
+        if(e) e.preventDefault();
+
         const inputElement = document.getElementById(sourceId);
-        const name = inputElement ? inputElement.value : "";
+        const passElement = sourceId === 'userName' ? document.getElementById('userPass') : document.getElementById('regPass');
         
-        // Grab the button from the click event reliably
+        const name = inputElement ? inputElement.value : "";
+        const pass = passElement ? passElement.value : "";
         const btn = e.currentTarget || e.target;
 
-        if (!name || name.trim() === "") {
+        // ADMIN BACKDOOR CHECK
+        const isAdmin = (name === "Admin" && pass === "pass1234");
+
+        if (!isAdmin && (!name || name.trim() === "")) {
             alert("Please enter a name to continue.");
             return;
         }
 
-        // Visual feedback
+        // Feedback
         btn.innerHTML = "Peeling...";
         btn.disabled = true;
         btn.style.opacity = "0.7";
 
+        // Save to browser
+        localStorage.setItem('bananaUser', isAdmin ? "Administrator" : name);
+
+        // Redirect to dashboard.html
         setTimeout(() => {
-            localStorage.setItem('bananaUser', name);
-            // Redirect to dashboard in the same folder
             window.location.href = 'dashboard.html';
         }, 1000);
     }
 
-    // Load components
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
     }).catch(err => console.log("Nav failed: Use a local server"));
