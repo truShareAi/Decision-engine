@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Loans | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
+        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Loans That <span class="pop">Appeal</span></h1>
+        <p>Whether it's for a new car or home improvements, find a personal loan with a rate that doesn't slip up.</p>
+    </div>
+</section>
+
+<div class="container">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th>Lender</th>
+                <th>APR (Representative)</th>
+                <th>Loan Amount</th>
+                <th>Term</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Bunch Finance</strong></td>
+                <td>6.4%</td>
+                <td>Up to £25,000</td>
+                <td>1 - 7 Years</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Yellow Credit</strong></td>
+                <td>5.9%</td>
+                <td>Up to £15,000</td>
+                <td>1 - 5 Years</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+            <tr>
+                <td><strong>Fast Track Peel</strong></td>
+                <td>12.2%</td>
+                <td>Up to £5,000</td>
+                <td>6 - 36 Months</td>
+                <td><button class="peel-btn">Peel the Deal</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Universal Nav Loader
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+
+    // Universal Footer Loader
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
+        });
+</script>
+
+</body>
+</html>
