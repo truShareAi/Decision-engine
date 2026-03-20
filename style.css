@@ -201,12 +201,18 @@ body {
   color: var(--success-green);
 }
 
+/* --- CATEGORY ICONS --- */
 .box-art {
   width: 80px;
   height: 80px;
   margin: 0 auto 15px;
   background-color: #334155;
   border-radius: 50%;
+}
+
+/* Specific icon for the new Shopping box */
+.shopping-art {
+  background-color: var(--accent-blue);
 }
 
 .deal-badge {
