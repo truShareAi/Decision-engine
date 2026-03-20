@@ -15,19 +15,7 @@
 </head>
 <body>
 
-<nav class="top-nav">
-    <div class="nav-container">
-        <div class="nav-logo" onclick="window.location.href='../index.html'">🍌 BANANA</div>
-        <div class="nav-links">
-            <a href="car-insurance.html" style="color: #ffcc00;">Car</a>
-            <a href="home-insurance.html">Home</a>
-            <a href="pet-insurance.html">Pet</a>
-            <a href="life-insurance.html">Life</a>
-            <a href="utilities.html">Gas & Electricity</a>
-            <a href="grocery-deals.html">Groceries</a>
-        </div>
-    </div>
-</nav>
+<nav class="top-nav" id="mainNav"></nav>
 
 <section class="hero-area" style="padding: 40px 20px;">
     <div class="hero-container">
@@ -81,6 +69,15 @@
         <p style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-top: 20px;">© Banana 2026. All Rights Reserved.</p>
     </div>
 </footer>
+
+<script>
+    // Pulls from the main components folder
+    fetch('../components/nav.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainNav').innerHTML = data;
+        });
+</script>
 
 </body>
 </html>
