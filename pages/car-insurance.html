@@ -65,18 +65,31 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
+    // 1. Get the Single Source of Truth from memory
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Load Nav and Sync the Name swap immediately
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const script = document.createElement('script');
-        script.src = '../js/app.js';
-        script.onload = () => { if (typeof checkBananaAuth === "function") checkBananaAuth(); };
-        document.body.appendChild(script);
+        
+        // Manual Sync Logic
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
     });
 
+    // 3. Load Footer
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
 
+    // 4. Save Peel Logic
     function savePeel(provider) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(provider + " - Car Insurance");
