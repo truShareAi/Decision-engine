@@ -17,13 +17,13 @@
 </div>
 
 <script>
-    // This runs every time the nav is loaded on any page
-    (function() {
+    // Self-executing function to update the Nav state
+    (function updateNav() {
         const user = localStorage.getItem('bananaUser');
         const authSection = document.getElementById('navAuthSection');
         
         if (user && authSection) {
-            // Update the UI to show the user is logged in
+            // Replace "Sign in" with "Home" and the User's Name
             authSection.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
