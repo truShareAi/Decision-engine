@@ -6,68 +6,76 @@
     <title>Sign In | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Shared Styles */
-        .login-card, .modal-content {
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
             background: #1a222f;
+            padding: 40px;
             border-radius: 15px;
             border: 1px solid #334155;
             text-align: center;
         }
-
-        .login-card {
-            max-width: 400px;
-            margin: 80px auto;
-            padding: 40px;
-        }
-
-        /* The Fix: Force inputs to stack and respect width */
+        /* Forces inputs to stack vertically and stay full width */
         input {
             display: block;
-            width: 100%; 
-            box-sizing: border-box; /* Prevents horizontal overflow */
-            padding: 12px; 
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
             margin: 12px 0;
-            border-radius: 5px; 
+            border-radius: 5px;
             border: 1px solid #334155;
-            background: #0f172a; 
+            background: #0f172a;
             color: white;
             font-size: 1rem;
         }
-
         .peel-btn {
-            background: #ffcc00; color: black; border: none;
-            padding: 12px; width: 100%; border-radius: 5px;
-            font-weight: 800; cursor: pointer; margin-top: 10px;
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
         }
-        
-        /* Social Buttons */
-        .social-login { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .social-btn {
-            display: flex; align-items: center; justify-content: center;
-            padding: 12px; border-radius: 5px; font-weight: 600; 
-            cursor: pointer; border: 1px solid #334155; transition: 0.3s; 
-            color: white; text-decoration: none;
+        .peel-btn:hover {
+            background: white;
+            transform: scale(1.02);
         }
-        .apple-btn { background: #000; }
-        .google-btn { background: #fff; color: #000; }
-        .email-btn { background: #2d3a4f; }
-        .social-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        .divider { margin: 25px 0; color: #64748b; font-size: 0.8rem; display: flex; align-items: center; }
-        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #334155; margin: 0 10px; }
 
         /* Modal Styles */
         .modal {
-            display: none; position: fixed; z-index: 1000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
         }
         .modal-content {
-            margin: 10% auto; padding: 35px;
-            width: 90%; max-width: 400px;
-            border: 1px solid #ffcc00; position: relative;
+            background: #1a222f;
+            margin: 10% auto;
+            padding: 35px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #ffcc00;
+            position: relative;
+            text-align: center;
         }
-        .close { color: #64748b; position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
+        .close {
+            color: #64748b;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -83,24 +91,16 @@
         <input type="password" id="userPass" placeholder="Password">
         <button class="peel-btn" id="loginBtn" onclick="handleLogin('userName')">Sign In</button>
 
-        <p style="margin-top: 20px; font-size: 0.9rem;">
+        <p style="margin-top: 25px; font-size: 0.9rem;">
             New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
         </p>
-
-        <div class="divider">OR</div>
-
-        <div class="social-login">
-            <div class="social-btn apple-btn" onclick="handleLogin('Apple User')">Sign in with Apple</div>
-            <div class="social-btn google-btn" onclick="handleLogin('Google User')">Sign in with Google</div>
-            <div class="social-btn email-btn" onclick="openModal()">Sign up with Email</div>
-        </div>
     </div>
 </div>
 
 <div id="regModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="margin-bottom: 10px;">Join the <span class="pop">Bunch</span></h2>
+        <h2>Join the <span class="pop">Bunch</span></h2>
         <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 20px;">Create an account to track your history.</p>
         
         <input type="text" id="regName" placeholder="Full Name">
@@ -122,25 +122,26 @@
     }
 
     function handleLogin(sourceId) {
-        const btn = event.target; // Grabs the specific button clicked
         const inputElement = document.getElementById(sourceId);
-        const name = inputElement ? inputElement.value : sourceId;
+        const name = inputElement ? inputElement.value : "";
+        const btn = event.target;
 
         if (!name || name.trim() === "") {
             alert("Please enter a name to continue.");
             return;
         }
 
+        // Feedback
         btn.innerHTML = "Peeling...";
-        btn.style.opacity = "0.7";
         btn.disabled = true;
 
         setTimeout(() => {
             localStorage.setItem('bananaUser', name);
             window.location.href = '../index.html';
-        }, 1200);
+        }, 1000);
     }
 
+    // Load components
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
     });
