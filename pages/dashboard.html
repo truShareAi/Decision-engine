@@ -53,6 +53,17 @@
             opacity: 0.5;
             padding: 40px 0;
         }
+        .logout-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -63,7 +74,7 @@
     <div class="dashboard-grid">
         <aside class="user-sidebar">
             <div style="font-size: 3rem; margin-bottom: 10px;">🍌</div>
-            <h2 id="dashWelcome">Hi, <span class="pop">User</span></h2>
+            <h2 id="dashWelcome">Hi, <span class="pop" id="userNameBox">...</span></h2>
             <p style="font-size: 0.9rem; color: #64748b;">Member since 2026</p>
             
             <div class="stat-card">
@@ -71,7 +82,7 @@
                 <div style="font-size: 1.5rem; font-weight: 800;" id="peelCount">0</div>
             </div>
 
-            <button class="peel-btn" style="margin-top: 30px;" onclick="logout()">Logout</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </aside>
 
         <main class="history-list">
@@ -86,27 +97,52 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Security: Redirect to signin if not logged in
-    const user = localStorage.getItem('bananaUser');
-    if (!user) {
+    // 1. Get the Single Source of Truth
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Security Check
+    if (!savedName) {
         window.location.href = 'signin.html';
     }
 
-    document.getElementById('dashWelcome').innerHTML = `Hi, <span class="pop">${user}</span>`;
+    // 3. Update the Dashboard Box immediately
+    document.getElementById('userNameBox').innerText = savedName;
 
-    // Load History
+    // 4. Force the Nav to sync after it loads
+    function syncNav() {
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
+    }
+
+    // 5. Load Components
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        syncNav(); // Force the nav to update
+    });
+
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+
+    // 6. Load History
     const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    const container = document.getElementById('historyContainer');
     document.getElementById('peelCount').innerText = history.length;
 
     if (history.length > 0) {
-        container.innerHTML = history.reverse().map(item => `
+        document.getElementById('historyContainer').innerHTML = history.map(item => `
             <div class="history-item">
                 <div>
                     <div style="font-weight: bold;">${item}</div>
-                    <div style="font-size: 0.8rem; color: #64748b;">Searched on ${new Date().toLocaleDateString()}</div>
+                    <div style="font-size: 0.8rem; color: #64748b;">Action captured on ${new Date().toLocaleDateString()}</div>
                 </div>
-                <span class="tag">Search</span>
+                <span class="tag">Peel</span>
             </div>
         `).join('');
     }
@@ -115,14 +151,6 @@
         localStorage.removeItem('bananaUser');
         window.location.href = '../index.html';
     }
-
-    // Load components
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-    });
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
 </script>
 </body>
 </html>
