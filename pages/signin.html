@@ -115,39 +115,36 @@
 
     function handleLogin(sourceId, e) {
         if(e) e.preventDefault();
-
         const inputElement = document.getElementById(sourceId);
-        const passElement = sourceId === 'userName' ? document.getElementById('userPass') : document.getElementById('regPass');
-        
         const nameValue = inputElement ? inputElement.value : "";
-        const passValue = passElement ? passElement.value : "";
         const btn = e.currentTarget || e.target;
 
-        const isAdmin = (nameValue === "Admin" && passValue === "pass1234");
-
-        if (!isAdmin && (!nameValue || nameValue.trim() === "")) {
-            alert("Please enter a name to continue.");
+        if (!nameValue || nameValue.trim() === "") {
+            alert("Please enter a name.");
             return;
         }
 
         btn.innerHTML = "Peeling...";
-        btn.disabled = true;
-        btn.style.opacity = "0.7";
-
-        localStorage.setItem('bananaUser', isAdmin ? "Administrator" : nameValue);
+        localStorage.setItem('bananaUser', nameValue);
 
         setTimeout(() => {
             window.location.href = 'dashboard.html';
         }, 1000);
     }
 
-    // FIXED FETCH: Loads nav then immediately runs the check from app.js
+    // THE FAIL-SAFE LOAD
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        // This ensures checkBananaAuth runs ONLY after the Nav HTML actually exists
-        if (typeof checkBananaAuth === "function") {
-            checkBananaAuth();
-        }
+        
+        // Force-load the script with a solid path
+        const script = document.createElement('script');
+        script.src = '../js/app.js'; 
+        script.onload = () => {
+            if (typeof checkBananaAuth === "function") {
+                checkBananaAuth();
+            }
+        };
+        document.body.appendChild(script);
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
