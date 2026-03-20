@@ -1,3 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .login-card { max-width: 400px; margin: 100px auto; background: #1a222f; padding: 40px; border-radius: 15px; border: 1px solid #334155; text-align: center; }
+        input { display: block; width: 100%; box-sizing: border-box; padding: 12px; margin: 12px 0; border-radius: 5px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 1rem; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 12px; width: 100%; border-radius: 5px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.02); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+        .modal-content { background: #1a222f; margin: 10% auto; padding: 35px; border-radius: 15px; width: 90%; max-width: 400px; border: 1px solid #ffcc00; position: relative; text-align: center; }
+        .close { color: #64748b; position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<div class="container">
+    <div class="login-card">
+        <h1>Welcome <span class="pop">Back</span></h1>
+        <p>Sign in to see your saved peels.</p>
+        <input type="text" id="userName" placeholder="Username or Email">
+        <input type="password" id="userPass" placeholder="Password">
+        <button class="peel-btn" onclick="handleLogin('userName')">Sign In</button>
+        <p style="margin-top: 25px; font-size: 0.9rem;">
+            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
+        </p>
+    </div>
+</div>
+
+<div id="regModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Join the <span class="pop">Bunch</span></h2>
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <input type="password" id="regPass" placeholder="Create Password">
+        <button class="peel-btn" onclick="handleLogin('regName')">Create Account</button>
+    </div>
+</div>
+
+<footer id="mainFooter"></footer>
+
+<script src="../js/app.js"></script>
 <script>
     function openModal() { document.getElementById('regModal').style.display = "block"; }
     function closeModal() { document.getElementById('regModal').style.display = "none"; }
@@ -6,43 +54,33 @@
         if (event.target == document.getElementById('regModal')) { closeModal(); }
     }
 
-    function handleLogin(sourceId, e) {
-        if(e) e.preventDefault();
+    function handleLogin(sourceId) {
         const nameValue = document.getElementById(sourceId).value;
-
         if (!nameValue || nameValue.trim() === "") {
             alert("Please enter a name.");
             return;
         }
-
         localStorage.setItem('bananaUser', nameValue);
         window.location.href = 'dashboard.html';
     }
 
-    // THE FAIL-SAFE LOAD
-    // 1. Fetch the Nav
+    // Load Navigation
     fetch('../components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
-            
-            // 2. Dynamically inject the script so we KNOW it's there
-            const script = document.createElement('script');
-            // Using a relative path: go UP one level, then into JS
-            script.src = '../js/app.js'; 
-            
-            script.onload = () => {
-                // 3. Only run the check once the script is fully loaded
-                if (typeof checkBananaAuth === "function") {
-                    checkBananaAuth();
-                }
-            };
-            document.head.appendChild(script);
-        })
-        .catch(err => console.error("Nav failed to load:", err));
+            if (typeof checkBananaAuth === "function") {
+                checkBananaAuth();
+            }
+        });
 
-    // Footer load
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
+    // Load Footer
+    fetch('../components/footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('mainFooter').innerHTML = data;
+        });
 </script>
+
+</body>
+</html>
