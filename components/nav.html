@@ -11,7 +11,25 @@
         <a href="/pages/grocery-deals.html">Groceries</a>
         <a href="/pages/shopping.html">Shopping</a>
     </div>
-    <div class="nav-auth">
+    <div class="nav-auth" id="navAuthSection">
         <a href="/pages/signin.html" class="sign-in-btn">Sign in</a>
     </div>
 </div>
+
+<script>
+    // This runs every time the nav is loaded on any page
+    (function() {
+        const user = localStorage.getItem('bananaUser');
+        const authSection = document.getElementById('navAuthSection');
+        
+        if (user && authSection) {
+            // Update the UI to show the user is logged in
+            authSection.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
+                </div>
+            `;
+        }
+    })();
+</script>
