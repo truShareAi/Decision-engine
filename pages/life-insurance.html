@@ -41,21 +41,21 @@
                 <td>£7.50</td>
                 <td>Level Term</td>
                 <td>Included</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Evergreen Life')">Peel the Deal</button></td>
             </tr>
             <tr>
                 <td><strong>Golden Peel</strong></td>
                 <td>£10.20</td>
                 <td>Whole of Life</td>
                 <td>Included</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Golden Peel')">Peel the Deal</button></td>
             </tr>
             <tr>
                 <td><strong>Steady Branch</strong></td>
                 <td>£5.99</td>
                 <td>Decreasing Term</td>
                 <td>Optional Extra</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Steady Branch')">Peel the Deal</button></td>
             </tr>
         </tbody>
     </table>
@@ -64,19 +64,41 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Pulls Nav from the root components folder
+    // 1. Get the name from memory
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Load Nav and Sync the Name swap
     fetch('../components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
+
+            // Manual Sync: Find the auth section and swap 'Sign In' for the name
+            const authArea = document.getElementById('navAuthSection');
+            if (savedName && authArea) {
+                authArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                    </div>
+                `;
+            }
         });
 
-    // Pulls Footer from the root components folder
+    // 3. Load Footer
     fetch('../components/footer.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainFooter').innerHTML = data;
         });
+
+    // 4. Save Peel Logic
+    function savePeel(provider) {
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        history.unshift(provider + " - Life Insurance");
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        window.location.href = 'dashboard.html';
+    }
 </script>
 
 </body>
