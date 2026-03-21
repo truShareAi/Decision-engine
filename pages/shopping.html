@@ -76,7 +76,7 @@
                 <div class="price-tag">£59.99</div>
                 <p>Noise-cancelling tech at a fraction of the cost. Top rated by the Banana team.</p>
             </div>
-            <button class="peel-btn">Peel the Deal</button>
+            <button class="peel-btn" onclick="savePeel('Wireless Headphones')">Peel the Deal</button>
         </div>
 
         <div class="deal-card">
@@ -86,7 +86,7 @@
                 <div class="price-tag">£349.00</div>
                 <p>Ultra HD crystal clear display. Limited stock available at this price.</p>
             </div>
-            <button class="peel-btn">Peel the Deal</button>
+            <button class="peel-btn" onclick="savePeel('4K Smart TV')">Peel the Deal</button>
         </div>
 
         <div class="deal-card">
@@ -96,7 +96,7 @@
                 <div class="price-tag">From £45.00</div>
                 <p>Buy one get one free on selected luxury scents this weekend only.</p>
             </div>
-            <button class="peel-btn">Peel the Deal</button>
+            <button class="peel-btn" onclick="savePeel('Designer Fragrance')">Peel the Deal</button>
         </div>
     </div>
 </div>
@@ -104,19 +104,40 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Universal Nav Loader
+    // 1. Get name from memory
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Load Nav with Sync Logic
     fetch('../components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
+
+            const authArea = document.getElementById('navAuthSection');
+            if (savedName && authArea) {
+                authArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                    </div>
+                `;
+            }
         });
 
-    // Universal Footer Loader
+    // 3. Load Footer
     fetch('../components/footer.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainFooter').innerHTML = data;
         });
+
+    // 4. Save Peel Logic
+    function savePeel(product) {
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        history.unshift(product + " - Retail Deal");
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        window.location.href = 'dashboard.html';
+    }
 </script>
 
 </body>
