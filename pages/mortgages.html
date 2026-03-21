@@ -41,21 +41,21 @@
                 <td>3.85%</td>
                 <td>2 Year Fixed</td>
                 <td>£999</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Banana Bank')">Peel the Deal</button></td>
             </tr>
             <tr>
                 <td><strong>Yellow Brick Mortgages</strong></td>
                 <td>4.10%</td>
                 <td>5 Year Fixed</td>
                 <td>£0</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Yellow Brick Mortgages')">Peel the Deal</button></td>
             </tr>
             <tr>
                 <td><strong>Top Branch Finance</strong></td>
                 <td>5.20%</td>
                 <td>Standard Variable</td>
                 <td>£499</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
+                <td><button class="peel-btn" onclick="savePeel('Top Branch Finance')">Peel the Deal</button></td>
             </tr>
         </tbody>
     </table>
@@ -64,19 +64,41 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Universal Nav Loader
+    // 1. Get the name from memory
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Load Nav and Sync the Name
     fetch('../components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
+
+            // Manual Sync: Swap 'Sign In' for the name if logged in
+            const authArea = document.getElementById('navAuthSection');
+            if (savedName && authArea) {
+                authArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                    </div>
+                `;
+            }
         });
 
-    // Universal Footer Loader
+    // 3. Load Footer
     fetch('../components/footer.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainFooter').innerHTML = data;
         });
+
+    // 4. Save Peel Logic
+    function savePeel(provider) {
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        history.unshift(provider + " - Mortgage Rate");
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        window.location.href = 'dashboard.html';
+    }
 </script>
 
 </body>
