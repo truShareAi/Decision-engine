@@ -45,6 +45,42 @@
             font-weight: 800;
             font-size: 0.9rem;
         }
+
+        /* Instant Search Panel Styling */
+        #searchResultPanel {
+            display: none;
+            background: #1e293b;
+            border: 2px solid #ffcc00;
+            border-radius: 15px;
+            margin-top: 20px;
+            padding: 20px;
+            position: relative;
+            animation: slideDown 0.4s ease-out;
+            z-index: 10;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .close-search {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #ffcc00;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .search-table { width: 100%; border-collapse: collapse; color: white; margin-top: 10px; }
+        .search-table td { padding: 12px; border-bottom: 1px solid #334155; }
+        .search-table tr:last-child td { border: none; }
+        .view-all-link { 
+            display: inline-block; 
+            margin-top: 15px; 
+            color: #ffcc00; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -58,8 +94,14 @@
             <p>Don't go bananas searching for just the cheapest price. At Banana, we peel back the deals to give you the best overall value and peace of mind. <strong>So just banana it and split.</strong></p>
             
             <div class="search-wrap">
-                <input type="text" placeholder="Search for a deal... e.g. Car Insurance">
-                <button>Search</button>
+                <input type="text" id="mainSearchInput" placeholder="Search for a deal... e.g. Car Insurance">
+                <button onclick="handleSearch()">Search</button>
+            </div>
+
+            <div id="searchResultPanel">
+                <span class="close-search" onclick="document.getElementById('searchResultPanel').style.display='none'">✕</span>
+                <div id="searchContent"></div>
+                <a href="#" id="viewAllLink" class="view-all-link">View all providers →</a>
             </div>
         </div>
         <div class="hero-mascot">
@@ -183,19 +225,59 @@
 <script>
     const savedName = localStorage.getItem('bananaUser');
 
+    // SEARCH DATABASE
+    const dealDatabase = {
+        car: { title: "Car Insurance", link: "pages/car-insurance.html", html: `<table class="search-table"><tr><td><strong>Direct Peel</strong></td><td>£32.10/mo</td><td><span class="price-badge">Best Value</span></td></tr></table>` },
+        home: { title: "Home Insurance", link: "pages/home-insurance.html", html: `<table class="search-table"><tr><td><strong>Safe Nest</strong></td><td>£12.00/mo</td><td><span class="price-badge">Hot</span></td></tr></table>` },
+        pet: { title: "Pet Insurance", link: "pages/pet-insurance.html", html: `<table class="search-table"><tr><td><strong>Banana Bark</strong></td><td>£9.99/mo</td><td><span class="price-badge">Top Rated</span></td></tr></table>` },
+        life: { title: "Life Insurance", link: "pages/life-insurance.html", html: `<table class="search-table"><tr><td><strong>Evergreen Life</strong></td><td>£7.50/mo</td><td><span class="price-badge">Secure</span></td></tr></table>` },
+        utilities: { title: "Energy & Utilities", link: "pages/utilities.html", html: `<table class="search-table"><tr><td><strong>Yellow Volt</strong></td><td>£88/mo</td><td><span class="price-badge">Fixed</span></td></tr></table>` },
+        mortgage: { title: "Mortgage Rates", link: "pages/mortgages.html", html: `<table class="search-table"><tr><td><strong>Banana Bank</strong></td><td>3.85%</td><td><span class="price-badge">2yr Fixed</span></td></tr></table>` },
+        loan: { title: "Personal Loans", link: "pages/loans.html", html: `<table class="search-table"><tr><td><strong>Bunch Finance</strong></td><td>6.4% APR</td><td><span class="price-badge">Fast</span></td></tr></table>` },
+        grocery: { title: "Grocery Deals", link: "pages/grocery-deals.html", html: `<table class="search-table"><tr><td><strong>ASDA Bananas</strong></td><td>14p</td><td><span class="price-badge">Rollback</span></td></tr></table>` },
+        shopping: { title: "Retail & Shopping", link: "pages/shopping.html", html: `<table class="search-table"><tr><td><strong>Wireless Headphones</strong></td><td>£59.99</td><td><span class="price-badge">40% Off</span></td></tr></table>` },
+        green: { title: "Eco-Friendly Deals", link: "pages/go-green.html", html: `<table class="search-table"><tr><td><strong>Green Energy Plan</strong></td><td>100% Renewable</td><td><span class="price-badge">Eco Choice</span></td></tr></table>` },
+        advice: { title: "Money Matters & Advice", link: "#mainFooter", html: `<p style="color:white; margin-top:10px;">For <strong>Citizens Advice</strong>, <strong>Step Change</strong>, and expert <strong>Money Advice</strong>, please scroll to our 'Money Matters' section in the footer below.</p>` }
+    };
+
+    function handleSearch() {
+        const input = document.getElementById('mainSearchInput').value.toLowerCase();
+        const panel = document.getElementById('searchResultPanel');
+        const content = document.getElementById('searchContent');
+        const viewAll = document.getElementById('viewAllLink');
+
+        let match = null;
+        if (input.includes('car') || input.includes('motor')) match = dealDatabase.car;
+        else if (input.includes('home') || input.includes('house')) match = dealDatabase.home;
+        else if (input.includes('pet') || input.includes('dog') || input.includes('cat')) match = dealDatabase.pet;
+        else if (input.includes('life')) match = dealDatabase.life;
+        else if (input.includes('energy') || input.includes('gas') || input.includes('electric')) match = dealDatabase.utilities;
+        else if (input.includes('mortgage')) match = dealDatabase.mortgage;
+        else if (input.includes('loan')) match = dealDatabase.loan;
+        else if (input.includes('grocery') || input.includes('food') || input.includes('banana')) match = dealDatabase.grocery;
+        else if (input.includes('shop') || input.includes('deal')) match = dealDatabase.shopping;
+        else if (input.includes('green') || input.includes('eco')) match = dealDatabase.green;
+        else if (input.includes('advice') || input.includes('citizen') || input.includes('step change')) match = dealDatabase.advice;
+
+        panel.style.display = 'block';
+        if (match) {
+            content.innerHTML = `<h4 style="color:#ffcc00; margin-bottom:10px;">${match.title}</h4>` + match.html;
+            viewAll.href = match.link;
+            viewAll.style.display = (match.link === "#mainFooter") ? "none" : "inline-block";
+        } else {
+            content.innerHTML = `<p style="color:white;">We couldn't find a direct match. Try searching for "Insurance" or browse categories below.</p>`;
+            viewAll.style.display = "none";
+        }
+    }
+
     // Universal Nav Loader + Sync
     fetch('components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
-            
             const authArea = document.getElementById('navAuthSection');
             if (savedName && authArea) {
-                authArea.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                    </div>
-                `;
+                authArea.innerHTML = `<div style="display: flex; align-items: center; gap: 15px;"><a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a></div>`;
             }
         });
 
@@ -211,11 +293,7 @@
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', function() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > lastScrollTop) {
-            nav.style.top = "-80px"; 
-        } else {
-            nav.style.top = "0";
-        }
+        nav.style.top = (scrollTop > lastScrollTop) ? "-80px" : "0";
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 </script>
