@@ -6,28 +6,32 @@
     <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* FIX: Mascot perfectly level with H1 and Shorter Panel */
+        /* CRITICAL ALIGNMENT FIXES */
         .hero-area {
-            padding: 20px 0; /* Shorter overall panel height */
+            padding: 10px 0; /* Shrinks the panel height significantly */
             min-height: auto; 
         }
         .hero-container {
             display: flex;
-            align-items: flex-start; /* Aligns containers to top */
+            align-items: flex-start; /* Forces alignment to the top */
             gap: 40px;
         }
         .hero-text h1 { 
-            margin-top: 0; 
+            margin-top: 0; /* Removes the gap above the title */
             line-height: 1.1;
         }
         .hero-mascot { 
-            transform: translateY(-15px); /* Pulls mascot up to match title baseline */
+            /* Manually offsets the image to match the text baseline precisely */
+            margin-top: -12px; 
         }
         .hero-mascot img {
             display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
         }
 
-        /* Search Bar: Quarter Size */
+        /* SEARCH BAR: Quarter Size */
         .box-search-wrap {
             width: 25%; 
             min-width: 280px;
@@ -38,12 +42,12 @@
             width: 100%;
         }
 
-        /* Panel Styling */
+        /* PANELS */
         .deals-panel {
             background: #1a222f;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 40px;
+            padding: 20px; /* Reduced internal padding to keep panels short */
+            margin-bottom: 30px;
             border: 1px solid #334155;
         }
         .panel-grid {
@@ -54,7 +58,7 @@
         }
         .mini-deal-card {
             background: #0f172a;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             border-left: 4px solid #ffcc00;
             display: flex;
@@ -63,12 +67,6 @@
             transition: 0.3s;
             cursor: pointer;
         }
-        .mini-deal-card:hover {
-            transform: scale(1.02);
-            background: #1e293b;
-        }
-        .deal-info h4 { margin: 0; color: #ffcc00; font-size: 1rem; }
-        .deal-info p { margin: 5px 0 0; font-size: 0.85rem; color: #cbd5e1; }
         .price-badge {
             background: #ffcc00;
             color: #000;
@@ -78,7 +76,7 @@
             font-size: 0.9rem;
         }
 
-        /* Instant Search Result Panel */
+        /* SEARCH RESULTS */
         #searchResultPanel {
             display: none;
             background: #1e293b;
@@ -87,31 +85,8 @@
             margin-top: 15px;
             padding: 20px;
             position: relative;
-            animation: slideDown 0.4s ease-out;
             z-index: 10;
             width: 100%; 
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .close-search {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: #ffcc00;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .search-table { width: 100%; border-collapse: collapse; color: white; margin-top: 10px; }
-        .search-table td { padding: 12px; border-bottom: 1px solid #334155; }
-        .view-all-link { 
-            display: inline-block; 
-            margin-top: 15px; 
-            color: #ffcc00; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -126,7 +101,7 @@
             <p>Don't go bananas searching for just the cheapest price. At Banana, we peel back the deals to give you the best overall value and peace of mind. <strong>So just banana it and split.</strong></p>
         </div>
         <div class="hero-mascot">
-            <img src="images/mascot.png" alt="Banana Mascot" style="width: 100%; height: auto; max-width: 300px;">
+            <img src="images/mascot.png" alt="Banana Mascot">
         </div>
     </div>
 </section>
@@ -205,17 +180,17 @@
         const viewAll = document.getElementById('viewAllLink');
 
         let match = null;
-        if (input.includes('car') || input.includes('motor')) match = dealDatabase.car;
-        else if (input.includes('home') || input.includes('house')) match = dealDatabase.home;
+        if (input.includes('car')) match = dealDatabase.car;
+        else if (input.includes('home')) match = dealDatabase.home;
         else if (input.includes('pet')) match = dealDatabase.pet;
         else if (input.includes('life')) match = dealDatabase.life;
-        else if (input.includes('energy') || input.includes('gas') || input.includes('electric')) match = dealDatabase.utilities;
+        else if (input.includes('energy')) match = dealDatabase.utilities;
         else if (input.includes('mortgage')) match = dealDatabase.mortgage;
         else if (input.includes('loan')) match = dealDatabase.loan;
-        else if (input.includes('grocery') || input.includes('food')) match = dealDatabase.grocery;
-        else if (input.includes('shop') || input.includes('deal')) match = dealDatabase.shopping;
-        else if (input.includes('green') || input.includes('eco')) match = dealDatabase.green;
-        else if (input.includes('advice') || input.includes('citizen') || input.includes('step change')) match = dealDatabase.advice;
+        else if (input.includes('grocery')) match = dealDatabase.grocery;
+        else if (input.includes('shop')) match = dealDatabase.shopping;
+        else if (input.includes('green')) match = dealDatabase.green;
+        else if (input.includes('advice')) match = dealDatabase.advice;
 
         panel.style.display = 'block';
         if (match) {
@@ -223,28 +198,13 @@
             viewAll.href = match.link;
             viewAll.style.display = (match.link === "#mainFooter") ? "none" : "inline-block";
         } else {
-            content.innerHTML = `<p style="color:white;">No direct match. Try "Car Insurance" or "Grocery".</p>`;
+            content.innerHTML = `<p style="color:white;">No match found. Try another search.</p>`;
             viewAll.style.display = "none";
         }
     }
 
-    fetch('components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `<div style="display: flex; align-items: center; gap: 15px;"><a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a></div>`;
-        }
-    });
-
+    fetch('components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
     fetch('components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
-
-    let lastScrollTop = 0;
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        nav.style.top = (scrollTop > lastScrollTop) ? "-80px" : "0";
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    });
 </script>
 
 </body>
