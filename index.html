@@ -6,11 +6,11 @@
     <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* HERO AREA: The yellow line is controlled by padding-bottom here */
+        /* HERO AREA: Locked as requested */
         .hero-area {
-            padding: 80px 0 20px 0; /* Adjust 20px to move the yellow line up/down */
+            padding: 80px 0 20px 0; 
             min-height: auto; 
-            position: relative; /* Necessary for the mascot lock */
+            position: relative; 
         }
 
         .hero-container {
@@ -25,11 +25,11 @@
             line-height: 1.1;
         }
 
-        /* THE LOCK: Absolute positioning decouples banana from the yellow line */
+        /* THE FIX: Pulled banana up to clear the line */
         .hero-mascot { 
             position: absolute;
             right: 0;
-            top: -30px; /* Adjust this to move banana up/down without affecting anything else */
+            top: -110px; /* Moved up from -30px to clear the yellow line */
             z-index: 5;
         }
 
