@@ -44,7 +44,7 @@
             <h3>Life Insurance</h3>
         </div>
         <div class="selection-box" onclick="window.location.href='pages/pet-insurance.html'">
-            <div class="box-art pet-art"></div>
+            <div class="box-art pet-art)."></div>
             <h3>Pet Insurance</h3>
         </div>
         <div class="selection-box" onclick="window.location.href='pages/utilities.html'">
@@ -82,21 +82,34 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Universal Nav Loader
+    // 1. Get user name from memory
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 2. Load Nav and Sync logic
     fetch('components/nav.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainNav').innerHTML = data;
+
+            // Manual Sync: Find auth section and swap 'Sign In' for 'Hi, [Name]'
+            const authArea = document.getElementById('navAuthSection');
+            if (savedName && authArea) {
+                authArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                    </div>
+                `;
+            }
         });
 
-    // Universal Footer Loader
+    // 3. Universal Footer Loader
     fetch('components/footer.html')
         .then(res => res.text())
         .then(data => {
             document.getElementById('mainFooter').innerHTML = data;
         });
 
-    // Sticky Nav Script
+    // 4. Sticky Nav Script
     let lastScrollTop = 0;
     const nav = document.getElementById('mainNav');
 
