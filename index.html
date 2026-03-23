@@ -6,6 +6,16 @@
     <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Alignment Fix for Mascot */
+        .hero-container {
+            display: flex;
+            align-items: flex-start; /* Aligns items to the top of the container */
+            gap: 40px;
+            padding-top: 60px;
+        }
+        .hero-text h1 { margin-top: 0; } /* Ensures title starts at the very top */
+        .hero-mascot { margin-top: -10px; } /* Fine-tuning to match text baseline */
+
         /* Panel Styling for New Sections */
         .deals-panel {
             background: #1a222f;
@@ -46,13 +56,13 @@
             font-size: 0.9rem;
         }
 
-        /* Instant Search Panel Styling */
+        /* Instant Search Panel Styling inside Container */
         #searchResultPanel {
             display: none;
             background: #1e293b;
             border: 2px solid #ffcc00;
             border-radius: 15px;
-            margin-top: 20px;
+            margin: 20px 0 40px 0;
             padding: 20px;
             position: relative;
             animation: slideDown 0.4s ease-out;
@@ -81,6 +91,11 @@
             font-weight: bold; 
             font-size: 0.9rem;
         }
+        
+        /* Box Panel Search Wrap Styling */
+        .box-search-container {
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
@@ -92,17 +107,6 @@
         <div class="hero-text">
             <h1>Save money, <span class="pop">the easy way.</span></h1>
             <p>Don't go bananas searching for just the cheapest price. At Banana, we peel back the deals to give you the best overall value and peace of mind. <strong>So just banana it and split.</strong></p>
-            
-            <div class="search-wrap">
-                <input type="text" id="mainSearchInput" placeholder="Search for a deal... e.g. Car Insurance">
-                <button onclick="handleSearch()">Search</button>
-            </div>
-
-            <div id="searchResultPanel">
-                <span class="close-search" onclick="document.getElementById('searchResultPanel').style.display='none'">✕</span>
-                <div id="searchContent"></div>
-                <a href="#" id="viewAllLink" class="view-all-link">View all providers →</a>
-            </div>
         </div>
         <div class="hero-mascot">
             <img src="images/mascot.png" alt="Banana Mascot" style="width: 100%; height: auto; max-width: 300px;">
@@ -111,7 +115,20 @@
 </section>
 
 <div class="container">
-    <h2 class="section-title">Popular Categories</h2>
+    <div class="box-search-container">
+        <h2 class="section-title">Popular Categories</h2>
+        
+        <div class="search-wrap">
+            <input type="text" id="mainSearchInput" placeholder="Search for today's latest deals...">
+            <button onclick="handleSearch()">Search</button>
+        </div>
+
+        <div id="searchResultPanel">
+            <span class="close-search" onclick="document.getElementById('searchResultPanel').style.display='none'">✕</span>
+            <div id="searchContent"></div>
+            <a href="#" id="viewAllLink" class="view-all-link">View all providers →</a>
+        </div>
+    </div>
     
     <section class="category-grid" style="margin-bottom: 50px;">
         <div class="selection-box" onclick="window.location.href='pages/car-insurance.html'">
@@ -216,8 +233,6 @@
             </div>
         </div>
     </div>
-
-    <div id="resultSection" style="display: none;"></div>
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
@@ -225,7 +240,6 @@
 <script>
     const savedName = localStorage.getItem('bananaUser');
 
-    // SEARCH DATABASE
     const dealDatabase = {
         car: { title: "Car Insurance", link: "pages/car-insurance.html", html: `<table class="search-table"><tr><td><strong>Direct Peel</strong></td><td>£32.10/mo</td><td><span class="price-badge">Best Value</span></td></tr></table>` },
         home: { title: "Home Insurance", link: "pages/home-insurance.html", html: `<table class="search-table"><tr><td><strong>Safe Nest</strong></td><td>£12.00/mo</td><td><span class="price-badge">Hot</span></td></tr></table>` },
@@ -247,17 +261,17 @@
         const viewAll = document.getElementById('viewAllLink');
 
         let match = null;
-        if (input.includes('car') || input.includes('motor')) match = dealDatabase.car;
-        else if (input.includes('home') || input.includes('house')) match = dealDatabase.home;
-        else if (input.includes('pet') || input.includes('dog') || input.includes('cat')) match = dealDatabase.pet;
+        if (input.includes('car')) match = dealDatabase.car;
+        else if (input.includes('home')) match = dealDatabase.home;
+        else if (input.includes('pet')) match = dealDatabase.pet;
         else if (input.includes('life')) match = dealDatabase.life;
-        else if (input.includes('energy') || input.includes('gas') || input.includes('electric')) match = dealDatabase.utilities;
+        else if (input.includes('energy') || input.includes('utilities')) match = dealDatabase.utilities;
         else if (input.includes('mortgage')) match = dealDatabase.mortgage;
         else if (input.includes('loan')) match = dealDatabase.loan;
-        else if (input.includes('grocery') || input.includes('food') || input.includes('banana')) match = dealDatabase.grocery;
-        else if (input.includes('shop') || input.includes('deal')) match = dealDatabase.shopping;
-        else if (input.includes('green') || input.includes('eco')) match = dealDatabase.green;
-        else if (input.includes('advice') || input.includes('citizen') || input.includes('step change')) match = dealDatabase.advice;
+        else if (input.includes('grocery')) match = dealDatabase.grocery;
+        else if (input.includes('shop')) match = dealDatabase.shopping;
+        else if (input.includes('green')) match = dealDatabase.green;
+        else if (input.includes('advice') || input.includes('citizen')) match = dealDatabase.advice;
 
         panel.style.display = 'block';
         if (match) {
@@ -265,30 +279,21 @@
             viewAll.href = match.link;
             viewAll.style.display = (match.link === "#mainFooter") ? "none" : "inline-block";
         } else {
-            content.innerHTML = `<p style="color:white;">We couldn't find a direct match. Try searching for "Insurance" or browse categories below.</p>`;
+            content.innerHTML = `<p style="color:white;">No match found. Try searching for a category like "Car Insurance".</p>`;
             viewAll.style.display = "none";
         }
     }
 
-    // Universal Nav Loader + Sync
-    fetch('components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
-            const authArea = document.getElementById('navAuthSection');
-            if (savedName && authArea) {
-                authArea.innerHTML = `<div style="display: flex; align-items: center; gap: 15px;"><a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a></div>`;
-            }
-        });
+    fetch('components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `<div style="display: flex; align-items: center; gap: 15px;"><a href="pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a></div>`;
+        }
+    });
 
-    // Universal Footer Loader
-    fetch('components/footer.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainFooter').innerHTML = data;
-        });
+    fetch('components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    // Sticky Nav Script
     let lastScrollTop = 0;
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', function() {
