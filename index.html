@@ -25,7 +25,8 @@
 
         /* FIX 2: Manually slide the banana up to align with text pixels */
         .hero-mascot { 
-            transform: translateY(-25px); /* This drags the banana up specifically to meet the 'S' */
+            /* Raised by 20px from previous master (-25px -> -45px) */
+            transform: translateY(-45px); 
         }
 
         .hero-mascot img {
@@ -169,7 +170,6 @@
         const content = document.getElementById('searchContent');
         const viewAll = document.getElementById('viewAllLink');
 
-        // Search logic remains the same...
         panel.style.display = 'block';
         content.innerHTML = `<p style="color:white;">Searching for ${input}...</p>`;
     }
