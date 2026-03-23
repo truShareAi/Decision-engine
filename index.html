@@ -6,17 +6,27 @@
     <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Alignment Fix for Mascot */
+        /* Alignment Fix: Mascot level with Title */
         .hero-container {
             display: flex;
-            align-items: flex-start; /* Aligns items to the top of the container */
+            align-items: flex-start; /* Aligns mascot to top of title */
             gap: 40px;
-            padding-top: 60px;
+            padding: 40px 0; /* Reduced height of the panel */
         }
-        .hero-text h1 { margin-top: 0; } /* Ensures title starts at the very top */
-        .hero-mascot { margin-top: -10px; } /* Fine-tuning to match text baseline */
+        .hero-text h1 { margin-top: 0; }
 
-        /* Panel Styling for New Sections */
+        /* Search Bar: Quarter Size and Relocated */
+        .box-search-wrap {
+            width: 25%; /* Quarter size */
+            min-width: 280px;
+            margin-bottom: 25px;
+        }
+        .search-wrap {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Panel Styling */
         .deals-panel {
             background: #1a222f;
             border-radius: 15px;
@@ -56,17 +66,18 @@
             font-size: 0.9rem;
         }
 
-        /* Instant Search Panel Styling inside Container */
+        /* Instant Search Result Panel */
         #searchResultPanel {
             display: none;
             background: #1e293b;
             border: 2px solid #ffcc00;
             border-radius: 15px;
-            margin: 20px 0 40px 0;
+            margin-top: 15px;
             padding: 20px;
             position: relative;
             animation: slideDown 0.4s ease-out;
             z-index: 10;
+            width: 100%; /* Spans full container width */
         }
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
@@ -82,7 +93,6 @@
         }
         .search-table { width: 100%; border-collapse: collapse; color: white; margin-top: 10px; }
         .search-table td { padding: 12px; border-bottom: 1px solid #334155; }
-        .search-table tr:last-child td { border: none; }
         .view-all-link { 
             display: inline-block; 
             margin-top: 15px; 
@@ -90,11 +100,6 @@
             text-decoration: none; 
             font-weight: bold; 
             font-size: 0.9rem;
-        }
-        
-        /* Box Panel Search Wrap Styling */
-        .box-search-container {
-            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -115,122 +120,49 @@
 </section>
 
 <div class="container">
-    <div class="box-search-container">
-        <h2 class="section-title">Popular Categories</h2>
-        
+    <h2 class="section-title">Popular Categories</h2>
+    
+    <div class="box-search-wrap">
         <div class="search-wrap">
             <input type="text" id="mainSearchInput" placeholder="Search for today's latest deals...">
             <button onclick="handleSearch()">Search</button>
         </div>
+    </div>
 
-        <div id="searchResultPanel">
-            <span class="close-search" onclick="document.getElementById('searchResultPanel').style.display='none'">✕</span>
-            <div id="searchContent"></div>
-            <a href="#" id="viewAllLink" class="view-all-link">View all providers →</a>
-        </div>
+    <div id="searchResultPanel">
+        <span class="close-search" onclick="document.getElementById('searchResultPanel').style.display='none'">✕</span>
+        <div id="searchContent"></div>
+        <a href="#" id="viewAllLink" class="view-all-link">View all providers →</a>
     </div>
     
     <section class="category-grid" style="margin-bottom: 50px;">
-        <div class="selection-box" onclick="window.location.href='pages/car-insurance.html'">
-            <div class="box-art car-art"></div>
-            <h3>Car Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/home-insurance.html'">
-            <div class="box-art home-art"></div>
-            <h3>Home Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/life-insurance.html'">
-            <div class="box-art life-art"></div>
-            <h3>Life Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/pet-insurance.html'">
-            <div class="box-art pet-art"></div>
-            <h3>Pet Insurance</h3>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/utilities.html'">
-            <div class="box-art energy-art"></div>
-            <h3>Gas & Electricity</h3>
-        </div>
-
-        <div class="selection-box" onclick="window.location.href='pages/mortgages.html'">
-            <div class="box-art mortgage-art"></div>
-            <h3>Mortgages</h3>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/loans.html'">
-            <div class="box-art loan-art"></div>
-            <h3>Loans</h3>
-        </div>
-        <div class="selection-box highlight" onclick="window.location.href='pages/grocery-deals.html'">
-            <div class="box-art daily-art"></div>
-            <h3>Grocery Deals</h3>
-            <span class="deal-badge">Hot Deals</span>
-        </div>
-        <div class="selection-box" onclick="window.location.href='pages/shopping.html'">
-            <div class="box-art shopping-art"></div>
-            <h3>Shopping</h3>
-        </div>
-        <div class="selection-box go-green" onclick="window.location.href='pages/go-green.html'">
-            <div class="box-art green-art"></div>
-            <h3>Go Green</h3>
-            <span class="deal-badge green-badge">Eco Choice</span>
-        </div>
+        <div class="selection-box" onclick="window.location.href='pages/car-insurance.html'"><div class="box-art car-art"></div><h3>Car Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/home-insurance.html'"><div class="box-art home-art"></div><h3>Home Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/life-insurance.html'"><div class="box-art life-art"></div><h3>Life Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/pet-insurance.html'"><div class="box-art pet-art"></div><h3>Pet Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/utilities.html'"><div class="box-art energy-art"></div><h3>Gas & Electricity</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/mortgages.html'"><div class="box-art mortgage-art"></div><h3>Mortgages</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/loans.html'"><div class="box-art loan-art"></div><h3>Loans</h3></div>
+        <div class="selection-box highlight" onclick="window.location.href='pages/grocery-deals.html'"><div class="box-art daily-art"></div><h3>Grocery Deals</h3><span class="deal-badge">Hot Deals</span></div>
+        <div class="selection-box" onclick="window.location.href='pages/shopping.html'"><div class="box-art shopping-art"></div><h3>Shopping</h3></div>
+        <div class="selection-box go-green" onclick="window.location.href='pages/go-green.html'"><div class="box-art green-art"></div><h3>Go Green</h3><span class="deal-badge green-badge">Eco Choice</span></div>
     </section>
 
     <div class="deals-panel">
-        <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.5rem;">🔥</span> Today's Hot Deals
-        </h3>
+        <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;"><span style="font-size: 1.5rem;">🔥</span> Today's Hot Deals</h3>
         <div class="panel-grid">
-            <div class="mini-deal-card" onclick="window.location.href='pages/grocery-deals.html'">
-                <div class="deal-info">
-                    <h4>Extra Large Bananas</h4>
-                    <p>ASDA Rollback</p>
-                </div>
-                <div class="price-badge">14p</div>
-            </div>
-            <div class="mini-deal-card" onclick="window.location.href='pages/shopping.html'">
-                <div class="deal-info">
-                    <h4>Wireless Headphones</h4>
-                    <p>40% Off Retail</p>
-                </div>
-                <div class="price-badge">£59</div>
-            </div>
-            <div class="mini-deal-card" onclick="window.location.href='pages/utilities.html'">
-                <div class="deal-info">
-                    <h4>Fixed Energy Rate</h4>
-                    <p>Yellow Volt</p>
-                </div>
-                <div class="price-badge">Save £120</div>
-            </div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/grocery-deals.html'"><div class="deal-info"><h4>Extra Large Bananas</h4><p>ASDA Rollback</p></div><div class="price-badge">14p</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/shopping.html'"><div class="deal-info"><h4>Wireless Headphones</h4><p>40% Off Retail</p></div><div class="price-badge">£59</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/utilities.html'"><div class="deal-info"><h4>Fixed Energy Rate</h4><p>Yellow Volt</p></div><div class="price-badge">Save £120</div></div>
         </div>
     </div>
 
     <div class="deals-panel" style="border-color: #ffcc0044;">
-        <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.5rem;">⭐</span> Deals of the Week
-        </h3>
+        <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;"><span style="font-size: 1.5rem;">⭐</span> Deals of the Week</h3>
         <div class="panel-grid">
-            <div class="mini-deal-card" onclick="window.location.href='pages/car-insurance.html'">
-                <div class="deal-info">
-                    <h4>Comprehensive Cover</h4>
-                    <p>Direct Line Special</p>
-                </div>
-                <div class="price-badge">£35/mo</div>
-            </div>
-            <div class="mini-deal-card" onclick="window.location.href='pages/mortgages.html'">
-                <div class="deal-info">
-                    <h4>2-Year Fixed Rate</h4>
-                    <p>Banana Bank</p>
-                </div>
-                <div class="price-badge">3.85%</div>
-            </div>
-            <div class="mini-deal-card" onclick="window.location.href='pages/shopping.html'">
-                <div class="deal-info">
-                    <h4>4K Smart TV</h4>
-                    <p>Save £200</p>
-                </div>
-                <div class="price-badge">£349</div>
-            </div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/car-insurance.html'"><div class="deal-info"><h4>Comprehensive Cover</h4><p>Direct Line Special</p></div><div class="price-badge">£35/mo</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/mortgages.html'"><div class="deal-info"><h4>2-Year Fixed Rate</h4><p>Banana Bank</p></div><div class="price-badge">3.85%</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/shopping.html'"><div class="deal-info"><h4>4K Smart TV</h4><p>Save £200</p></div><div class="price-badge">£349</div></div>
         </div>
     </div>
 </div>
@@ -251,7 +183,7 @@
         grocery: { title: "Grocery Deals", link: "pages/grocery-deals.html", html: `<table class="search-table"><tr><td><strong>ASDA Bananas</strong></td><td>14p</td><td><span class="price-badge">Rollback</span></td></tr></table>` },
         shopping: { title: "Retail & Shopping", link: "pages/shopping.html", html: `<table class="search-table"><tr><td><strong>Wireless Headphones</strong></td><td>£59.99</td><td><span class="price-badge">40% Off</span></td></tr></table>` },
         green: { title: "Eco-Friendly Deals", link: "pages/go-green.html", html: `<table class="search-table"><tr><td><strong>Green Energy Plan</strong></td><td>100% Renewable</td><td><span class="price-badge">Eco Choice</span></td></tr></table>` },
-        advice: { title: "Money Matters & Advice", link: "#mainFooter", html: `<p style="color:white; margin-top:10px;">For <strong>Citizens Advice</strong>, <strong>Step Change</strong>, and expert <strong>Money Advice</strong>, please scroll to our 'Money Matters' section in the footer below.</p>` }
+        advice: { title: "Money Matters & Advice", link: "#mainFooter", html: `<p style="color:white; margin-top:10px;">For <strong>Citizens Advice</strong>, <strong>Step Change</strong>, and expert <strong>Money Advice</strong>, please scroll to the footer section.</p>` }
     };
 
     function handleSearch() {
@@ -261,17 +193,17 @@
         const viewAll = document.getElementById('viewAllLink');
 
         let match = null;
-        if (input.includes('car')) match = dealDatabase.car;
-        else if (input.includes('home')) match = dealDatabase.home;
+        if (input.includes('car') || input.includes('motor')) match = dealDatabase.car;
+        else if (input.includes('home') || input.includes('house')) match = dealDatabase.home;
         else if (input.includes('pet')) match = dealDatabase.pet;
         else if (input.includes('life')) match = dealDatabase.life;
-        else if (input.includes('energy') || input.includes('utilities')) match = dealDatabase.utilities;
+        else if (input.includes('energy') || input.includes('gas') || input.includes('electric')) match = dealDatabase.utilities;
         else if (input.includes('mortgage')) match = dealDatabase.mortgage;
         else if (input.includes('loan')) match = dealDatabase.loan;
-        else if (input.includes('grocery')) match = dealDatabase.grocery;
-        else if (input.includes('shop')) match = dealDatabase.shopping;
-        else if (input.includes('green')) match = dealDatabase.green;
-        else if (input.includes('advice') || input.includes('citizen')) match = dealDatabase.advice;
+        else if (input.includes('grocery') || input.includes('food')) match = dealDatabase.grocery;
+        else if (input.includes('shop') || input.includes('deal')) match = dealDatabase.shopping;
+        else if (input.includes('green') || input.includes('eco')) match = dealDatabase.green;
+        else if (input.includes('advice') || input.includes('citizen') || input.includes('step change')) match = dealDatabase.advice;
 
         panel.style.display = 'block';
         if (match) {
@@ -279,7 +211,7 @@
             viewAll.href = match.link;
             viewAll.style.display = (match.link === "#mainFooter") ? "none" : "inline-block";
         } else {
-            content.innerHTML = `<p style="color:white;">No match found. Try searching for a category like "Car Insurance".</p>`;
+            content.innerHTML = `<p style="color:white;">No direct match. Try "Car Insurance" or "Grocery".</p>`;
             viewAll.style.display = "none";
         }
     }
