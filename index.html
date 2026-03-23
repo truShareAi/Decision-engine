@@ -6,9 +6,9 @@
     <title>Banana | Peel Back the Savings</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* FIX 1: Tightened bottom padding to bring the yellow line up */
+        /* FIX 1: Tightened bottom padding to pull the yellow line up high */
         .hero-area {
-            padding: 80px 0 10px 0; /* Reduced from 40px to 10px */
+            padding: 80px 0 5px 0; /* 5px bottom padding brings the line right under the text */
             min-height: auto; 
         }
 
@@ -23,9 +23,10 @@
             line-height: 1.1;
         }
 
-        /* FIX 2: Raised banana by an extra 10px (-45px -> -55px) */
+        /* FIX 2: Locked Box Strategy + Final 10px Lift */
         .hero-mascot { 
-            transform: translateY(-55px); 
+            padding-bottom: 60px; 
+            transform: translateY(-95px); /* Raised from -85px to -95px */
         }
 
         .hero-mascot img {
