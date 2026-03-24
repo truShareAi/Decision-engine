@@ -11,6 +11,7 @@
         .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
         .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .peel-btn:hover { background: white; transform: scale(1.05); }
+        .annual-price { color: #00ff88; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -29,9 +30,9 @@
         <thead>
             <tr>
                 <th>Provider</th>
-                <th>Monthly Price</th>
+                <th>Monthly</th>
+                <th>Annual (Save!)</th>
                 <th>Cover Type</th>
-                <th>Source</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -85,9 +86,9 @@
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
                         <td>£${deal.price}</td>
+                        <td class="annual-price">£${deal.original_price}</td>
                         <td>${deal.name}</td>
-                        <td>${deal.source}</td>
-                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}', '${deal.affiliate_link}')">Peel the Deal</button></td>
+                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
@@ -96,16 +97,13 @@
         }
     }
 
-    // 3. Logic: Save to Dashboard + Open Provider Link
-    function saveAndGo(brand, link) {
+    // 3. Logic: Save to Dashboard ONLY
+    function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(brand + " - Car Insurance Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         
-        // Opens the provider in a new tab so they don't lose your site
-        window.open(link, '_blank');
-        
-        // Optional: Send them to their dashboard on your site to see the saved deal
+        // Takes the user to the dashboard to see their saved deals
         window.location.href = 'dashboard.html';
     }
 
