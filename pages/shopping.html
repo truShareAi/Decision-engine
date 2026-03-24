@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Deals | Banana</title>
+    <title>Grocery Deals | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         .deals-grid {
@@ -19,9 +19,6 @@
             border: 1px solid #334155;
             text-align: center;
             transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
         .deal-card:hover {
             transform: translateY(-5px);
@@ -33,15 +30,19 @@
             font-weight: 800;
             margin: 10px 0;
         }
-        .discount-badge {
-            background: #e11d48;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 10px;
+        .old-price {
+            text-decoration: line-through;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-right: 8px;
+        }
+        .store-badge {
+            background: #2d3a4f;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            text-transform: uppercase;
         }
         .peel-btn {
             background: #ffcc00;
@@ -62,83 +63,81 @@
 
 <section class="hero-area" style="padding: 40px 20px;">
     <div class="hero-container">
-        <h1>Top <span class="pop">Retail Picks</span></h1>
-        <p>We've peeled back the prices on the web's biggest stores. Grab a bargain before they're gone.</p>
+        <h1>Fresh <span class="pop">Grocery Splits</span></h1>
+        <p>We've hunted down the biggest savings from the top supermarkets so you don't have to.</p>
     </div>
 </section>
 
 <div class="container">
-    <div class="deals-grid">
-        <div class="deal-card">
-            <div>
-                <span class="discount-badge">40% OFF</span>
-                <h3>Wireless Headphones</h3>
-                <div class="price-tag">£59.99</div>
-                <p>Noise-cancelling tech at a fraction of the cost. Top rated by the Banana team.</p>
-            </div>
-            <button class="peel-btn" onclick="savePeel('Wireless Headphones')">Peel the Deal</button>
-        </div>
-
-        <div class="deal-card">
-            <div>
-                <span class="discount-badge">SAVE £200</span>
-                <h3>4K Smart TV - 55"</h3>
-                <div class="price-tag">£349.00</div>
-                <p>Ultra HD crystal clear display. Limited stock available at this price.</p>
-            </div>
-            <button class="peel-btn" onclick="savePeel('4K Smart TV')">Peel the Deal</button>
-        </div>
-
-        <div class="deal-card">
-            <div>
-                <span class="discount-badge">BOGOF</span>
-                <h3>Designer Fragrance</h3>
-                <div class="price-tag">From £45.00</div>
-                <p>Buy one get one free on selected luxury scents this weekend only.</p>
-            </div>
-            <button class="peel-btn" onclick="savePeel('Designer Fragrance')">Peel the Deal</button>
-        </div>
+    <div id="groceryGrid" class="deals-grid">
+        <p style="text-align:center; grid-column: 1/-1;">Peeling the freshest grocery deals...</p>
     </div>
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // 1. Get name from memory
+    const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // 2. Load Nav with Sync Logic
-    fetch('../components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
+    // 1. Load Nav & Footer
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
+    });
 
-            const authArea = document.getElementById('navAuthSection');
-            if (savedName && authArea) {
-                authArea.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+
+    // 2. Load Live Data for Groceries
+    async function fetchLiveDeals() {
+        const grid = document.getElementById('groceryGrid');
+        try {
+            const response = await fetch(`${API_URL}/deals?category=groceries`);
+            const deals = await response.json();
+
+            if (deals.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No grocery deals in the bunch yet.</p>';
+                return;
+            }
+
+            grid.innerHTML = '';
+            deals.forEach(deal => {
+                grid.innerHTML += `
+                    <div class="deal-card">
+                        <span class="store-badge">${deal.source}</span>
+                        <h3>${deal.brand} ${deal.name}</h3>
+                        <div class="price-tag">
+                            <span class="old-price">£${deal.original_price}</span>£${deal.price}
+                        </div>
+                        <p>Latest price drop at ${deal.source}.</p>
+                        <button class="peel-btn" onclick="saveAndGo('${deal.brand} ${deal.name}')">View Deal</button>
                     </div>
                 `;
-            }
-        });
+            });
+        } catch (err) {
+            grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Engine connection error.</p>';
+        }
+    }
 
-    // 3. Load Footer
-    fetch('../components/footer.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainFooter').innerHTML = data;
-        });
-
-    // 4. Save Peel Logic
-    function savePeel(product) {
+    // 3. Logic: Save to Dashboard
+    function saveAndGo(item) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(product + " - Retail Deal");
+        history.unshift(item + " - Grocery Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
-</script>
 
+    fetchLiveDeals();
+</script>
 </body>
 </html>
