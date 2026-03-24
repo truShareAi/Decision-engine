@@ -29,7 +29,7 @@
         .hero-mascot { 
             position: absolute;
             right: 0;
-            top: -110px; /* Moved up from -30px to clear the yellow line */
+            top: -110px; 
             z-index: 5;
         }
 
@@ -97,6 +97,10 @@
             z-index: 10;
             width: 100%; 
         }
+
+        /* Box Art Placeholders (Since you might need new icons for the 2 new ones) */
+        .broadband-art { background-position: -200px 0; } /* Adjust based on your sprite */
+        .money-art { background-position: -250px 0; } /* Adjust based on your sprite */
     </style>
 </head>
 <body>
@@ -136,10 +140,14 @@
         <div class="selection-box" onclick="window.location.href='pages/home-insurance.html'"><div class="box-art home-art"></div><h3>Home Insurance</h3></div>
         <div class="selection-box" onclick="window.location.href='pages/life-insurance.html'"><div class="box-art life-art"></div><h3>Life Insurance</h3></div>
         <div class="selection-box" onclick="window.location.href='pages/pet-insurance.html'"><div class="box-art pet-art"></div><h3>Pet Insurance</h3></div>
-        <div class="selection-box" onclick="window.location.href='pages/utilities.html'"><div class="box-art energy-art"></div><h3>Gas & Electricity</h3></div>
+        
+        <div class="selection-box" onclick="window.location.href='pages/gas-electricity.html'"><div class="box-art energy-art"></div><h3>Gas & Electricity</h3></div>
+        <div class="selection-box" onclick="window.location.href='pages/broadband.html'"><div class="box-art broadband-art"></div><h3>Broadband & Mobile</h3></div>
         <div class="selection-box" onclick="window.location.href='pages/mortgages.html'"><div class="box-art mortgage-art"></div><h3>Mortgages</h3></div>
         <div class="selection-box" onclick="window.location.href='pages/loans.html'"><div class="box-art loan-art"></div><h3>Loans</h3></div>
-        <div class="selection-box highlight" onclick="window.location.href='pages/grocery-deals.html'"><div class="box-art daily-art"></div><h3>Grocery Deals</h3><span class="deal-badge">Hot Deals</span></div>
+        
+        <div class="selection-box" onclick="window.location.href='pages/money-matters.html'"><div class="box-art money-art"></div><h3>Money Matters</h3></div>
+        <div class="selection-box highlight" onclick="window.location.href='pages/groceries.html'"><div class="box-art daily-art"></div><h3>Grocery Deals</h3><span class="deal-badge">Hot Deals</span></div>
         <div class="selection-box" onclick="window.location.href='pages/shopping.html'"><div class="box-art shopping-art"></div><h3>Shopping</h3></div>
         <div class="selection-box go-green" onclick="window.location.href='pages/go-green.html'"><div class="box-art green-art"></div><h3>Go Green</h3><span class="deal-badge green-badge">Eco Choice</span></div>
     </section>
@@ -147,9 +155,9 @@
     <div class="deals-panel">
         <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;"><span style="font-size: 1.5rem;">🔥</span> Today's Hot Deals</h3>
         <div class="panel-grid">
-            <div class="mini-deal-card" onclick="window.location.href='pages/grocery-deals.html'"><div class="deal-info"><h4>Extra Large Bananas</h4><p>ASDA Rollback</p></div><div class="price-badge">14p</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/groceries.html'"><div class="deal-info"><h4>Extra Large Bananas</h4><p>ASDA Rollback</p></div><div class="price-badge">14p</div></div>
             <div class="mini-deal-card" onclick="window.location.href='pages/shopping.html'"><div class="deal-info"><h4>Wireless Headphones</h4><p>40% Off Retail</p></div><div class="price-badge">£59</div></div>
-            <div class="mini-deal-card" onclick="window.location.href='pages/utilities.html'"><div class="deal-info"><h4>Fixed Energy Rate</h4><p>Yellow Volt</p></div><div class="price-badge">Save £120</div></div>
+            <div class="mini-deal-card" onclick="window.location.href='pages/gas-electricity.html'"><div class="deal-info"><h4>Fixed Energy Rate</h4><p>Yellow Volt</p></div><div class="price-badge">Save £120</div></div>
         </div>
     </div>
 
@@ -172,10 +180,9 @@
         const input = document.getElementById('mainSearchInput').value.toLowerCase();
         const panel = document.getElementById('searchResultPanel');
         const content = document.getElementById('searchContent');
-        const viewAll = document.getElementById('viewAllLink');
 
         panel.style.display = 'block';
-        content.innerHTML = `<p style="color:white;">Searching for ${input}...</p>`;
+        content.innerHTML = `<p style="color:white;">Searching the bunch for "${input}"...</p>`;
     }
 
     fetch('components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
