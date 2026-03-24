@@ -11,6 +11,7 @@
         .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
         .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .peel-btn:hover { background: white; transform: scale(1.05); }
+        .annual-price { color: #00ff88; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -30,32 +31,15 @@
             <tr>
                 <th>Provider</th>
                 <th>Est. Monthly</th>
+                <th>Annual (Save!)</th>
                 <th>Tariff Type</th>
                 <th>Energy Source</th>
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="dealsTableBody">
             <tr>
-                <td><strong>Bright Peel Energy</strong></td>
-                <td>£92.00</td>
-                <td>Fixed Rate</td>
-                <td>100% Renewable</td>
-                <td><button class="peel-btn" onclick="savePeel('Bright Peel Energy')">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Yellow Volt</strong></td>
-                <td>£88.50</td>
-                <td>Variable</td>
-                <td>Mixed Grid</td>
-                <td><button class="peel-btn" onclick="savePeel('Yellow Volt')">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Eco-Stream</strong></td>
-                <td>£105.00</td>
-                <td>Capped Rate</td>
-                <td>Solar & Wind</td>
-                <td><button class="peel-btn" onclick="savePeel('Eco-Stream')">Peel the Deal</button></td>
+                <td colspan="6" style="text-align:center; padding: 40px;">Peeling the latest energy rates...</td>
             </tr>
         </tbody>
     </table>
@@ -64,42 +48,66 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // 1. Get the name from memory
+    const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // 2. Load Nav and Sync the Name
-    fetch('../components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
+    // 1. Load Nav & Footer
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
+    });
 
-            // Manual Sync: Find the auth section and swap 'Sign In' for 'Hi, [Name]'
-            const authArea = document.getElementById('navAuthSection');
-            if (savedName && authArea) {
-                authArea.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                    </div>
-                `;
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+
+    // 2. Load Live Data for Utilities
+    async function fetchLiveDeals() {
+        const tableBody = document.getElementById('dealsTableBody');
+        try {
+            const response = await fetch(`${API_URL}/deals?category=utilities`);
+            const deals = await response.json();
+
+            if (deals.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No energy deals found in the bunch yet.</td></tr>';
+                return;
             }
-        });
 
-    // 3. Load Footer
-    fetch('../components/footer.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainFooter').innerHTML = data;
-        });
+            tableBody.innerHTML = '';
+            deals.forEach(deal => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><strong>${deal.brand}</strong></td>
+                        <td>£${deal.price}</td>
+                        <td class="annual-price">£${deal.original_price}</td>
+                        <td>${deal.name}</td>
+                        <td>${deal.source}</td>
+                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
+                    </tr>
+                `;
+            });
+        } catch (err) {
+            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Engine connection error.</td></tr>';
+        }
+    }
 
-    // 4. Save Peel Logic
-    function savePeel(provider) {
+    // 3. Logic: Save to Dashboard
+    function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(provider + " - Utilities");
+        history.unshift(brand + " - Utilities Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
-</script>
 
+    fetchLiveDeals();
+</script>
 </body>
 </html>
