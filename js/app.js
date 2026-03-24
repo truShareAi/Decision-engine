@@ -1,28 +1,30 @@
-// js/app.js
+// 1. Point this to your NEW Render URL
+const API_URL = 'https://banana-api-engine.onrender.com';
 
-function globalNavSync() {
-    const user = localStorage.getItem('bananaUser');
-    const authArea = document.getElementById('navAuthSection');
+async function displayDeals(category) {
+    const container = document.getElementById('dealsContainer');
+    if (!container) return; // Only runs on pages that have a dealsContainer div
 
-    if (user && authArea) {
-        // This fixes the alignment and adds the Home link automatically
-        authArea.style.display = "flex";
-        authArea.style.alignItems = "center";
-        authArea.style.gap = "20px";
-        
-        authArea.innerHTML = `
-            <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-            <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 6px 15px; border-radius: 8px;">Hi, ${user}</a>
-        `;
-    }
-}
+    try {
+        const response = await fetch(`${API_URL}/deals?category=${category}`);
+        const deals = await response.json();
 
-// Any page that calls this function gets the 'Smart' Nav automatically
-function loadNav() {
-    fetch('../components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
-            globalNavSync(); // The brain kicks in here
+        // Clear the "Loading..." or dummy text
+        container.innerHTML = '';
+
+        deals.forEach(deal => {
+            // This injects the data into your existing CSS design
+            container.innerHTML += `
+                <div class="product-card">
+                    <h3>${deal.brand} - ${deal.name}</h3>
+                    <p class="price">£${deal.price} <span class="old-price">£${deal.original_price}</span></p>
+                    <p class="source">Via: ${deal.source}</p>
+                    <a href="${deal.affiliate_link}" class="buy-btn">View Deal</a>
+                </div>
+            `;
         });
+    } catch (err) {
+        console.error("Failed to fetch deals:", err);
+        container.innerHTML = '<p>Peeling the data... please refresh.</p>';
+    }
 }
