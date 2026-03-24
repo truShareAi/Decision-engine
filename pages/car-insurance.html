@@ -6,7 +6,6 @@
     <title>Car Insurance | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Exact Design from Home Page */
         .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
         .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
         .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
@@ -30,7 +29,7 @@
         <thead>
             <tr>
                 <th>Provider</th>
-                <th>Price</th>
+                <th>Monthly Price</th>
                 <th>Cover Type</th>
                 <th>Source</th>
                 <th>Action</th>
@@ -50,7 +49,7 @@
     const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // 1. Load Nav and Sync Name
+    // 1. Load Nav & Footer
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
         const authArea = document.getElementById('navAuthSection');
@@ -64,12 +63,11 @@
         }
     });
 
-    // 2. Load Footer
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
 
-    // 3. DATABASE SYNC: Fetch Deals from Render
+    // 2. Load Live Data
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
@@ -77,39 +75,40 @@
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No deals found in the bunch.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No deals found right now.</td></tr>';
                 return;
             }
 
-            tableBody.innerHTML = ''; // Clear the loading message
-            
+            tableBody.innerHTML = '';
             deals.forEach(deal => {
-                const row = `
+                tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
                         <td>£${deal.price}</td>
                         <td>${deal.name}</td>
                         <td>${deal.source}</td>
-                        <td><button class="peel-btn" onclick="savePeel('${deal.brand}', '${deal.affiliate_link}')">Peel the Deal</button></td>
+                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}', '${deal.affiliate_link}')">Peel the Deal</button></td>
                     </tr>
                 `;
-                tableBody.innerHTML += row;
             });
         } catch (err) {
-            console.error("Fetch Error:", err);
-            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: red;">Error connecting to the Banana Engine.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error.</td></tr>';
         }
     }
 
-    // 4. Save Peel Logic
-    function savePeel(provider, link) {
+    // 3. Logic: Save to Dashboard + Open Provider Link
+    function saveAndGo(brand, link) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(provider + " - Car Insurance");
+        history.unshift(brand + " - Car Insurance Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
-        window.location.href = link; // Now takes user to the actual deal link!
+        
+        // Opens the provider in a new tab so they don't lose your site
+        window.open(link, '_blank');
+        
+        // Optional: Send them to their dashboard on your site to see the saved deal
+        window.location.href = 'dashboard.html';
     }
 
-    // Run the sync on load
     fetchLiveDeals();
 </script>
 </body>
