@@ -1,18 +1,34 @@
-<div class="nav-container">
-    <div class="nav-logo" onclick="window.location.href='/index.html'">🍌 BANANA</div>
-    <div class="nav-links">
+<div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; max-width: 1200px; margin: 0 auto;">
+    <div class="nav-logo" onclick="window.location.href='/index.html'" style="cursor: pointer; font-weight: 900; color: #ffcc00; font-size: 1.1rem; white-space: nowrap;">🍌 BANANA</div>
+    
+    <div class="nav-links" style="display: flex; gap: 10px; align-items: center;">
+        <style>
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                font-size: 0.72rem; /* Shrunk text to fit the bunch */
+                font-weight: 700;
+                transition: 0.3s;
+                white-space: nowrap;
+            }
+            .nav-links a:hover { color: #ffcc00; }
+            .nav-links a.green-link { color: #4ade80; }
+            .nav-links a.green-link:hover { color: white; }
+        </style>
         <a href="/pages/car-insurance.html">Car</a>
         <a href="/pages/home-insurance.html">Home</a>
         <a href="/pages/pet-insurance.html">Pet</a>
         <a href="/pages/life-insurance.html">Life</a>
-        <a href="/pages/utilities.html">Gas & Electricity</a>
-        <a href="/pages/mortgages.html">Mortgages</a>
+        <a href="/pages/gas-electricity.html">Energy</a>
+        <a href="/pages/mortgages.html">Mortgage</a>
         <a href="/pages/loans.html">Loans</a>
-        <a href="/pages/grocery-deals.html">Groceries</a>
+        <a href="/pages/groceries.html">Groceries</a>
         <a href="/pages/shopping.html">Shopping</a>
+        <a href="/pages/go-green.html" class="green-link">Go Green</a>
     </div>
-    <div class="nav-auth" id="navAuthSection">
-        <a href="/pages/signin.html" class="sign-in-btn">Sign in</a>
+
+    <div class="nav-auth" id="navAuthSection" style="white-space: nowrap;">
+        <a href="/pages/signin.html" class="sign-in-btn" style="font-size: 0.8rem; background: #ffcc00; color: black; padding: 5px 12px; border-radius: 20px; font-weight: 800; text-decoration: none;">Sign in</a>
     </div>
 </div>
 
@@ -22,20 +38,15 @@
             const user = localStorage.getItem('bananaUser');
             const target = document.getElementById('navAuthSection');
             
-            // If the name exists in memory, swap "Sign In" for the name
             if (user && target) {
                 target.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.75rem; font-weight: bold; border: 1px solid #ffcc00; padding: 4px 10px; border-radius: 20px;">Hi, ${user}</a>
                     </div>
                 `;
             }
         }
-
-        // Run immediately when this file is injected
         updateNav();
-
-        // Also check again after a tiny delay to ensure the HTML is fully rendered
-        setTimeout(updateNav, 50);
+        setTimeout(updateNav, 100);
     })();
 </script>
