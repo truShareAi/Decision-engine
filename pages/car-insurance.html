@@ -30,33 +30,15 @@
         <thead>
             <tr>
                 <th>Provider</th>
-                <th>Monthly</th>
+                <th>Price</th>
                 <th>Cover Type</th>
-                <th>Extra Benefits</th>
+                <th>Source</th>
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="dealsTableBody">
             <tr>
-                <td><strong>Direct Line</strong></td>
-                <td>£35.40</td>
-                <td>Comprehensive</td>
-                <td>No Claims Discount</td>
-                <td><button class="peel-btn" onclick="savePeel('Direct Line')">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Aviva</strong></td>
-                <td>£38.90</td>
-                <td>Comprehensive</td>
-                <td>Courtesy Car</td>
-                <td><button class="peel-btn" onclick="savePeel('Aviva')">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Admiral</strong></td>
-                <td>£42.10</td>
-                <td>Multi-Car</td>
-                <td>Glass Repair</td>
-                <td><button class="peel-btn" onclick="savePeel('Admiral')">Peel the Deal</button></td>
+                <td colspan="5" style="text-align:center; padding: 40px;">Peeling the latest deals...</td>
             </tr>
         </tbody>
     </table>
@@ -65,14 +47,12 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // 1. Get the Single Source of Truth from memory
+    const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // 2. Load Nav and Sync the Name swap immediately
+    // 1. Load Nav and Sync Name
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        
-        // Manual Sync Logic
         const authArea = document.getElementById('navAuthSection');
         if (savedName && authArea) {
             authArea.innerHTML = `
@@ -84,18 +64,53 @@
         }
     });
 
-    // 3. Load Footer
+    // 2. Load Footer
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
 
+    // 3. DATABASE SYNC: Fetch Deals from Render
+    async function fetchLiveDeals() {
+        const tableBody = document.getElementById('dealsTableBody');
+        try {
+            const response = await fetch(`${API_URL}/deals?category=car-insurance`);
+            const deals = await response.json();
+
+            if (deals.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No deals found in the bunch.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = ''; // Clear the loading message
+            
+            deals.forEach(deal => {
+                const row = `
+                    <tr>
+                        <td><strong>${deal.brand}</strong></td>
+                        <td>£${deal.price}</td>
+                        <td>${deal.name}</td>
+                        <td>${deal.source}</td>
+                        <td><button class="peel-btn" onclick="savePeel('${deal.brand}', '${deal.affiliate_link}')">Peel the Deal</button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        } catch (err) {
+            console.error("Fetch Error:", err);
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: red;">Error connecting to the Banana Engine.</td></tr>';
+        }
+    }
+
     // 4. Save Peel Logic
-    function savePeel(provider) {
+    function savePeel(provider, link) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(provider + " - Car Insurance");
         localStorage.setItem('searchHistory', JSON.stringify(history));
-        window.location.href = 'dashboard.html';
+        window.location.href = link; // Now takes user to the actual deal link!
     }
+
+    // Run the sync on load
+    fetchLiveDeals();
 </script>
 </body>
 </html>
