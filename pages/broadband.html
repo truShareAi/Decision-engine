@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadband & Mobile | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
+        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
+        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .peel-btn:hover { background: white; transform: scale(1.05); }
+        .speed-txt { color: #00ff88; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area" style="padding: 40px 20px;">
+    <div class="hero-container">
+        <h1>Connect Your <span class="pop">Digital Bunch</span></h1>
+        <p>From lightning-fast fiber to unlimited mobile data, find the best connection for less.</p>
+    </div>
+</section>
+
+<div class="container">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Monthly</th>
+                <th>Avg Speed / Data</th>
+                <th>Contract Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="dealsTableBody">
+            <tr>
+                <td colspan="5" style="text-align:center; padding: 40px;">Searching for the best signals...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    const API_URL = 'https://banana-api-engine.onrender.com';
+    const savedName = localStorage.getItem('bananaUser');
+
+    // 1. Load Nav & Footer
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
+    });
+
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+
+    // 2. Load Live Data for Broadband & Mobile
+    async function fetchLiveDeals() {
+        const tableBody = document.getElementById('dealsTableBody');
+        try {
+            // Fetching from the 'broadband' category in your DB
+            const response = await fetch(`${API_URL}/deals?category=broadband`);
+            const deals = await response.json();
+
+            if (deals.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No tech deals found in the bunch yet.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            deals.forEach(deal => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><strong>${deal.brand}</strong></td>
+                        <td>£${deal.price}</td>
+                        <td class="speed-txt">${deal.original_price}</td>
+                        <td>${deal.name}</td>
+                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
+                    </tr>
+                `;
+            });
+        } catch (err) {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error.</td></tr>';
+        }
+    }
+
+    // 3. Save to Dashboard
+    function saveAndGo(brand) {
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        history.unshift(brand + " - Broadband & Mobile");
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        window.location.href = 'dashboard.html';
+    }
+
+    fetchLiveDeals();
+</script>
+</body>
+</html>
