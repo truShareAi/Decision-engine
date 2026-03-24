@@ -9,16 +9,17 @@
         .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
         .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #4ade80; }
         .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
-        .green-badge { background: #065f46; color: #4ade80; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin-left: 10px; }
+        .green-badge { background: #065f46; color: #4ade80; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
         .peel-btn { background: #4ade80; color: #064e3b; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .peel-btn:hover { background: white; transform: scale(1.05); }
+        .save-txt { color: #4ade80; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 40px 20px; background: linear-gradient(135px, #064e3b 0%, #1a222f 100%);">
+<section class="hero-area" style="padding: 40px 20px; background: linear-gradient(135deg, #064e3b 0%, #1a222f 100%);">
     <div class="hero-container">
         <h1>Go <span class="pop" style="color: #4ade80;">Green</span> & Save</h1>
         <p>Sustainable choices that are good for the planet and even better for your pocket.</p>
@@ -35,25 +36,8 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td><strong>EV Energy Tariff</strong><span class="green-badge">LOW CARBON</span></td>
-                <td>Off-peak charging</td>
-                <td>Up to £400/year</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Solar Panel Install</strong><span class="green-badge">RENEWABLE</span></td>
-                <td>Generate your own power</td>
-                <td>Variable</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
-            </tr>
-            <tr>
-                <td><strong>Green Home Loan</strong><span class="green-badge">ECO-LOAN</span></td>
-                <td>Lower rates for insulation</td>
-                <td>0.5% Rate Drop</td>
-                <td><button class="peel-btn">Peel the Deal</button></td>
-            </tr>
+        <tbody id="dealsTableBody">
+            <tr><td colspan="4" style="text-align:center; padding: 40px;">Peeling the greenest deals...</td></tr>
         </tbody>
     </table>
 </div>
@@ -61,20 +45,50 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // Universal Nav Loader
-    fetch('../components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
-        });
+    const API_URL = 'https://banana-api-engine.onrender.com';
+    const savedName = localStorage.getItem('bananaUser');
 
-    // Universal Footer Loader
-    fetch('../components/footer.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainFooter').innerHTML = data;
-        });
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `<a href="/pages/dashboard.html" style="color: #4ade80; text-decoration: none; font-weight: bold; border: 1px solid #4ade80; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>`;
+        }
+    });
+
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+
+    async function fetchLiveDeals() {
+        const tableBody = document.getElementById('dealsTableBody');
+        try {
+            const response = await fetch(`${API_URL}/deals?category=go-green`);
+            const deals = await response.json();
+            if (deals.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No green deals found yet.</td></tr>';
+                return;
+            }
+            tableBody.innerHTML = '';
+            deals.forEach(deal => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><strong>${deal.brand}</strong> <span class="green-badge">${deal.source}</span></td>
+                        <td>${deal.name}</td>
+                        <td class="save-txt">£${deal.price} Saving</td>
+                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
+                    </tr>
+                `;
+            });
+        } catch (err) { tableBody.innerHTML = '<tr><td colspan="4">Connection error.</td></tr>'; }
+    }
+
+    function saveAndGo(brand) {
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        history.unshift(brand + " - Green Deal");
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        window.location.href = 'dashboard.html';
+    }
+
+    fetchLiveDeals();
 </script>
-
 </body>
 </html>
