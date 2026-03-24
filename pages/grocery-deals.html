@@ -30,12 +30,19 @@
             font-weight: 800;
             margin: 10px 0;
         }
+        .old-price {
+            text-decoration: line-through;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-right: 8px;
+        }
         .store-badge {
             background: #2d3a4f;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             color: #cbd5e1;
+            text-transform: uppercase;
         }
         .peel-btn {
             background: #ffcc00;
@@ -62,72 +69,75 @@
 </section>
 
 <div class="container">
-    <div class="deals-grid">
-        <div class="deal-card">
-            <span class="store-badge">ASDA</span>
-            <h3>Extra Large Bananas</h3>
-            <div class="price-tag">£0.14 <small style="font-size: 0.8rem; color: white;">/ea</small></div>
-            <p>Rollback pricing on premium produce.</p>
-            <button class="peel-btn" onclick="savePeel('ASDA Bananas')">View Deal</button>
-        </div>
-
-        <div class="deal-card">
-            <span class="store-badge">Tesco</span>
-            <h3>Clubcard Coffee Deal</h3>
-            <div class="price-tag">£3.50</div>
-            <p>Better than half price on selected roast & ground.</p>
-            <button class="peel-btn" onclick="savePeel('Tesco Coffee')">View Deal</button>
-        </div>
-
-        <div class="deal-card">
-            <span class="store-badge">Sainsbury's</span>
-            <h3>Nectar Price Pasta</h3>
-            <div class="price-tag">£0.75</div>
-            <p>Stock up for less with your Nectar card this week.</p>
-            <button class="peel-btn" onclick="savePeel('Sainsbury\'s Pasta')">View Deal</button>
-        </div>
+    <div id="groceryGrid" class="deals-grid">
+        <p style="text-align:center; grid-column: 1/-1;">Peeling the freshest grocery deals...</p>
     </div>
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // 1. Get the name from memory
+    const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // 2. Universal Nav Loader with Sync Logic
-    fetch('../components/nav.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainNav').innerHTML = data;
+    // 1. Load Nav & Footer
+    fetch('../components/nav.html').then(res => res.text()).then(data => {
+        document.getElementById('mainNav').innerHTML = data;
+        const authArea = document.getElementById('navAuthSection');
+        if (savedName && authArea) {
+            authArea.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
+                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+                </div>
+            `;
+        }
+    });
 
-            // Manual Sync: Find the auth section and swap 'Sign In' for 'Hi, [Name]'
-            const authArea = document.getElementById('navAuthSection');
-            if (savedName && authArea) {
-                authArea.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
+    fetch('../components/footer.html').then(res => res.text()).then(data => {
+        document.getElementById('mainFooter').innerHTML = data;
+    });
+
+    // 2. Load Live Data for Groceries
+    async function fetchLiveDeals() {
+        const grid = document.getElementById('groceryGrid');
+        try {
+            const response = await fetch(`${API_URL}/deals?category=groceries`);
+            const deals = await response.json();
+
+            if (deals.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No grocery deals in the bunch yet.</p>';
+                return;
+            }
+
+            grid.innerHTML = '';
+            deals.forEach(deal => {
+                grid.innerHTML += `
+                    <div class="deal-card">
+                        <span class="store-badge">${deal.source}</span>
+                        <h3>${deal.brand} ${deal.name}</h3>
+                        <div class="price-tag">
+                            <span class="old-price">£${deal.original_price}</span>£${deal.price}
+                        </div>
+                        <p>Latest price drop at ${deal.source}.</p>
+                        <button class="peel-btn" onclick="saveAndGo('${deal.brand} ${deal.name}')">View Deal</button>
                     </div>
                 `;
-            }
-        });
+            });
+        } catch (err) {
+            grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Engine connection error.</p>';
+        }
+    }
 
-    // 3. Universal Footer Loader
-    fetch('../components/footer.html')
-        .then(res => res.text())
-        .then(data => {
-            document.getElementById('mainFooter').innerHTML = data;
-        });
-
-    // 4. Save Peel Logic
-    function savePeel(item) {
+    // 3. Logic: Save to Dashboard
+    function saveAndGo(item) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(item + " - Grocery Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
-</script>
 
+    fetchLiveDeals();
+</script>
 </body>
 </html>
