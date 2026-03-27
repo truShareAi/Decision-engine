@@ -86,7 +86,7 @@ body {
 /* --- HERO AREA --- */
 .hero-area {
   background: #162033;
-  padding: 80px 20px;
+  padding: 40px 20px 0 20px; /* Tightened top and bottom gap */
   border-bottom: 4px solid var(--brand-yellow);
 }
 
@@ -157,18 +157,19 @@ body {
 /* --- CONTAINER & GRID --- */
 .container {
   max-width: 1000px;
-  margin: 40px auto;
+  margin: 0 auto; /* Removed top margin to tighten gap to hero line */
   padding: 0 20px;
 }
 
 .section-title {
-  margin-bottom: 30px;
+  margin-top: 15px; /* Snug to the line */
+  margin-bottom: 20px;
   font-size: 1.5rem;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* Locked 4-column look */
   gap: 20px;
 }
 
@@ -201,18 +202,20 @@ body {
   color: var(--success-green);
 }
 
-/* --- CATEGORY ICONS --- */
+/* --- CATEGORY ICONS: Updated for your PNGs --- */
 .box-art {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto 15px;
-  background-color: #334155;
-  border-radius: 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
 }
 
-/* Specific icon for the new Shopping box */
-.shopping-art {
-  background-color: var(--accent-blue);
+/* Testing House Insurance Icon */
+.home-art {
+  background-image: url('images/house-insurance.png');
 }
 
 .deal-badge {
@@ -232,7 +235,7 @@ body {
   color: var(--bg-dark);
 }
 
-/* --- FOOTER STYLING --- */
+/* --- FOOTER STYLING: Ninja Transparency Added --- */
 .site-footer {
     background-color: #000000;
     color: #94a3b8;
@@ -265,33 +268,10 @@ body {
     transition: 0.2s;
 }
 
-.back-to-top:hover {
-    border-color: var(--brand-yellow);
-    color: var(--brand-yellow);
-}
-
 .footer-divider {
     border: 0;
     border-top: 1px solid #1e293b;
     margin-bottom: 30px;
-}
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.footer-links a {
-    color: var(--text-main);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-    color: var(--brand-yellow);
 }
 
 .footer-legal {
@@ -299,8 +279,9 @@ body {
     padding-top: 30px;
 }
 
+/* Casino-busting Legal Text */
 .legal-text {
-    max-width: 800px;
+    max-width: 1000px;
     line-height: 1.6;
     margin-bottom: 15px;
     color: #64748b;
