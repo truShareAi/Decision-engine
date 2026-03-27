@@ -158,62 +158,60 @@ body {
   gap: 20px;
 }
 
+/* --- CARD --- */
 .selection-box {
   background: var(--card-bg);
   border: 2px solid transparent;
   border-radius: 24px;
-  padding: 10px; /* Reduced padding */
+  padding: 20px 12px 18px;
   text-align: center;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s ease;
   position: relative;
-  /* FIX: Added aspect-ratio to make it a perfect square */
-  aspect-ratio: 1 / 1; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow: visible;
 }
 
 .selection-box:hover {
   background: #243147;
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
+/* --- IMAGE CONTAINER (FIXED PROPERLY) --- */
+.box-art {
+  width: 140px;
+  height: 140px;
+  margin: -35px auto 10px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* REAL IMAGE HANDLING (FIXED) */
+.box-art img {
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  border-radius: 18px;
+  transform: translateY(5px);
+  transition: transform 0.3s ease;
+}
+
+.selection-box:hover .box-art img {
+  transform: translateY(0px) scale(1.03);
+}
+
+/* TITLE */
 .selection-box h3 {
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: 1rem;
   font-weight: 700;
 }
 
-/* --- CATEGORY ICONS --- */
-.box-art {
-  /* FIX: Adjusted size to fit the square container better */
-  width: 110px;
-  height: 110px;
-  margin: 0 auto;
-  /* FIX: Changed back to contain so the house isn't cut off */
-  background-size: contain; 
-  background-repeat: no-repeat;
-  background-position: center;
-  display: block;
-  background-color: transparent;
-}
-
-/* ICON MAPPING */
-.car-art       { background-image: url('images/car-insurance.png'); }
-.home-art      { background-image: url('images/house-insurance.png'); }
-.pet-art       { background-image: url('images/pet-insurance.png'); }
-.life-art      { background-image: url('images/life-insurance.png'); }
-.energy-art    { background-image: url('images/energy.png'); }
-.broadband-art { background-image: url('images/broadband.png'); }
-.mortgage-art  { background-image: url('images/mortgage.png'); }
-.loans-art     { background-image: url('images/loans.png'); }
-.groceries-art { background-image: url('images/groceries.png'); }
-.shopping-art  { background-image: url('images/shopping.png'); }
-.green-art     { background-image: url('images/go-green.png'); }
-.money-art     { background-image: url('images/money-matters.png'); }
-
+/* BADGE */
 .deal-badge {
   position: absolute;
   top: -10px;
@@ -229,32 +227,32 @@ body {
 
 /* --- FOOTER --- */
 .site-footer {
-    background-color: #000000;
-    color: #94a3b8;
-    padding: 60px 0 30px 0;
-    margin-top: 80px;
-    font-size: 0.85rem;
+  background-color: #000000;
+  color: #94a3b8;
+  padding: 60px 0 30px 0;
+  margin-top: 80px;
+  font-size: 0.85rem;
 }
 
 .footer-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .legal-text {
-    max-width: 1000px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #64748b;
-    font-size: 0.75rem;
+  max-width: 1000px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #64748b;
+  font-size: 0.75rem;
 }
 
 .copyright {
-    font-weight: 700;
-    color: #94a3b8;
-    margin-top: 25px;
-    font-size: 0.8rem;
-    border-top: 1px solid #1e293b;
-    padding-top: 20px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 25px;
+  font-size: 0.8rem;
+  border-top: 1px solid #1e293b;
+  padding-top: 20px;
 }
