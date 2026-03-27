@@ -37,25 +37,28 @@ body {
   padding: 0 20px;
 }
 
-/* --- HERO AREA (Fixing the overlap) --- */
+/* --- HERO AREA (Restored to Image 1 Layout) --- */
 .hero-area {
   background: #162033;
   padding: 40px 20px 0 20px;
   border-bottom: 4px solid var(--brand-yellow);
+  position: relative; /* Needed for mascot anchoring */
 }
 
 .hero-container {
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* Keeps text and mascot on the baseline */
   justify-content: space-between;
-  gap: 20px;
+  position: relative;
+  min-height: 280px;
 }
 
 .hero-text {
   flex: 1;
-  max-width: 550px; /* Prevents text from sliding under the mascot */
+  max-width: 600px;
+  padding-bottom: 40px; /* Space above the yellow line */
 }
 
 .hero-text h1 {
@@ -68,56 +71,59 @@ body {
   font-size: 1.1rem;
   opacity: 0.9;
   line-height: 1.5;
+  max-width: 500px;
 }
 
 .pop { color: var(--brand-yellow); }
 
-/* --- SEARCH BAR (Restoring size/shape) --- */
+/* --- SEARCH BAR (Restored to Pill Shape) --- */
 .search-wrap {
   display: flex;
   background: white;
-  padding: 6px;
+  padding: 4px; /* Tighter padding for cleaner pill look */
   border-radius: 50px;
   margin-top: 30px;
-  width: 100%;
-  max-width: 450px; /* Restored original size */
+  width: 380px; /* Fixed width as seen in Image 1 */
 }
 
 .search-wrap input {
   border: none;
-  padding: 12px 20px;
+  padding: 10px 20px;
   flex-grow: 1;
   background: none;
   color: #334155;
   outline: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .search-wrap button {
   background: var(--accent-blue);
   border: none;
   color: white;
-  padding: 10px 25px;
-  border-radius: 50px;
-  font-weight: 800;
+  padding: 0 25px;
+  height: 40px;
+  border-radius: 50px; /* Forces pill shape */
+  font-weight: 700;
   cursor: pointer;
 }
 
+/* --- MASCOT (Anchored to Yellow Line) --- */
 .hero-mascot {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 280px;
+  position: absolute;
+  right: 0;
+  bottom: -4px; /* Sits exactly on the yellow line */
+  width: 260px;
+  z-index: 10;
 }
 
 .hero-mascot img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+  display: block;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
 }
 
-/* --- GRID & BOXES (Kept exactly as you had it) --- */
+/* --- GRID & BOXES (Unchanged) --- */
 .container {
   max-width: 1000px;
   margin: 0 auto;
