@@ -186,7 +186,7 @@ body {
   height: 150px; 
   background-size: cover; 
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center 20%;
   margin: 0px auto 0;
   border: none;
   background-color: transparent;
