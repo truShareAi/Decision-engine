@@ -27,7 +27,6 @@ body {
   z-index: 1000;
   display: flex;
   align-items: center;
-  transition: top 0.3s ease-in-out;
 }
 
 .nav-container {
@@ -59,12 +58,6 @@ body {
   font-size: 0.85rem;
   font-weight: 600;
   opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.nav-links a:hover {
-  opacity: 1;
-  color: var(--accent-blue);
 }
 
 .nav-auth .sign-in-btn {
@@ -75,18 +68,12 @@ body {
   text-decoration: none;
   font-weight: 700;
   font-size: 0.85rem;
-  transition: all 0.2s;
-}
-
-.nav-auth .sign-in-btn:hover {
-  background: var(--accent-blue);
-  color: var(--bg-dark);
 }
 
 /* --- HERO AREA --- */
 .hero-area {
   background: #162033;
-  padding: 40px 20px 0 20px; /* Tightened top and bottom gap */
+  padding: 40px 20px 0 20px;
   border-bottom: 4px solid var(--brand-yellow);
 }
 
@@ -137,10 +124,8 @@ body {
   padding: 10px 30px;
   border-radius: 50px;
   font-weight: 800;
-  cursor: pointer;
 }
 
-/* --- THE BANANA MASCOT CONTAINER --- */
 .hero-mascot {
   display: flex;
   justify-content: center;
@@ -157,19 +142,19 @@ body {
 /* --- CONTAINER & GRID --- */
 .container {
   max-width: 1000px;
-  margin: 0 auto; /* Removed top margin to tighten gap to hero line */
+  margin: 0 auto;
   padding: 0 20px;
 }
 
 .section-title {
-  margin-top: 15px; /* Snug to the line */
+  margin-top: 15px;
   margin-bottom: 20px;
   font-size: 1.5rem;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Locked 4-column look */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -177,11 +162,12 @@ body {
   background: var(--card-bg);
   border: 2px solid transparent;
   border-radius: 24px;
-  padding: 20px;
+  padding: 15px 10px 20px;
   text-align: center;
   cursor: pointer;
   transition: 0.3s;
   position: relative;
+  overflow: visible; /* Allows the big icon to breathe */
 }
 
 .selection-box:hover {
@@ -189,34 +175,39 @@ body {
   transform: translateY(-5px);
 }
 
-.selection-box.active {
-  border-color: var(--brand-yellow);
-  background: #243147;
+.selection-box h3 {
+  margin-top: 5px;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
-.selection-box.go-green:hover {
-  border-color: var(--success-green);
-}
-
-.selection-box.go-green h3 {
-  color: var(--success-green);
-}
-
-/* --- CATEGORY ICONS: Updated for your PNGs --- */
+/* --- CATEGORY ICONS: Big & Bold Overlap --- */
 .box-art {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 15px;
-  background-size: contain;
+  width: 140px;
+  height: 140px;
+  margin: -15px auto 5px;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   display: block;
+  border-radius: 18px; /* Smooths your white square images */
+  overflow: hidden;
+  background-color: transparent;
 }
 
-/* Testing House Insurance Icon */
-.home-art {
-  background-image: url('images/house-insurance.png');
-}
+/* ICON MAPPING */
+.car-art       { background-image: url('images/car-insurance.png'); }
+.home-art      { background-image: url('images/house-insurance.png'); }
+.pet-art       { background-image: url('images/pet-insurance.png'); }
+.life-art      { background-image: url('images/life-insurance.png'); }
+.energy-art    { background-image: url('images/energy.png'); }
+.broadband-art { background-image: url('images/broadband.png'); }
+.mortgage-art  { background-image: url('images/mortgage.png'); }
+.loans-art     { background-image: url('images/loans.png'); }
+.groceries-art { background-image: url('images/groceries.png'); }
+.shopping-art  { background-image: url('images/shopping.png'); }
+.green-art     { background-image: url('images/go-green.png'); }
+.money-art     { background-image: url('images/money-matters.png'); }
 
 .deal-badge {
   position: absolute;
@@ -228,14 +219,10 @@ body {
   border-radius: 10px;
   font-weight: 800;
   color: white;
+  z-index: 10;
 }
 
-.green-badge {
-  background: var(--success-green);
-  color: var(--bg-dark);
-}
-
-/* --- FOOTER STYLING: Ninja Transparency Added --- */
+/* --- FOOTER: Ninja Transparency --- */
 .site-footer {
     background-color: #000000;
     color: #94a3b8;
@@ -250,40 +237,10 @@ body {
     padding: 0 20px;
 }
 
-.footer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.back-to-top {
-    background: transparent;
-    border: 2px solid #334155;
-    color: var(--text-main);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.footer-divider {
-    border: 0;
-    border-top: 1px solid #1e293b;
-    margin-bottom: 30px;
-}
-
-.footer-legal {
-    border-top: 1px solid #1e293b;
-    padding-top: 30px;
-}
-
-/* Casino-busting Legal Text */
 .legal-text {
     max-width: 1000px;
     line-height: 1.6;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #64748b;
     font-size: 0.75rem;
 }
@@ -293,4 +250,6 @@ body {
     color: #94a3b8;
     margin-top: 25px;
     font-size: 0.8rem;
+    border-top: 1px solid #1e293b;
+    padding-top: 20px;
 }
