@@ -37,7 +37,7 @@ body {
   padding: 0 20px;
 }
 
-/* --- HERO --- */
+/* --- HERO AREA (Fixing the overlap) --- */
 .hero-area {
   background: #162033;
   padding: 40px 20px 0 20px;
@@ -50,9 +50,74 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 
-/* --- GRID & BOXES --- */
+.hero-text {
+  flex: 1;
+  max-width: 550px; /* Prevents text from sliding under the mascot */
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.pop { color: var(--brand-yellow); }
+
+/* --- SEARCH BAR (Restoring size/shape) --- */
+.search-wrap {
+  display: flex;
+  background: white;
+  padding: 6px;
+  border-radius: 50px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 450px; /* Restored original size */
+}
+
+.search-wrap input {
+  border: none;
+  padding: 12px 20px;
+  flex-grow: 1;
+  background: none;
+  color: #334155;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-wrap button {
+  background: var(--accent-blue);
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hero-mascot {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 280px;
+}
+
+.hero-mascot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+}
+
+/* --- GRID & BOXES (Kept exactly as you had it) --- */
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -62,13 +127,13 @@ body {
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 15px; /* Tighter gap */
+  gap: 15px;
 }
 
 .selection-box {
   background: var(--card-bg);
-  border-radius: 12px; /* Smaller, sharper radius */
-  padding: 0; /* Remove padding so image can touch edges if needed */
+  border-radius: 12px;
+  padding: 0;
   text-align: center;
   cursor: pointer;
   transition: 0.2s;
@@ -76,28 +141,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  min-height: 160px; /* Reduced height to stop them being too big */
+  min-height: 160px;
   overflow: hidden;
 }
 
-/* THE IMAGE ITSELF */
 .box-art {
-  width: 100%; /* Fill the width of the smaller container */
-  height: 120px; /* Controlled height */
-  background-size: cover; /* This makes the house fill the space */
+  width: 100%;
+  height: 120px;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border: none;
   background-color: transparent;
 }
 
-/* THE TITLES UNDERNEATH */
 .selection-box h3 {
   margin: 0;
   padding: 10px 5px;
   font-size: 0.9rem;
   width: 100%;
-  background: rgba(0,0,0,0.2); /* Subtle contrast for the bottom text */
+  background: rgba(0,0,0,0.2);
 }
 
 /* IMAGE MAPPING */
