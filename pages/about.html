@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        /* About Content */
+        .about-section {
+            margin: 60px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #334155;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--brand-yellow);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .value-card h3 {
+            color: var(--brand-yellow);
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+
+        .mission-statement {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            text-align: center;
+        }
+
+        .mission-statement h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .mission-statement p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>The Banana <span class="pop">Story.</span></h1>
+            <p>We believe finding a great deal shouldn't be a slippery slope. We built Banana to simplify the search and maximize the savings. <strong>It's time to peel back the truth.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="about-section">
+        <div class="mission-statement">
+            <h2>Why "Banana"?</h2>
+            <p>Most comparison sites make you jump through hoops just to see a price that changes at checkout. We're different. We use advanced AI to filter out the noise, ensuring you only see the deals that actually make sense for your wallet.</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="value-card">
+                <span class="value-icon">🔍</span>
+                <h3>Peel Back the Deals</h3>
+                <p>We look deep into the fine print so you don't have to. Transparency is our core ingredient.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">⚡</span>
+                <h3>The Easy Way</h3>
+                <p>No 20-page forms. Our AI decision engine streamlines the process in seconds.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">🍌</span>
+                <h3>Banana & Split</h3>
+                <p>Find your deal, save your money, and get on with your day. It's that simple.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+</script>
+
+</body>
+</html>
 
