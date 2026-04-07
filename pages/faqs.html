@@ -1,1 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        /* FAQ Styling */
+        .faq-section {
+            margin: 60px 0;
+            max-width: 800px;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--brand-yellow);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Common <span class="pop">Questions.</span></h1>
+            <p>Need a bit of help understanding how we work? We've gathered the most common queries to help you get the most out of <span class="pop">Banana</span>. <strong>Everything you need to know, in one place.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="faq-section">
+        
+        <div class="faq-item">
+            <button class="faq-question">
+                What exactly is <span class="pop">Banana</span>?
+                <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+                <p><span class="pop">Banana</span> is a high-end AI decision engine designed to help you compare financial products and household bills. We specialise in peeling back the complex layers of deals to find the best value for your specific needs.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How does the AI engine work?
+                <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+                <p>Our custom AI analyses thousands of data points across various providers. It doesn't just look at the headline price; it evaluates contract terms, hidden fees, and historical reliability to give you a personalised recommendation.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Is it free to use <span class="pop">Banana</span>?
+                <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes! <span class="pop">Banana</span> is completely free for users. We may receive a small commission from providers if you choose to "split" and switch through our platform, but this never affects the price you pay or the integrity of our AI rankings.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How do I know my data is safe?
+                <span class="faq-icon">▼</span>
+            </button>
+            <div class="faq-answer">
+                <p>We take security very seriously. All information is encrypted, and we never sell your personal data to third parties. Our PostgreSQL database is built with modern security protocols to ensure your sign-up details remain private.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    // Component Injection
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+
+    // Accordion Logic
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const faqItem = button.parentElement;
+            faqItem.classList.toggle('active');
+        });
+    });
+</script>
+
+</body>
+</html>
 
