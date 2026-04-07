@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Utilities Comparison | Banana</title>
+    <title>Gas & Electricity | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Hero Mascot Adjustment */
+        /* Hero Mascot Positioning */
         .hero-area { padding: 40px 0 0 0; min-height: auto; position: relative; }
         .hero-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; }
         .hero-mascot { position: absolute; right: 20px; top: -110px; z-index: 5; }
         .hero-mascot img { display: block; width: 100%; height: auto; max-width: 300px; }
 
-        /* Premium Table Styling */
+        /* Comparison Table - Banana Dark Theme */
         .comp-table { 
             width: 100%; 
             border-collapse: separate; 
@@ -52,7 +52,7 @@
 <section class="hero-area">
     <div class="hero-container">
         <div class="hero-text">
-            <h1>Optimise Your <span class="pop">Home Utilities.</span></h1>
+            <h1>Energise Your <span class="pop">Home Bunch.</span></h1>
             <p>From Gas to Electricity, we've analysed the market to help you switch and save. Our AI specialises in finding the best rates for your household. <strong>Peel back the hidden costs.</strong></p>
         </div>
         <div class="hero-mascot">
@@ -76,7 +76,7 @@
             <tr>
                 <td colspan="5" style="text-align:center; padding: 60px;">
                     <div style="font-size: 2rem; margin-bottom: 10px;">🍌</div>
-                    Analysing the latest utility tariffs...
+                    Analysing the latest energy tariffs...
                 </td>
             </tr>
         </tbody>
@@ -89,16 +89,11 @@
     const API_URL = 'https://banana-api-engine.onrender.com';
     const savedName = localStorage.getItem('bananaUser');
 
-    // Load Nav & Footer
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-    });
+    // Component Loading
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
-
-    // Fetch Live Data (Currently mapped to 'energy' category in your dummy set)
+    // Fetch from GitHub-backed Dummy API
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
@@ -106,7 +101,7 @@
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No utility deals found right now. Check back soon!</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No energy deals found right now. Check back soon!</td></tr>';
                 return;
             }
 
@@ -132,7 +127,7 @@
 
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Utility Switch");
+        history.unshift(brand + " - Energy Switch");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
