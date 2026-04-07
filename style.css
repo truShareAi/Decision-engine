@@ -214,7 +214,7 @@ body {
 .green-art     { background-image: url('images/go-green.png'); }
 .money-art     { background-image: url('images/money-matters.png'); }
 
-/* --- FOOTER UPDATED --- */
+/* --- FOOTER --- */
 .site-footer {
     background-color: #000;
     padding: 40px 20px;
@@ -269,14 +269,15 @@ body {
 }
 
 .footer-links a {
-    color: var(--accent-blue);
+    color: var(--brand-yellow); /* Changed to Yellow */
     text-decoration: none;
     font-size: 0.9rem;
+    transition: opacity 0.2s;
 }
 
 .footer-links a:hover {
-    color: var(--brand-yellow);
-    text-decoration: underline;
+    opacity: 0.7;
+    text-decoration: none; /* Removed underline */
 }
 
 .legal-text {
