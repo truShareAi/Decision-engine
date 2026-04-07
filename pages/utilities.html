@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Comparison | Banana</title>
+    <title>Utilities Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         /* Hero Mascot Adjustment */
@@ -52,8 +52,8 @@
 <section class="hero-area">
     <div class="hero-container">
         <div class="hero-text">
-            <h1>Energise Your <span class="pop">Home Bunch.</span></h1>
-            <p>We've analysed the market to help you switch and save. Our AI specialises in finding fixed and variable tariffs that suit your usage. <strong>Peel back the hidden costs.</strong></p>
+            <h1>Optimise Your <span class="pop">Home Utilities.</span></h1>
+            <p>From Gas to Electricity, we've analysed the market to help you switch and save. Our AI specialises in finding the best rates for your household. <strong>Peel back the hidden costs.</strong></p>
         </div>
         <div class="hero-mascot">
             <img src="../images/mascot.png" alt="Banana Mascot">
@@ -76,7 +76,7 @@
             <tr>
                 <td colspan="5" style="text-align:center; padding: 60px;">
                     <div style="font-size: 2rem; margin-bottom: 10px;">🍌</div>
-                    Peeling the latest energy tariffs...
+                    Analysing the latest utility tariffs...
                 </td>
             </tr>
         </tbody>
@@ -98,16 +98,15 @@
         document.getElementById('mainFooter').innerHTML = data;
     });
 
-    // Fetch Live Energy Data
+    // Fetch Live Data (Currently mapped to 'energy' category in your dummy set)
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            // Updated category to 'energy'
             const response = await fetch(`${API_URL}/deals?category=energy`);
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No energy deals found right now. Check back soon!</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No utility deals found right now. Check back soon!</td></tr>';
                 return;
             }
 
@@ -120,7 +119,7 @@
                         <td class="annual-save">£${deal.original_price}</td>
                         <td>
                             <div style="font-weight: 600;">${deal.name}</div>
-                            <div class="tariff-type">12-Month Fixed Term</div>
+                            <div class="tariff-type">Standard Variable or Fixed</div>
                         </td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
@@ -133,7 +132,7 @@
 
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Energy Switch");
+        history.unshift(brand + " - Utility Switch");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
