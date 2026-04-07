@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        .legal-wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 60px;
+            margin: 60px 0;
+        }
+
+        .legal-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .legal-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-left: 2px solid #334155;
+        }
+
+        .legal-nav li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .legal-nav a {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .legal-nav a:hover {
+            color: var(--brand-yellow);
+        }
+
+        .legal-content h2 {
+            color: var(--brand-yellow);
+            margin-top: 40px;
+            font-size: 1.8rem;
+        }
+
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        @media (max-width: 850px) {
+            .legal-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .legal-nav {
+                display: none;
+            }
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Cookie <span class="pop">Policy.</span></h1>
+            <p>We use cookies to ensure you get the most out of your <span class="pop">Banana</span> experience. <strong>Small bites of data for a smoother split.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="legal-wrapper">
+        <aside class="legal-nav">
+            <ul>
+                <li><a href="#what">1. What are Cookies?</a></li>
+                <li><a href="#how">2. How We Use Them</a></li>
+                <li><a href="#control">3. Your Control</a></li>
+            </ul>
+        </aside>
+
+        <main class="legal-content">
+            <span class="last-updated">Last Updated: April 2026</span>
+
+            <h2 id="what">1. What are Cookies?</h2>
+            <p>Cookies are small text files stored on your device when you visit a website. They help <span class="pop">Banana</span> remember your preferences and keep you signed in to your dashboard.</p>
+
+            <h2 id="how">2. How We Use Them</h2>
+            <p>We use cookies to optimise site performance and understand how you interact with our decision engine. These are categorised into essential cookies (required for the site to work) and analytical cookies (which help us improve the bunch).</p>
+
+            <h2 id="control">3. Your Control</h2>
+            <p>You can choose to disable cookies through your browser settings, though this may limit your ability to use certain features on <span class="pop">Banana</span>. By continuing to use our platform without changing your settings, you consent to our use of cookies as described here.</p>
+        </main>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+</script>
+
+</body>
+</html>
 
