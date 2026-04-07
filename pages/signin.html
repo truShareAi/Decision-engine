@@ -6,31 +6,85 @@
     <title>Sign In | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .login-card { max-width: 400px; margin: 100px auto; background: #1a222f; padding: 40px; border-radius: 15px; border: 1px solid #334155; text-align: center; }
-        input { display: block; width: 100%; box-sizing: border-box; padding: 12px; margin: 12px 0; border-radius: 5px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 1rem; }
-        .peel-btn { background: #ffcc00; color: black; border: none; padding: 12px; width: 100%; border-radius: 5px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .peel-btn:hover { background: white; transform: scale(1.02); }
+        .hero-area { padding: 40px 0 0 0; min-height: auto; position: relative; }
+        .hero-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; }
+        .hero-mascot { position: absolute; right: 20px; top: -110px; z-index: 5; }
+        .hero-mascot img { display: block; width: 100%; height: auto; max-width: 300px; }
+
+        .login-card { 
+            max-width: 400px; 
+            margin: 60px auto; 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 15px; 
+            border: 1px solid #334155; 
+            text-align: center; 
+        }
+        
+        input { 
+            display: block; 
+            width: 100%; 
+            box-sizing: border-box; 
+            padding: 15px; 
+            margin: 12px 0; 
+            border-radius: 8px; 
+            border: 1px solid #334155; 
+            background: #0f172a; 
+            color: white; 
+            font-size: 1rem; 
+            outline: none;
+        }
+
+        input:focus { border-color: var(--brand-yellow); }
+
+        .peel-btn { 
+            background: var(--brand-yellow); 
+            color: var(--bg-dark); 
+            border: none; 
+            padding: 15px; 
+            width: 100%; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            transition: 0.3s; 
+        }
+
+        .peel-btn:hover { background: white; transform: translateY(-2px); }
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
-        .modal-content { background: #1a222f; margin: 10% auto; padding: 35px; border-radius: 15px; width: 90%; max-width: 400px; border: 1px solid #ffcc00; position: relative; text-align: center; }
+        .modal-content { background: #1a222f; margin: 10% auto; padding: 35px; border-radius: 15px; width: 90%; max-width: 400px; border: 1px solid var(--brand-yellow); position: relative; text-align: center; }
         .close { color: #64748b; position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; }
+
+        @media (max-width: 768px) { .hero-mascot { display: none; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Welcome <span class="pop">Back.</span></h1>
+            <p>Sign in to access your personalised bunch and saved deals. <strong>Time to peel back the savings.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
 <div class="container">
     <div class="login-card">
-        <h1>Welcome <span class="pop">Back</span></h1>
-        <p>Sign in to see your saved peels.</p>
-        
+        <h3>Account Login</h3>
         <input type="text" id="userEmail" placeholder="Username or Email">
         <input type="password" id="userPass" placeholder="Password">
         
         <button class="peel-btn" onclick="handleLogin('login', event)">Sign In</button>
 
-        <p style="margin-top: 25px; font-size: 0.9rem;">
-            New to Banana? <a href="#" onclick="openModal()" style="color: #ffcc00; font-weight: bold; text-decoration: none;">Register now</a>
+        <p style="margin-top: 25px; font-size: 0.9rem; color: #94a3b8;">
+            New to <span class="pop">Banana</span>? <a href="#" onclick="openModal()" style="color: var(--brand-yellow); font-weight: bold; text-decoration: none;">Register now</a>
         </p>
     </div>
 </div>
@@ -39,6 +93,7 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Join the <span class="pop">Bunch</span></h2>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">Create an account to start organising your deals.</p>
         <input type="text" id="regName" placeholder="Full Name">
         <input type="email" id="regEmail" placeholder="Email Address">
         <input type="password" id="regPass" placeholder="Create Password">
@@ -52,23 +107,15 @@
     function openModal() { document.getElementById('regModal').style.display = "block"; }
     function closeModal() { document.getElementById('regModal').style.display = "none"; }
     
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('regModal')) { closeModal(); }
-    }
-
     function handleLogin(type, e) {
         if(e) e.preventDefault();
-        
         let nameToSave = "";
 
         if (type === 'register') {
-            // Grab the ACTUAL name from the registration field
             nameToSave = document.getElementById('regName').value;
         } else {
-            // For returning users, if they use the login box, 
-            // we check if a name already exists, otherwise we use Costa as a fallback
             const existingName = localStorage.getItem('bananaUser');
-            nameToSave = existingName ? existingName : "Costa"; 
+            nameToSave = existingName ? existingName : "User"; 
         }
 
         if (!nameToSave || nameToSave.trim() === "") {
@@ -80,20 +127,8 @@
         window.location.href = 'dashboard.html';
     }
 
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-        
-        // Instant check for nav name
-        const user = localStorage.getItem('bananaUser');
-        const authSection = document.getElementById('navAuthSection');
-        if (user && authSection) {
-            authSection.innerHTML = `<a href="dashboard.html" style="color: #ffcc00; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${user}</a>`;
-        }
-    });
-
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 </script>
 </body>
 </html>
