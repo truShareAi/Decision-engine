@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        /* Legal Content Layout */
+        .legal-wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 60px;
+            margin: 60px 0;
+        }
+
+        .legal-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .legal-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-left: 2px solid #334155;
+        }
+
+        .legal-nav li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .legal-nav a {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .legal-nav a:hover {
+            color: var(--brand-yellow);
+        }
+
+        .legal-content h2 {
+            color: var(--brand-yellow);
+            margin-top: 40px;
+            font-size: 1.8rem;
+        }
+
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        @media (max-width: 850px) {
+            .legal-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .legal-nav {
+                display: none;
+            }
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Terms of <span class="pop">Service.</span></h1>
+            <p>Please read these terms carefully before using the <span class="pop">Banana</span> platform. By accessing our services, you agree to be bound by these conditions. <strong>Clear rules for a better split.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="legal-wrapper">
+        <aside class="legal-nav">
+            <ul>
+                <li><a href="#introduction">1. Introduction</a></li>
+                <li><a href="#services">2. Our Services</a></li>
+                <li><a href="#eligibility">3. Eligibility</a></li>
+                <li><a href="#liability">4. Limitation of Liability</a></li>
+                <li><a href="#intellectual">5. Intellectual Property</a></li>
+            </ul>
+        </aside>
+
+        <main class="legal-content">
+            <span class="last-updated">Last Updated: April 2026</span>
+
+            <h2 id="introduction">1. Introduction</h2>
+            <p>Welcome to <span class="pop">Banana</span>. These Terms and Conditions govern your use of our website and decision-engine tools. By using <span class="pop">Banana</span>, you accept these terms in full. If you disagree with any part of these terms, you must not use our platform.</p>
+
+            <h2 id="services">2. Our Services</h2>
+            <p><span class="pop">Banana</span> provides a comparison and decision-engine service designed to help you analyse financial and utility products. We do not provide financial advice. Our platform is intended to assist in organising data to help you make your own informed choices.</p>
+
+            <h2 id="eligibility">3. Eligibility</h2>
+            <p>To use <span class="pop">Banana</span>, you must be at least 18 years of age and a resident of the United Kingdom. By using the site, you warrant that you meet these criteria and that all information provided during sign-up is accurate and authorised.</p>
+
+            <h2 id="liability">4. Limitation of Liability</h2>
+            <p>While <span class="pop">Banana</span> strives to ensure all information is accurate, we cannot guarantee the real-time precision of third-party rates. We shall not be held liable for any financial loss or damages arising from your decision to enter into a contract with a provider found through our platform.</p>
+
+            <h2 id="intellectual">5. Intellectual Property</h2>
+            <p>Unless otherwise stated, <span class="pop">Banana</span> and its licensors own the intellectual property rights for all material on the website. This includes our custom AI algorithms, the mascot imagery, and the "Peel Back the Deals" branding. All rights are reserved.</p>
+        </main>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+</script>
+
+</body>
+</html>
 
