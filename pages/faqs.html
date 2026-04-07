@@ -54,7 +54,7 @@
             width: 100%;
             padding: 20px;
             display: flex;
-            justify-content: space-between; /* Keeps arrow on the right */
+            justify-content: space-between;
             align-items: center;
             background: none;
             border: none;
@@ -66,7 +66,6 @@
             transition: background 0.2s;
         }
 
-        /* Fixed the spacing issue from the screenshot */
         .faq-question div {
             display: flex;
             gap: 6px;
@@ -98,6 +97,44 @@
 
         .faq-item.active .faq-icon {
             transform: rotate(180deg);
+        }
+
+        /* Pro CTA Section */
+        .faq-cta {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px dashed #334155;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .faq-cta h3 {
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .faq-cta p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .btn-contact {
+            display: inline-block;
+            background: var(--brand-yellow);
+            color: var(--bg-dark);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-contact:hover {
+            transform: scale(1.05);
+            background: #fff;
         }
 
         @media (max-width: 768px) {
@@ -164,6 +201,12 @@
             <div class="faq-answer">
                 <p>We take security very seriously. All information is encrypted, and we never sell your personal data to third parties. Our PostgreSQL database is built with modern security protocols to ensure your sign-up details remain private.</p>
             </div>
+        </div>
+
+        <div class="faq-cta">
+            <h3>Still have a question?</h3>
+            <p>If you couldn't find the answer you were looking for, our team is ready to help.</p>
+            <a href="contact.html" class="btn-contact">Contact Us</a>
         </div>
 
     </div>
