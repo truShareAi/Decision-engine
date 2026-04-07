@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gas & Electricity | Banana</title>
+    <title>Utilities Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         /* Hero Mascot Positioning */
@@ -52,7 +52,7 @@
 <section class="hero-area">
     <div class="hero-container">
         <div class="hero-text">
-            <h1>Energise Your <span class="pop">Home Bunch.</span></h1>
+            <h1>Optimise Your <span class="pop">Home Utilities.</span></h1>
             <p>From Gas to Electricity, we've analysed the market to help you switch and save. Our AI specialises in finding the best rates for your household. <strong>Peel back the hidden costs.</strong></p>
         </div>
         <div class="hero-mascot">
@@ -76,7 +76,7 @@
             <tr>
                 <td colspan="5" style="text-align:center; padding: 60px;">
                     <div style="font-size: 2rem; margin-bottom: 10px;">🍌</div>
-                    Analysing the latest energy tariffs...
+                    Analysing the latest utility tariffs...
                 </td>
             </tr>
         </tbody>
@@ -97,11 +97,12 @@
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
+            // Keep category as 'energy' to pull the correct data from your dummy DB
             const response = await fetch(`${API_URL}/deals?category=energy`);
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No energy deals found right now. Check back soon!</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No utility deals found right now. Check back soon!</td></tr>';
                 return;
             }
 
@@ -127,7 +128,8 @@
 
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Energy Switch");
+        // Updated label for the Dashboard history
+        history.unshift(brand + " - Utility Switch");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
