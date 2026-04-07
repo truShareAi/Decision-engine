@@ -3,67 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Banana | Dashboard</title>
+    <title>My Dashboard | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-            margin-top: 40px;
-        }
-        .user-sidebar {
-            background: #1a222f;
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            height: fit-content;
-        }
-        .stat-card {
-            background: #0f172a;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #ffcc00;
-        }
-        .history-list {
-            background: #1a222f;
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #334155;
-        }
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #334155;
-        }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; margin: 60px 0; }
+        .user-sidebar { background: var(--card-bg); padding: 40px; border-radius: 15px; border: 1px solid #334155; height: fit-content; text-align: center; }
+        .stat-card { background: #0f172a; padding: 20px; border-radius: 12px; margin-top: 25px; border-left: 4px solid var(--brand-yellow); text-align: left; }
+        .history-list { background: var(--card-bg); padding: 40px; border-radius: 15px; border: 1px solid #334155; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #334155; }
         .history-item:last-child { border: none; }
-        .tag {
-            background: #2d3a4f;
-            color: #ffcc00;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .empty-state {
-            text-align: center;
-            opacity: 0.5;
-            padding: 40px 0;
-        }
-        .logout-btn {
-            background: white;
-            color: black;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            font-size: 0.8rem;
-        }
+        .tag { background: rgba(255, 204, 0, 0.1); color: var(--brand-yellow); padding: 6px 12px; border-radius: 5px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .logout-btn { background: white; color: black; border: none; padding: 10px 25px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 30px; font-size: 0.85rem; transition: 0.3s; }
+        .logout-btn:hover { background: var(--brand-yellow); }
+        
+        @media (max-width: 850px) { .dashboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -73,13 +26,13 @@
 <div class="container">
     <div class="dashboard-grid">
         <aside class="user-sidebar">
-            <div style="font-size: 3rem; margin-bottom: 10px;">🍌</div>
-            <h2 id="dashWelcome">Hi, <span class="pop" id="userNameBox">...</span></h2>
+            <div style="font-size: 4rem; margin-bottom: 15px;">🍌</div>
+            <h2 id="dashWelcome">Hi, <span class="pop" id="userNameBox">User</span></h2>
             <p style="font-size: 0.9rem; color: #64748b;">Member since 2026</p>
             
             <div class="stat-card">
-                <div style="font-size: 0.8rem; color: #64748b;">Total Peels</div>
-                <div style="font-size: 1.5rem; font-weight: 800;" id="peelCount">0</div>
+                <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Total Peels</div>
+                <div style="font-size: 2rem; font-weight: 800;" id="peelCount">0</div>
             </div>
 
             <button class="logout-btn" onclick="logout()">Logout</button>
@@ -87,8 +40,11 @@
 
         <main class="history-list">
             <h3>Recent <span class="pop">Activity</span></h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 25px;">Your personalised search history and saved deals.</p>
             <div id="historyContainer">
-                <div class="empty-state">No recent searches yet. Start peeling!</div>
+                <div style="text-align: center; opacity: 0.5; padding: 60px 0;">
+                    <p>No recent searches yet. Start peeling!</p>
+                </div>
             </div>
         </main>
     </div>
@@ -97,55 +53,13 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // 1. Get the Single Source of Truth
     const savedName = localStorage.getItem('bananaUser');
+    if (!savedName) { window.location.href = 'signin.html'; }
 
-    // 2. Security Check
-    if (!savedName) {
-        window.location.href = 'signin.html';
-    }
-
-    // 3. Update the Dashboard Box immediately
     document.getElementById('userNameBox').innerText = savedName;
 
-    // 4. Force the Nav to sync after it loads
-    function syncNav() {
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
-    }
-
-    // 5. Load Components
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-        syncNav(); // Force the nav to update
-    });
-
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
-
-    // 6. Load History
-    const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    document.getElementById('peelCount').innerText = history.length;
-
-    if (history.length > 0) {
-        document.getElementById('historyContainer').innerHTML = history.map(item => `
-            <div class="history-item">
-                <div>
-                    <div style="font-weight: bold;">${item}</div>
-                    <div style="font-size: 0.8rem; color: #64748b;">Action captured on ${new Date().toLocaleDateString()}</div>
-                </div>
-                <span class="tag">Peel</span>
-            </div>
-        `).join('');
-    }
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
     function logout() {
         localStorage.removeItem('bananaUser');
