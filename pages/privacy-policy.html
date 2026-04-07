@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        .legal-wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 60px;
+            margin: 60px 0;
+        }
+
+        .legal-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .legal-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-left: 2px solid #334155;
+        }
+
+        .legal-nav li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .legal-nav a {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .legal-nav a:hover {
+            color: var(--brand-yellow);
+        }
+
+        .legal-content h2 {
+            color: var(--brand-yellow);
+            margin-top: 40px;
+            font-size: 1.8rem;
+        }
+
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        @media (max-width: 850px) {
+            .legal-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .legal-nav {
+                display: none;
+            }
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Privacy <span class="pop">Policy.</span></h1>
+            <p>Your data belongs to you. At <span class="pop">Banana</span>, we specialise in keeping your information safe while helping you find the best deals. <strong>Privacy is our core ingredient.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="legal-wrapper">
+        <aside class="legal-nav">
+            <ul>
+                <li><a href="#collection">1. Data Collection</a></li>
+                <li><a href="#usage">2. How We Use It</a></li>
+                <li><a href="#security">3. Security Standards</a></li>
+                <li><a href="#rights">4. Your Rights</a></li>
+            </ul>
+        </aside>
+
+        <main class="legal-content">
+            <span class="last-updated">Last Updated: April 2026</span>
+
+            <h2 id="collection">1. Data Collection</h2>
+            <p>When you sign up to <span class="pop">Banana</span>, we collect basic information like your name and email address. We also collect data regarding your preferences to help our AI specialise your deal recommendations.</p>
+
+            <h2 id="usage">2. How We Use It</h2>
+            <p>Your information is used purely for organising your personalised dashboard and improving our decision engine. We do not sell your data to third-party marketers. We only share details with providers when you explicitly choose to "split" and switch a service.</p>
+
+            <h2 id="security">3. Security Standards</h2>
+            <p>We utilise modern encryption and secure PostgreSQL databases to protect your identity. All data transfers are authorised through secure protocols to ensure no one slips through our security layers.</p>
+
+            <h2 id="rights">4. Your Rights</h2>
+            <p>Under UK data protection laws, you have the right to access, rectify, or delete your personal data at any time. Simply contact us if you wish to exercise these rights or want more information on how we manage your privacy.</p>
+        </main>
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+</script>
+
+</body>
+</html>
 
