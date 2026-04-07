@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products | Banana</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .hero-area {
+            padding: 40px 0 0 0;
+            min-height: auto;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-mascot {
+            position: absolute;
+            right: 20px;
+            top: -110px;
+            z-index: 5;
+        }
+
+        .hero-mascot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 60px 0;
+        }
+
+        .product-group-title {
+            grid-column: 1 / -1;
+            color: var(--brand-yellow);
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+            margin-top: 20px;
+            font-size: 1.4rem;
+        }
+
+        /* Re-using your selection-box styles from master */
+        .selection-box {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .selection-box:hover {
+            border-color: var(--brand-yellow);
+            transform: translateY(-5px);
+        }
+
+        .selection-box h3 {
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-mascot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav" id="mainNav"></nav>
+
+<section class="hero-area">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1>Our Full <span class="pop">Range.</span></h1>
+            <p>From insurance to energy, <span class="pop">Banana</span> helps you compare the entire market. We specialise in organising the best deals so you can make a personalised choice. <strong>The whole bunch, right here.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="products-grid">
+        
+        <h2 class="product-group-title">Insurance</h2>
+        <div class="selection-box" onclick="window.location.href='car-insurance.html'"><div class="box-art car-art"></div><h3>Car Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='home-insurance.html'"><div class="box-art home-art"></div><h3>Home Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='life-insurance.html'"><div class="box-art life-art"></div><h3>Life Insurance</h3></div>
+        <div class="selection-box" onclick="window.location.href='pet-insurance.html'"><div class="box-art pet-art"></div><h3>Pet Insurance</h3></div>
+
+        <h2 class="product-group-title">Utilities & Household</h2>
+        <div class="selection-box" onclick="window.location.href='gas-electricity.html'"><div class="box-art energy-art"></div><h3>Gas & Electricity</h3></div>
+        <div class="selection-box" onclick="window.location.href='broadband.html'"><div class="box-art broadband-art"></div><h3>Broadband & Mobile</h3></div>
+        <div class="selection-box highlight" onclick="window.location.href='groceries.html'"><div class="box-art groceries-art"></div><h3>Grocery Deals</h3></div>
+        <div class="selection-box" onclick="window.location.href='shopping.html'"><div class="box-art shopping-art"></div><h3>Shopping</h3></div>
+
+        <h2 class="product-group-title">Finance</h2>
+        <div class="selection-box" onclick="window.location.href='mortgages.html'"><div class="box-art mortgage-art"></div><h3>Mortgages</h3></div>
+        <div class="selection-box" onclick="window.location.href='loans.html'"><div class="box-art loans-art"></div><h3>Loans</h3></div>
+        <div class="selection-box" onclick="window.location.href='money-matters.html'"><div class="box-art money-art"></div><h3>Money Matters</h3></div>
+        <div class="selection-box go-green" onclick="window.location.href='go-green.html'"><div class="box-art green-art"></div><h3>Go Green</h3></div>
+
+    </div>
+</div>
+
+<footer class="site-footer" id="mainFooter"></footer>
+
+<script>
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+</script>
+
+</body>
+</html>
 
