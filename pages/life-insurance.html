@@ -31,9 +31,9 @@
             <tr>
                 <th>Provider</th>
                 <th>Monthly From</th>
-                <th>Annual Total</th>
+                <th>Payout Amount</th>
                 <th>Policy Type</th>
-                <th>Terminal Illness Cover</th>
+                <th>Term Length</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -48,21 +48,11 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
     // 1. Load Nav & Footer
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
@@ -83,11 +73,14 @@
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                const monthlyPrice = parseFloat(deal.price).toFixed(2);
+                const payoutAmount = parseFloat(deal.original_price).toLocaleString(); // Format as 150,000
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>£${deal.price}</td>
-                        <td class="annual-price">£${deal.original_price}</td>
+                        <td>£${monthlyPrice}</td>
+                        <td class="annual-price">£${payoutAmount}</td>
                         <td>${deal.name}</td>
                         <td>${deal.source}</td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
@@ -95,7 +88,8 @@
                 `;
             });
         } catch (err) {
-            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Engine connection error.</td></tr>';
+            console.error("Connection Error:", err);
+            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Engine connection error. Check console.</td></tr>';
         }
     }
 
