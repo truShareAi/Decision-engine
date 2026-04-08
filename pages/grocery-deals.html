@@ -82,7 +82,7 @@
             <h3 class="section-title">Daily Basics Comparison</h3>
             <span class="section-sub">Rankings based on 5 daily essentials.</span>
             <div id="indexContainer">
-                <p style="color: #94a3b8;">Scanning market prices...</p>
+                <p style="color: #94a3b8;">Syncing with Decision Engine...</p>
             </div>
         </div>
 
@@ -98,10 +98,10 @@
             
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #374151; display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <span style="font-size: 0.8rem; color: #94a3b8; display: block;">Estimated List Total</span>
+                    <span style="font-size: 0.8rem; color: #94a3b8; display: block;">Cheapest List Total</span>
                     <span id="listTotal" style="font-size: 2rem; font-weight: 900; color: #ffcc00;">£0.00</span>
                 </div>
-                <div id="listRec" style="text-align: right; color: #4ade80; font-weight: 700; font-size: 0.9rem;"></div>
+                <div id="listRec" style="text-align: right; color: #4ade80; font-weight: 700; font-size: 0.9rem;">Add items to start audit</div>
             </div>
         </div>
     </div>
@@ -109,7 +109,7 @@
     <div class="middle-row">
         <div class="hub-card">
             <h3 class="section-title" style="color: white;">Daily Price Guide</h3>
-            <span class="section-sub">Overall price guide across all essential categories.</span>
+            <span class="section-sub">Real-time pricing for the current sector.</span>
             
             <div class="sector-nav">
                 <button class="sector-btn active" onclick="loadSector('dairy', this)">DAIRY</button>
@@ -119,8 +119,7 @@
                 <button class="sector-btn" onclick="loadSector('pantry', this)">STORE CUPBOARD</button>
             </div>
             
-            <div id="sectorGrid" style="min-height: 300px;">
-                </div>
+            <div id="sectorGrid" style="min-height: 200px;"></div>
         </div>
     </div>
 
@@ -131,12 +130,13 @@
                 <tr>
                     <th>Retailer</th>
                     <th>5-Item Index</th>
-                    <th>Weekly Shop (Family of 4)</th>
-                    <th style="text-align: right;">Current Standing</th>
+                    <th>Weekly Shop Est.</th>
+                    <th style="text-align: right;">Market Status</th>
                 </tr>
             </thead>
             <tbody id="winnerBody">
-                </tbody>
+                <tr><td colspan="4" style="text-align:center; padding:20px; color:#94a3b8;">Waiting for data...</td></tr>
+            </tbody>
         </table>
     </div>
 
@@ -147,58 +147,113 @@
 <script>
     const API_URL = 'https://decision-engine-d9bs.onrender.com/api';
     
-    // Injections
+    // Component Injection
     fetch('../components/nav.html').then(res => res.text()).then(d => document.getElementById('mainNav').innerHTML = d);
     fetch('../components/footer.html').then(res => res.text()).then(d => document.getElementById('mainFooter').innerHTML = d);
 
-    let items = [];
-    function addItem() {
-        const val = document.getElementById('aiInput').value;
-        if(val) {
-            items.push(val);
-            document.getElementById('listChips').innerHTML += `<span class="chip">${val}</span>`;
-            document.getElementById('aiInput').value = '';
-            document.getElementById('listTotal').innerText = "£" + (Math.random() * 30 + 10).toFixed(2);
-            document.getElementById('listRec').innerText = "Top Match: Aldi";
-        }
-    }
-
+    // FETCH LIVE BASICS (Index & Winner Table)
     async function initData() {
         try {
             const res = await fetch(`${API_URL}/grocery-comparison`);
             const data = await res.json();
+            
+            if (!data || data.length === 0) {
+                document.getElementById('indexContainer').innerHTML = "<p style='color:#94a3b8;'>No live index data found.</p>";
+                return;
+            }
+
             data.sort((a, b) => a.basket_total - b.basket_total);
 
+            // Populate Index List
             const container = document.getElementById('indexContainer');
-            container.innerHTML = '';
-            data.forEach((store, i) => {
-                container.innerHTML += `
-                    <div class="hub-row">
-                        <span><span class="rank-tag">${i+1}</span> ${store.name}</span>
-                        <span class="price-val">£${parseFloat(store.basket_total).toFixed(2)}</span>
-                    </div>`;
-            });
+            container.innerHTML = data.map((store, i) => `
+                <div class="hub-row">
+                    <span><span class="rank-tag">${i+1}</span> ${store.name}</span>
+                    <span class="price-val">£${parseFloat(store.basket_total).toFixed(2)}</span>
+                </div>`).join('');
 
+            // Populate Winner Table
             const winner = data[0];
             document.getElementById('winnerBody').innerHTML = `
                 <tr>
                     <td><strong>${winner.name}</strong></td>
                     <td style="color: #ffcc00;">£${parseFloat(winner.basket_total).toFixed(2)}</td>
                     <td>£${(winner.basket_total * 6.8).toFixed(2)}</td>
-                    <td style="text-align: right; color: #4ade80;">${winner.status}</td>
+                    <td style="text-align: right; color: #4ade80;">${winner.status || 'Verified'}</td>
                 </tr>`;
 
-        } catch (e) { console.error("Data Fetch Error"); }
+        } catch (e) { 
+            console.error("API Fetch Error:", e);
+            document.getElementById('indexContainer').innerHTML = "<p style='color:#ef4444;'>Connection lost to Engine.</p>";
+        }
     }
 
-    async function loadSector(cat, btn) {
-        document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('sectorGrid').innerHTML = `<p style="text-align:center; padding:50px;">Updating price guide for ${cat}...</p>`;
+    // FETCH LIVE SECTOR DEALS
+    async function loadSector(cat, btn = null) {
+        if (btn) {
+            document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        const grid = document.getElementById('sectorGrid');
+        grid.innerHTML = `<p style="text-align:center; padding:50px; color:#94a3b8;">Requesting ${cat} prices...</p>`;
+
+        try {
+            const res = await fetch(`${API_URL}/deals?category=${cat}`);
+            const items = await res.json();
+
+            if (!items || items.length === 0) {
+                grid.innerHTML = `<p style="text-align:center; padding:50px;">No deals currently live in ${cat}.</p>`;
+                return;
+            }
+
+            grid.innerHTML = `
+                <table style="width:100%; border-collapse:collapse;">
+                    ${items.map(item => `
+                        <tr style="border-bottom: 1px solid #1f2937;">
+                            <td style="padding:15px 0;">
+                                <div style="font-weight:800; color:white;">${item.name}</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">${item.source}</div>
+                            </td>
+                            <td style="text-align:right; font-weight:800; color:#ffcc00; font-size:1.1rem;">
+                                £${parseFloat(item.price).toFixed(2)}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </table>`;
+        } catch (e) {
+            grid.innerHTML = `<p style="text-align:center; padding:50px; color:#ef4444;">Failed to sync sector data.</p>`;
+        }
     }
 
+    // AI LIST AUDITOR (POST to Backend)
+    let userList = [];
+    async function addItem() {
+        const input = document.getElementById('aiInput');
+        if(!input.value) return;
+
+        userList.push(input.value);
+        document.getElementById('listChips').innerHTML += `<span class="chip">${input.value}</span>`;
+        
+        try {
+            const res = await fetch(`${API_URL}/audit-list`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: userList })
+            });
+            const result = await res.json();
+            
+            document.getElementById('listTotal').innerText = `£${result.cheapest_total.toFixed(2)}`;
+            document.getElementById('listRec').innerText = `Switch to ${result.cheapest_store} to save.`;
+        } catch (e) {
+            document.getElementById('listRec').innerText = "Live audit pending...";
+        }
+        input.value = '';
+    }
+
+    // Start
     initData();
-    loadSector('dairy', document.querySelector('.sector-btn'));
+    loadSector('dairy');
 </script>
 
 </body>
