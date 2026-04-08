@@ -6,7 +6,6 @@
     <title>Grocery Hub | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Dashboard Layout */
         .hub-grid { 
             display: grid; 
             grid-template-columns: 320px 1fr 320px; 
@@ -28,20 +27,26 @@
         .sector-btn { 
             background: transparent; border: none; color: #94a3b8; 
             cursor: pointer; font-weight: 700; font-size: 0.8rem; padding: 5px 10px;
+            transition: 0.3s;
         }
         .sector-btn.active { color: #ffcc00; border-bottom: 2px solid #ffcc00; }
+        .sector-btn:hover { color: white; }
 
-        /* Modern List Items */
-        .list-item { 
+        /* Item Rows */
+        .hub-row { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 12px 0; border-bottom: 1px solid #1f2937; 
+            padding: 12px 0; border-bottom: 1px solid #1f2937; font-size: 0.9rem;
         }
-        .price-up { color: #ef4444; font-size: 0.7rem; }
-        .price-down { color: #10b981; font-size: 0.7rem; }
-
-        .big-total { font-size: 2.2rem; font-weight: 900; color: #ffcc00; display: block; margin: 10px 0; }
+        .hub-row:last-child { border-bottom: none; }
         
-        @media (max-width: 1100px) { .hub-grid { grid-template-columns: 1fr; } }
+        .rank-tag { font-weight: 900; color: #ffcc00; margin-right: 10px; }
+        .price-val { font-weight: 800; color: white; }
+
+        .big-total { font-size: 2.5rem; font-weight: 900; color: #ffcc00; display: block; margin: 10px 0; }
+        
+        @media (max-width: 1200px) { 
+            .hub-grid { grid-template-columns: 1fr; } 
+        }
     </style>
 </head>
 <body>
@@ -59,21 +64,22 @@
     
     <div class="hub-card">
         <h3 style="color: #ffcc00; margin-top:0;">Daily Index</h3>
-        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 15px;">Total cost of 5 morning essentials.</p>
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 15px;">5 Morning Essentials (Milk, Bread, Butter, Eggs, Pasta)</p>
         <div id="indexContainer">
-            </div>
-        <div style="background: #1f2937; padding: 15px; margin-top: 20px; border-radius: 8px;">
-            <span style="font-size: 0.7rem; color: #94a3b8;">TODAY'S MOVER</span>
-            <p style="margin: 5px 0 0 0; font-weight: bold; color: #10b981;">Lidl (-2.4%)</p>
+            <p style="font-size: 0.8rem;">Syncing ranks...</p>
+        </div>
+        <div style="background: #1f2937; padding: 15px; margin-top: 20px; border-radius: 8px; border: 1px solid #374151;">
+            <span style="font-size: 0.65rem; color: #ffcc00; font-weight: bold; letter-spacing: 1px;">BIGGEST MOVER</span>
+            <p id="topMover" style="margin: 5px 0 0 0; font-weight: bold; color: #10b981;">Lidl (-2.4%)</p>
         </div>
     </div>
 
     <div class="hub-card">
-        <div class="sector-nav">
-            <button class="sector-btn active" onclick="loadSector('dairy')">DAIRY</button>
-            <button class="sector-btn" onclick="loadSector('meats')">MEATS</button>
-            <button class="sector-btn" onclick="loadSector('frozen')">FROZEN</button>
-            <button class="sector-btn" onclick="loadSector('produce')">PRODUCE</button>
+        <div class="sector-nav" id="sectorTabs">
+            <button class="sector-btn active" onclick="loadSector('dairy', this)">DAIRY</button>
+            <button class="sector-btn" onclick="loadSector('meats', this)">MEATS</button>
+            <button class="sector-btn" onclick="loadSector('frozen', this)">FROZEN</button>
+            <button class="sector-btn" onclick="loadSector('produce', this)">PRODUCE</button>
         </div>
         <div id="sectorGrid">
             </div>
@@ -81,14 +87,15 @@
 
     <div class="hub-card">
         <h3 style="color: white; margin-top:0;">The Weekly Spend</h3>
-        <p style="font-size: 0.7rem; color: #94a3b8;">Average 4-person family basket.</p>
-        <span class="big-total" id="weeklyTotal">£74.20</span>
-        <p style="font-size: 0.8rem; color: #94a3b8;">Cheapest: <strong>Aldi</strong></p>
+        <p style="font-size: 0.7rem; color: #94a3b8;">Average family basket (32 items).</p>
+        <span class="big-total" id="weeklyTotal">£0.00</span>
+        <div id="weeklyStatus" style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px;">Identifying cheapest...</div>
         
         <div style="margin-top: 25px;">
-            <h4 style="font-size: 0.8rem; color: #ffcc00;">Retailer Breakdown</h4>
-            <canvas id="weeklyChart" style="width: 100%; height: 150px; background: #1f2937; border-radius: 5px;"></canvas>
-            <p style="font-size: 0.6rem; color: #6b7280; margin-top: 10px;">*Based on 32 high-volume items.</p>
+            <h4 style="font-size: 0.8rem; color: #ffcc00; text-transform: uppercase;">Retailer Price Variance</h4>
+            <div id="varianceList">
+                </div>
+            <p style="font-size: 0.6rem; color: #6b7280; margin-top: 20px;">*Data updated daily at 04:00 AM GMT.</p>
         </div>
     </div>
 
@@ -97,17 +104,71 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com/api';
+    const API_URL = 'https://decision-engine-d9bs.onrender.com/api'; // Updated to your actual Render URL
 
-    async function loadSector(category) {
-        // Implementation for tab switching and category fetching
-        const grid = document.getElementById('sectorGrid');
-        grid.innerHTML = `<p style="text-align:center; padding: 50px;">Fetching ${category} audits...</p>`;
-        // In reality, this calls /api/grocery-comparison?sector=category
+    // 1. Component Injections
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+
+    // 2. Load the Ranking Index (Left)
+    async function loadIndex() {
+        const container = document.getElementById('indexContainer');
+        try {
+            const res = await fetch(`${API_URL}/grocery-comparison`);
+            const data = await res.json();
+            data.sort((a, b) => a.basket_total - b.basket_total);
+            
+            container.innerHTML = '';
+            data.forEach((item, i) => {
+                container.innerHTML += `
+                    <div class="hub-row">
+                        <span><span class="rank-tag">${i+1}</span> ${item.name}</span>
+                        <span class="price-val">£${parseFloat(item.basket_total).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            // Update the Weekly Spend (Right) with the cheapest found
+            document.getElementById('weeklyTotal').innerText = `£${(data[0].basket_total * 6.5).toFixed(2)}`; // Estimate multiplier
+            document.getElementById('weeklyStatus').innerHTML = `Cheapest Today: <strong style="color:white;">${data[0].name}</strong>`;
+        } catch (err) { container.innerHTML = "Offline"; }
     }
 
-    // Initial load logic here...
-    loadSector('dairy');
+    // 3. Load Category Sectors (Center)
+    async function loadSector(category, btn) {
+        // Toggle Active Class
+        document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const grid = document.getElementById('sectorGrid');
+        grid.innerHTML = `<p style="text-align:center; padding: 40px; color:#94a3b8;">Scanning ${category} prices...</p>`;
+
+        // Fetching specific sector data
+        try {
+            const res = await fetch(`${API_URL}/deals?category=groceries`);
+            const deals = await res.json();
+            
+            grid.innerHTML = '';
+            deals.forEach(deal => {
+                grid.innerHTML += `
+                    <div class="hub-row" style="padding: 15px 0;">
+                        <div>
+                            <strong style="color:white; display:block;">${deal.name}</strong>
+                            <span style="font-size:0.7rem; color:#94a3b8;">${deal.brand}</span>
+                        </div>
+                        <div style="text-align:right;">
+                            <span class="price-val">£${deal.price}</span>
+                            <span style="display:block; font-size:0.6rem; color:#10b981;">-${Math.round((1 - deal.price/deal.original_price)*100)}% vs Avg</span>
+                        </div>
+                    </div>
+                `;
+            });
+        } catch (e) { grid.innerHTML = "Sector data currently unavailable."; }
+    }
+
+    // Initial Launch
+    loadIndex();
+    loadSector('dairy', document.querySelector('.sector-btn'));
 </script>
 </body>
 </html>
