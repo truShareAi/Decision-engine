@@ -6,86 +6,130 @@
     <title>Money Matters | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
-        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
-        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
-        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .peel-btn:hover { background: white; transform: scale(1.05); }
-        .rate-txt { color: #ffcc00; font-weight: bold; font-size: 1.1rem; }
+        .hub-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .advice-card {
+            background: #1a222f;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffcc00;
+        }
+        .community-sidebar {
+            background: #111827;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px dashed #334155;
+            height: fit-content;
+        }
+        .debt-emergency {
+            background: #7f1d1d;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .tag {
+            display: inline-block;
+            background: #2d3a4f;
+            color: #ffcc00;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+        .forum-placeholder {
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .btn-outline {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: 2px solid #ffcc00;
+            color: #ffcc00;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-outline:hover {
+            background: #ffcc00;
+            color: black;
+        }
+        @media (max-width: 768px) { .hub-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 40px 20px;">
+<section class="hero-area" style="padding: 60px 20px; text-align: center;">
     <div class="hero-container">
         <h1>Money <span class="pop">Matters</span></h1>
-        <p>From high-interest savings to clever credit, we've peeled back the best financial moves for your wallet.</p>
+        <p>Expert advice, community wisdom, and support when you need it most.</p>
     </div>
 </section>
 
 <div class="container">
-    <table class="comp-table">
-        <thead>
-            <tr>
-                <th>Provider</th>
-                <th>Product Type</th>
-                <th>Rate/Benefit</th>
-                <th>Requirement</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="dealsTableBody">
-            <tr><td colspan="5" style="text-align:center; padding: 40px;">Crunching the numbers...</td></tr>
-        </tbody>
-    </table>
+    <div class="hub-grid">
+        <div class="advice-content">
+            <div class="advice-card">
+                <span class="tag">Saving Tips</span>
+                <h3>The "Banana Method" for Emergency Funds</h3>
+                <p>Learn how to squirrel away your first £1,000 without feeling the pinch on your weekly shop.</p>
+                <a href="#" class="btn-outline">Read Guide</a>
+            </div>
+
+            <div class="advice-card">
+                <span class="tag">Energy Advice</span>
+                <h3>Understanding Fixed vs Variable Tariffs</h3>
+                <p>Not sure if you should lock in your energy price? We break down the current market trends.</p>
+                <a href="#" class="btn-outline">Learn More</a>
+            </div>
+            
+            <div class="debt-emergency">
+                <h3>Struggling with Debt?</h3>
+                <p>You don't have to face it alone. There are amazing organisations that offer 100% free, confidential advice.</p>
+                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://www.stepchange.org" target="_blank" class="peel-btn" style="text-decoration:none; background:white;">StepChange</a>
+                    <a href="https://www.nationaldebtline.org" target="_blank" class="peel-btn" style="text-decoration:none; background:white;">National Debtline</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="community-sidebar">
+            <h3>Community Square</h3>
+            <p style="font-size: 0.9rem; color: #94a3b8;">Where the bunch shares their best money hacks.</p>
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;">
+            
+            <div class="forum-placeholder">
+                <p>🍌 <strong>Forum Opening Soon!</strong></p>
+                <p style="font-size: 0.8rem;">We're currently prepping the soil for our community forums.</p>
+            </div>
+
+            <button class="peel-btn" style="width: 100%;" disabled>Join Waitlist</button>
+        </div>
+    </div>
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
-
+    // Component Loading
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
     });
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
-
-    async function fetchLiveDeals() {
-        const tableBody = document.getElementById('dealsTableBody');
-        try {
-            const response = await fetch(`${API_URL}/deals?category=money-matters`);
-            const deals = await response.json();
-            if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No financial deals found yet.</td></tr>';
-                return;
-            }
-            tableBody.innerHTML = '';
-            deals.forEach(deal => {
-                tableBody.innerHTML += `
-                    <tr>
-                        <td><strong>${deal.brand}</strong></td>
-                        <td>${deal.name}</td>
-                        <td class="rate-txt">${deal.price}</td>
-                        <td>${deal.source}</td>
-                        <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
-                    </tr>
-                `;
-            });
-        } catch (err) { tableBody.innerHTML = '<tr><td colspan="5">Connection error.</td></tr>'; }
-    }
-
-    function saveAndGo(brand) {
-        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Money Matters");
-        localStorage.setItem('searchHistory', JSON.stringify(history));
-        window.location.href = 'dashboard.html';
-    }
-    fetchLiveDeals();
 </script>
 </body>
 </html>
