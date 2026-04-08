@@ -6,14 +6,17 @@
     <title>Supermarket Price Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* 1. SLIM HERO WITH MASCOT (BROADBAND STYLE) */
+        /* HERO MASCOT POSITIONING - EXACT COPY FROM BROADBAND */
         .hero-area { padding: 40px 0 0 0; min-height: auto; position: relative; }
-        .hero-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; text-align: left; }
-        .hero-text { flex: 1; max-width: 700px; }
+        .hero-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; }
         .hero-mascot { position: absolute; right: 20px; top: -110px; z-index: 5; }
         .hero-mascot img { display: block; width: 100%; height: auto; max-width: 300px; }
+        
+        /* ADJUSTED TEXT FOR GROCERY CONTEXT */
+        .hero-text h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .hero-text p { max-width: 600px; line-height: 1.5; color: #cbd5e1; }
 
-        /* 2. LAYOUT RECONSTRUCTION */
+        /* HUB LAYOUT */
         .hub-container { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
         .top-row { display: grid; grid-template-columns: 380px 1fr; gap: 20px; }
         .middle-row { width: 100%; }
@@ -25,7 +28,7 @@
             padding: 24px; 
         }
 
-        /* 3. TERMINOLOGY & UI */
+        /* TERMINOLOGY & UI */
         .section-title { color: #ffcc00; margin: 0 0 5px 0; font-size: 1.4rem; font-weight: 800; }
         .section-sub { color: #94a3b8; font-size: 0.8rem; margin-bottom: 20px; display: block; }
 
@@ -40,23 +43,20 @@
         .rank-tag { font-weight: 900; color: #ffcc00; margin-right: 12px; width: 20px; display: inline-block; }
         .price-val { font-weight: 800; color: white; font-size: 1.1rem; }
 
-        /* AI List Auditor Styling */
+        /* AI LIST AUDITOR */
         .ai-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .ai-input { flex: 1; padding: 12px; background: #1f2937; border: 1px solid #4b5563; border-radius: 8px; color: white; }
         .add-btn { padding: 0 20px; background: #ffcc00; color: #000; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
         .list-chips { display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; }
         .chip { background: #374151; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; border: 1px solid #4b5563; }
 
-        /* Table Winner Styling */
+        /* WINNER TABLE */
         .winner-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .winner-table th { text-align: left; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; padding: 12px; border-bottom: 1px solid #374151; }
         .winner-table td { padding: 18px 12px; color: white; font-weight: 700; border-bottom: 1px solid #1f2937; }
 
-        @media (max-width: 1000px) { 
-            .top-row { grid-template-columns: 1fr; } 
-            .hero-mascot { display: none; }
-            .hero-container { text-align: center; justify-content: center; }
-        }
+        @media (max-width: 768px) { .hero-mascot { display: none; } }
+        @media (max-width: 1000px) { .top-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -91,7 +91,7 @@
             <span class="section-sub">Build your list to see which retailer wins for YOU.</span>
             
             <div class="ai-input-group">
-                <input type="text" id="aiInput" class="ai-input" placeholder="e.g. Milk, Pasta, Coffee...">
+                <input type="text" id="aiInput" class="ai-input" placeholder="e.g. Milk, Bread, Coffee...">
                 <button class="add-btn" onclick="addItem()">ADD</button>
             </div>
             <div class="list-chips" id="listChips"></div>
@@ -119,7 +119,8 @@
                 <button class="sector-btn" onclick="loadSector('pantry', this)">STORE CUPBOARD</button>
             </div>
             
-            <div id="sectorGrid" style="min-height: 300px;"></div>
+            <div id="sectorGrid" style="min-height: 300px;">
+                </div>
         </div>
     </div>
 
@@ -134,7 +135,8 @@
                     <th style="text-align: right;">Current Standing</th>
                 </tr>
             </thead>
-            <tbody id="winnerBody"></tbody>
+            <tbody id="winnerBody">
+                </tbody>
         </table>
     </div>
 
@@ -145,7 +147,7 @@
 <script>
     const API_URL = 'https://decision-engine-d9bs.onrender.com/api';
     
-    // Global Components
+    // Injections
     fetch('../components/nav.html').then(res => res.text()).then(d => document.getElementById('mainNav').innerHTML = d);
     fetch('../components/footer.html').then(res => res.text()).then(d => document.getElementById('mainFooter').innerHTML = d);
 
@@ -167,14 +169,16 @@
             const data = await res.json();
             data.sort((a, b) => a.basket_total - b.basket_total);
 
-            // Populate Basics
             const container = document.getElementById('indexContainer');
             container.innerHTML = '';
             data.forEach((store, i) => {
-                container.innerHTML += `<div class="hub-row"><span><span class="rank-tag">${i+1}</span> ${store.name}</span><span class="price-val">£${parseFloat(store.basket_total).toFixed(2)}</span></div>`;
+                container.innerHTML += `
+                    <div class="hub-row">
+                        <span><span class="rank-tag">${i+1}</span> ${store.name}</span>
+                        <span class="price-val">£${parseFloat(store.basket_total).toFixed(2)}</span>
+                    </div>`;
             });
 
-            // Populate Winner
             const winner = data[0];
             document.getElementById('winnerBody').innerHTML = `
                 <tr>
@@ -183,13 +187,14 @@
                     <td>£${(winner.basket_total * 6.8).toFixed(2)}</td>
                     <td style="text-align: right; color: #4ade80;">${winner.status}</td>
                 </tr>`;
-        } catch (e) { console.error("API Offline"); }
+
+        } catch (e) { console.error("Data Fetch Error"); }
     }
 
     async function loadSector(cat, btn) {
         document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('sectorGrid').innerHTML = `<p style="text-align:center; padding:50px;">Updating ${cat} price guide...</p>`;
+        document.getElementById('sectorGrid').innerHTML = `<p style="text-align:center; padding:50px;">Updating price guide for ${cat}...</p>`;
     }
 
     initData();
