@@ -30,18 +30,21 @@ const seedDatabase = async () => {
 
     const check = await db.query('SELECT COUNT(*) FROM products');
 
+    // If database is empty, fill it with Car, Mortgage, and Home data
     if (parseInt(check.rows[0].count) === 0) {
       await db.query(`
         INSERT INTO products (name, brand, category) VALUES 
         ('Comprehensive Cover', 'Admiral', 'car-insurance'),
-        ('Fixed Rate Mortgage', 'HSBC', 'mortgage');
+        ('Fixed Rate Mortgage', 'HSBC', 'mortgage'),
+        ('Buildings & Contents', 'Aviva', 'home-insurance');
 
         INSERT INTO deals (product_id, price, original_price, affiliate_link, source) VALUES 
         (1, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
-        (2, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank');
+        (2, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank'),
+        (3, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct');
       `);
 
-      console.log("✅ Database Seeded Successfully!");
+      console.log("✅ Database Seeded with Home Insurance!");
     }
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
@@ -50,38 +53,24 @@ const seedDatabase = async () => {
 
 seedDatabase();
 
-/* --- BASIC CHECK --- */
 app.get('/', (req, res) => {
   res.send('Banana API is live 🍌');
 });
 
-/* --- NEW: CATEGORIES ENDPOINT --- */
 app.get('/api/categories', async (req, res) => {
   try {
-    const result = await db.query(`
-      SELECT DISTINCT category FROM products
-    `);
-
+    const result = await db.query(`SELECT DISTINCT category FROM products`);
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-/* --- UPDATED: DEALS WITH SCORE --- */
 app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
-
   try {
     const result = await db.query(
-      `SELECT 
-        p.name,
-        p.brand,
-        p.category,
-        d.price,
-        d.original_price,
-        d.affiliate_link,
-        d.source,
+      `SELECT p.name, p.brand, p.category, d.price, d.original_price, d.affiliate_link, d.source,
         (d.original_price - d.price) AS savings,
         ((d.original_price - d.price) / d.price) AS score
       FROM products p
@@ -90,16 +79,13 @@ app.get('/api/deals', async (req, res) => {
       ORDER BY score DESC`,
       [category]
     );
-
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-/* --- START SERVER --- */
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server live on ${PORT}`);
 });
