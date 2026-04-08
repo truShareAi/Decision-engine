@@ -6,13 +6,12 @@
     <title>Supermarket Price Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* HERO MASCOT POSITIONING - EXACT COPY FROM BROADBAND */
+        /* HERO MASCOT POSITIONING */
         .hero-area { padding: 40px 0 0 0; min-height: auto; position: relative; }
         .hero-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; }
         .hero-mascot { position: absolute; right: 20px; top: -110px; z-index: 5; }
         .hero-mascot img { display: block; width: 100%; height: auto; max-width: 300px; }
         
-        /* ADJUSTED TEXT FOR GROCERY CONTEXT */
         .hero-text h1 { font-size: 2.5rem; margin-bottom: 10px; }
         .hero-text p { max-width: 600px; line-height: 1.5; color: #cbd5e1; }
 
@@ -28,7 +27,6 @@
             padding: 24px; 
         }
 
-        /* TERMINOLOGY & UI */
         .section-title { color: #ffcc00; margin: 0 0 5px 0; font-size: 1.4rem; font-weight: 800; }
         .section-sub { color: #94a3b8; font-size: 0.8rem; margin-bottom: 20px; display: block; }
 
@@ -145,16 +143,17 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://decision-engine-d9bs.onrender.com/api';
+    // UPDATED TO MATCH YOUR LIVE RENDER ENGINE
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
     
     // Component Injection
     fetch('../components/nav.html').then(res => res.text()).then(d => document.getElementById('mainNav').innerHTML = d);
     fetch('../components/footer.html').then(res => res.text()).then(d => document.getElementById('mainFooter').innerHTML = d);
 
-    // FETCH LIVE BASICS (Index & Winner Table)
     async function initData() {
         try {
             const res = await fetch(`${API_URL}/grocery-comparison`);
+            if (!res.ok) throw new Error('Network response was not ok');
             const data = await res.json();
             
             if (!data || data.length === 0) {
@@ -164,7 +163,6 @@
 
             data.sort((a, b) => a.basket_total - b.basket_total);
 
-            // Populate Index List
             const container = document.getElementById('indexContainer');
             container.innerHTML = data.map((store, i) => `
                 <div class="hub-row">
@@ -172,7 +170,6 @@
                     <span class="price-val">£${parseFloat(store.basket_total).toFixed(2)}</span>
                 </div>`).join('');
 
-            // Populate Winner Table
             const winner = data[0];
             document.getElementById('winnerBody').innerHTML = `
                 <tr>
@@ -188,7 +185,6 @@
         }
     }
 
-    // FETCH LIVE SECTOR DEALS
     async function loadSector(cat, btn = null) {
         if (btn) {
             document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
@@ -203,7 +199,7 @@
             const items = await res.json();
 
             if (!items || items.length === 0) {
-                grid.innerHTML = `<p style="text-align:center; padding:50px;">No deals currently live in ${cat}.</p>`;
+                grid.innerHTML = `<p style="text-align:center; padding:50px; color:#94a3b8;">No deals currently live in ${cat}.</p>`;
                 return;
             }
 
@@ -226,7 +222,6 @@
         }
     }
 
-    // AI LIST AUDITOR (POST to Backend)
     let userList = [];
     async function addItem() {
         const input = document.getElementById('aiInput');
@@ -251,7 +246,6 @@
         input.value = '';
     }
 
-    // Start
     initData();
     loadSector('dairy');
 </script>
