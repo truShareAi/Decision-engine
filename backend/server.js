@@ -35,25 +35,34 @@ const seedDatabase = async () => {
       ('Comprehensive Cover', 'Admiral', 'car-insurance'),
       ('Fixed Rate Mortgage', 'HSBC', 'mortgage'),
       ('Buildings & Contents', 'Aviva', 'home-insurance'),
-      ('Dog & Cat', 'Petplan', 'pet-insurance')
+      ('Dog & Cat', 'Petplan', 'pet-insurance'),
+      ('Level Term Life', 'Legal & General', 'life-insurance'),
+      ('Full Fibre 100', 'BT', 'broadband'),
+      ('Standard Variable', 'Octopus Energy', 'utilities'),
+      ('Personal Loan', 'Tesco Bank', 'loans'),
+      ('Organic Banana Pack', 'Waitrose', 'groceries'),
+      ('Solar Panel Install', 'EcoSave', 'go-green')
       RETURNING id, category;
     `);
 
     const p = productResult.rows;
-    const carId = p.find(x => x.category === 'car-insurance').id;
-    const mortgageId = p.find(x => x.category === 'mortgage').id;
-    const homeId = p.find(x => x.category === 'home-insurance').id;
-    const petId = p.find(x => x.category === 'pet-insurance').id;
+    const findId = (cat) => p.find(x => x.category === cat).id;
 
     await db.query(`
       INSERT INTO deals (product_id, price, original_price, affiliate_link, source) VALUES 
-      (${carId}, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
-      (${mortgageId}, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank'),
-      (${homeId}, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct'),
-      (${petId}, 15.99, 180.00, 'https://petplan.co.uk', '£12,000 Limit');
+      (${findId('car-insurance')}, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
+      (${findId('mortgage')}, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank'),
+      (${findId('home-insurance')}, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct'),
+      (${findId('pet-insurance')}, 15.99, 180.00, 'https://petplan.co.uk', '£12,000 Limit'),
+      (${findId('life-insurance')}, 12.00, 150000.00, 'https://legalandgeneral.com', 'Term: 25 Years'),
+      (${findId('broadband')}, 29.99, 100.00, 'https://bt.com', '100Mbps Avg'),
+      (${findId('utilities')}, 155.00, 180.00, 'https://octopus.energy', 'Green Tariffs'),
+      (${findId('loans')}, 210.00, 5.2, 'https://tescobank.com', '5.2% APR Fixed'),
+      (${findId('groceries')}, 1.25, 2.00, 'https://waitrose.com', 'Clubcard Price'),
+      (${findId('go-green')}, 4500.00, 5500.00, 'https://ecosave.com', 'Gov Grant Avail');
     `);
 
-    console.log("✅ Database Synced: Pet Insurance added!");
+    console.log("✅ Database Synced: All 10 Categories Live!");
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
@@ -61,7 +70,7 @@ const seedDatabase = async () => {
 
 seedDatabase();
 
-app.get('/', (req, res) => { res.send('Banana API is live 🍌'); });
+app.get('/', (req, res) => { res.send('Banana API is live and fully loaded 🍌'); });
 
 app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
