@@ -47,21 +47,13 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
+    // FIXED: Added /api to the URL
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
     const savedName = localStorage.getItem('bananaUser');
 
     // 1. Load Nav & Footer
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
@@ -72,7 +64,6 @@
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            // Note: We use 'home-insurance' as the category
             const response = await fetch(`${API_URL}/deals?category=home-insurance`);
             const deals = await response.json();
 
@@ -83,22 +74,25 @@
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                const monthlyPrice = parseFloat(deal.price).toFixed(2);
+                const annualPrice = parseFloat(deal.original_price).toFixed(2);
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>£${deal.price}</td>
-                        <td class="annual-price">£${deal.original_price}</td>
+                        <td>£${monthlyPrice}</td>
+                        <td class="annual-price">£${annualPrice}</td>
                         <td>${deal.name}</td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
         } catch (err) {
+            console.error("Connection Error:", err);
             tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error.</td></tr>';
         }
     }
 
-    // 3. Logic: Save to Dashboard
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(brand + " - Home Insurance Deal");
