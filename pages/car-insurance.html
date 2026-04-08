@@ -13,7 +13,6 @@
         .peel-btn:hover { background: white; transform: scale(1.05); }
         .annual-price { color: #00ff88; font-weight: bold; }
         
-        /* Refine Box Styling */
         .refine-box { background: #1e293b; padding: 25px; border-radius: 15px; border: 1px solid #334155; margin-bottom: 30px; }
         .refine-input { background: #0f172a; color: white; border: 1px solid #334155; padding: 10px; border-radius: 5px; width: 100%; margin-top: 5px; }
     </style>
@@ -32,10 +31,10 @@
 <div class="container">
     <div class="refine-box">
         <h3 style="color: #ffcc00; margin-top:0;">⚡ Sharpen Your Quote</h3>
-        <p style="font-size: 0.9rem; color: #94a3b8;">Adjust these to see how your profile affects the bunch:</p>
+        <p style="font-size: 0.9rem; color: #94a3b8;">Adjust these factors to see your real-world Banana Estimate:</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
-            <div style="flex: 1; min-width: 200px;">
+            <div style="flex: 1; min-width: 150px;">
                 <label style="color:white; font-size: 0.8rem;">Age Bracket</label>
                 <select id="ageBracket" class="refine-input">
                     <option value="1.0">25 - 50 (Standard)</option>
@@ -43,12 +42,29 @@
                     <option value="0.85">50+ (Experienced)</option>
                 </select>
             </div>
-            <div style="flex: 1; min-width: 200px;">
-                <label style="color:white; font-size: 0.8rem;">No Claims Bonus</label>
+            <div style="flex: 1; min-width: 150px;">
+                <label style="color:white; font-size: 0.8rem;">NCB Years</label>
                 <select id="ncbYears" class="refine-input">
                     <option value="1.0">5+ Years</option>
                     <option value="1.3">1 - 4 Years</option>
                     <option value="1.6">0 Years</option>
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 150px;">
+                <label style="color:white; font-size: 0.8rem;">Convictions</label>
+                <select id="convictions" class="refine-input">
+                    <option value="1.0">None (Clean)</option>
+                    <option value="1.2">Minor (e.g. SP30)</option>
+                    <option value="1.8">Serious (e.g. DR10)</option>
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 150px;">
+                <label style="color:white; font-size: 0.8rem;">Location</label>
+                <select id="locationZone" class="refine-input">
+                    <option value="1.0">Town / Suburb</option>
+                    <option value="0.9">Rural / Village</option>
+                    <option value="1.3">City Centre</option>
+                    <option value="1.6">London / Metro</option>
                 </select>
             </div>
             <button onclick="applyRefining()" class="peel-btn" style="align-self: flex-end; height: 42px; min-width: 150px;">Update Prices</button>
@@ -66,9 +82,7 @@
             </tr>
         </thead>
         <tbody id="dealsTableBody">
-            <tr>
-                <td colspan="5" style="text-align:center; padding: 40px;">Peeling the latest deals...</td>
-            </tr>
+            <tr><td colspan="5" style="text-align:center; padding: 40px;">Peeling the latest deals...</td></tr>
         </tbody>
     </table>
 </div>
@@ -86,15 +100,12 @@
         try {
             const response = await fetch(`${API_URL}/deals?category=car-insurance`);
             const deals = await response.json();
-
             if (deals.length === 0) {
                 tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No insurance deals found.</td></tr>';
                 return;
             }
-
             tableBody.innerHTML = '';
             deals.forEach(deal => {
-                // We store the original values in data-attributes for the multiplier to work
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
@@ -105,16 +116,16 @@
                     </tr>
                 `;
             });
-        } catch (err) {
-            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Connection error.</td></tr>';
-        }
+        } catch (err) { tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Connection error.</td></tr>'; }
     }
 
-    // Dynamic Multiplier Logic
     function applyRefining() {
         const ageMult = parseFloat(document.getElementById('ageBracket').value);
         const ncbMult = parseFloat(document.getElementById('ncbYears').value);
-        const totalMult = ageMult * ncbMult;
+        const convMult = parseFloat(document.getElementById('convictions').value);
+        const locMult = parseFloat(document.getElementById('locationZone').value);
+        
+        const totalMult = ageMult * ncbMult * convMult * locMult;
 
         document.querySelectorAll('.monthly-price').forEach(cell => {
             const base = parseFloat(cell.getAttribute('data-base'));
