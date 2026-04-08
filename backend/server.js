@@ -7,15 +7,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-/* --- AUTO-SEEDER --- */
+/* --- FORCED SEEDER (Works on Free Tier) --- */
 const seedDatabase = async () => {
   try {
+    // 1. Create Tables
     await db.query(`
       CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         brand VARCHAR(255),
-        category VARCHAR(100)
+        category VARCHAR(100),
+        UNIQUE(brand, category)
       );
 
       CREATE TABLE IF NOT EXISTS deals (
@@ -28,24 +30,25 @@ const seedDatabase = async () => {
       );
     `);
 
-    const check = await db.query('SELECT COUNT(*) FROM products');
+    // 2. Insert Products (Using ON CONFLICT to avoid errors)
+    await db.query(`
+      INSERT INTO products (name, brand, category) VALUES 
+      ('Comprehensive Cover', 'Admiral', 'car-insurance'),
+      ('Fixed Rate Mortgage', 'HSBC', 'mortgage'),
+      ('Buildings & Contents', 'Aviva', 'home-insurance')
+      ON CONFLICT (brand, category) DO NOTHING;
+    `);
 
-    // If database is empty, fill it with Car, Mortgage, and Home data
-    if (parseInt(check.rows[0].count) === 0) {
-      await db.query(`
-        INSERT INTO products (name, brand, category) VALUES 
-        ('Comprehensive Cover', 'Admiral', 'car-insurance'),
-        ('Fixed Rate Mortgage', 'HSBC', 'mortgage'),
-        ('Buildings & Contents', 'Aviva', 'home-insurance');
+    // 3. Clear and Refresh Deals (Keep it simple for now)
+    await db.query('DELETE FROM deals');
+    await db.query(`
+      INSERT INTO deals (product_id, price, original_price, affiliate_link, source)
+      SELECT id, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct' FROM products WHERE brand = 'Admiral' UNION ALL
+      SELECT id, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank' FROM products WHERE brand = 'HSBC' UNION ALL
+      SELECT id, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct' FROM products WHERE brand = 'Aviva';
+    `);
 
-        INSERT INTO deals (product_id, price, original_price, affiliate_link, source) VALUES 
-        (1, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
-        (2, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank'),
-        (3, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct');
-      `);
-
-      console.log("✅ Database Seeded with Home Insurance!");
-    }
+    console.log("✅ Database Synced: Home Insurance is now live!");
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
@@ -54,7 +57,7 @@ const seedDatabase = async () => {
 seedDatabase();
 
 app.get('/', (req, res) => {
-  res.send('Banana API is live 🍌');
+  res.send('Banana API is V2 and Peeling! 🍌');
 });
 
 app.get('/api/categories', async (req, res) => {
@@ -70,13 +73,10 @@ app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
   try {
     const result = await db.query(
-      `SELECT p.name, p.brand, p.category, d.price, d.original_price, d.affiliate_link, d.source,
-        (d.original_price - d.price) AS savings,
-        ((d.original_price - d.price) / d.price) AS score
+      `SELECT p.name, p.brand, p.category, d.price, d.original_price, d.affiliate_link, d.source
       FROM products p
       JOIN deals d ON p.id = d.product_id
-      WHERE p.category = $1
-      ORDER BY score DESC`,
+      WHERE p.category = $1`,
       [category]
     );
     res.json(result.rows);
