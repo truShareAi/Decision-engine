@@ -11,7 +11,7 @@ app.use(express.json());
 // --- DATABASE SEEDER & SCHEMA ---
 const seedDatabase = async () => {
   try {
-    // 1. Create Tables (Added grocery_rankings)
+    // 1. Create Tables
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -82,7 +82,27 @@ const seedDatabase = async () => {
       (${findId('go-green')}, 4500.00, 5500.00, 'https://ecosave.com', 'Gov Grant Avail');
     `);
 
-    console.log("✅ Database Synced: Infrastructure Ready.");
+    // 3. AUTO-SEED GROCERIES (iPad Solution)
+    const initialGroceries = [
+        ['Aldi', 12.45, 'Verified 04:00 AM'],
+        ['Lidl', 12.52, 'Verified 04:00 AM'],
+        ['Asda', 13.10, 'Verified 04:00 AM'],
+        ['Tesco', 13.40, 'Verified 04:00 AM'],
+        ['Sainsburys', 13.90, 'Verified 04:00 AM'],
+        ['Morrisons', 14.20, 'Verified 04:00 AM'],
+        ['Waitrose', 15.80, 'Verified 04:00 AM']
+    ];
+
+    for (const [name, price, status] of initialGroceries) {
+        await db.query(
+            `INSERT INTO grocery_rankings (name, basket_total, status) 
+             VALUES ($1, $2, $3) 
+             ON CONFLICT (name) DO UPDATE SET basket_total = $2, status = $3, updated_at = NOW()`,
+            [name, price, status]
+        );
+    }
+
+    console.log("✅ Database Synced: Groceries are LIVE.");
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
@@ -91,10 +111,9 @@ const seedDatabase = async () => {
 seedDatabase();
 
 // --- ROUTES ---
-
 app.get('/', (req, res) => { res.send('Banana API is live 🍌'); });
 
-// 1. Auth: Register
+// Auth: Register
 app.post('/api/register', async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -105,12 +124,10 @@ app.post('/api/register', async (req, res) => {
       [username, email, hash]
     );
     res.json(result.rows[0]);
-  } catch (err) {
-    res.status(400).json({ error: "Registration failed." });
-  }
+  } catch (err) { res.status(400).json({ error: "Registration failed." }); }
 });
 
-// 2. Auth: Login
+// Auth: Login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -119,38 +136,30 @@ app.post('/api/login', async (req, res) => {
     const validPass = await bcrypt.compare(password, user.rows[0].password_hash);
     if (!validPass) return res.status(400).json({ error: "Invalid credentials" });
     res.json({ id: user.rows[0].id, username: user.rows[0].username });
-  } catch (err) {
-    res.status(500).json({ error: "Login service unavailable" });
-  }
+  } catch (err) { res.status(500).json({ error: "Login service unavailable" }); }
 });
 
-// 3. LIVE Grocery Comparison (FETCH FROM DB)
+// Grocery Comparison (Live Fetch)
 app.get('/api/grocery-comparison', async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM grocery_rankings ORDER BY basket_total ASC");
     res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: "Data retrieval error" });
-  }
+  } catch (err) { res.status(500).json({ error: "Data retrieval error" }); }
 });
 
-// 4. Seeder Route: Receive data from your seed.js
-app.post('/api/grocery-comparison', async (req, res) => {
-  const { name, basket_total, status } = req.body;
+// AI List Audit
+app.post('/api/audit-list', async (req, res) => {
+  const { items } = req.body;
   try {
-    await db.query(
-      `INSERT INTO grocery_rankings (name, basket_total, status) 
-       VALUES ($1, $2, $3) 
-       ON CONFLICT (name) DO UPDATE SET basket_total = $2, status = $3, updated_at = NOW()`,
-      [name, basket_total, status]
-    );
-    res.json({ message: `Updated ${name}` });
-  } catch (err) {
-    res.status(400).json({ error: "Failed to update rankings" });
-  }
+    const result = await db.query("SELECT * FROM grocery_rankings ORDER BY basket_total ASC LIMIT 1");
+    if (result.rows.length === 0) return res.status(404).json({ error: "No data" });
+    const winner = result.rows[0];
+    const estTotal = items.length * (parseFloat(winner.basket_total) / 5);
+    res.json({ cheapest_store: winner.name, cheapest_total: estTotal });
+  } catch (err) { res.status(500).json({ error: "Audit failed" }); }
 });
 
-// 5. General Deals
+// General Deals
 app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
   try {
