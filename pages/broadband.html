@@ -3,25 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broadband & Mobile | Banana</title>
+    <title>Utilities Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .comp-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1a222f; border-radius: 15px; overflow: hidden; }
-        .comp-table th { background: #2d3a4f; padding: 15px; text-align: left; color: #ffcc00; }
-        .comp-table td { padding: 15px; border-bottom: 1px solid #334155; color: white; }
-        .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .peel-btn:hover { background: white; transform: scale(1.05); }
-        .speed-txt { color: #00ff88; font-weight: bold; }
+        /* Hero Mascot Positioning */
+        .hero-area { padding: 40px 0 0 0; min-height: auto; position: relative; }
+        .hero-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: flex-start; gap: 40px; position: relative; padding: 0 20px; }
+        .hero-mascot { position: absolute; right: 20px; top: -110px; z-index: 5; }
+        .hero-mascot img { display: block; width: 100%; height: auto; max-width: 300px; }
+
+        /* Comparison Table - Banana Dark Theme */
+        .comp-table { 
+            width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0;
+            margin: 40px 0; 
+            background: #1a222f; 
+            border-radius: 15px; 
+            border: 1px solid #334155;
+            overflow: hidden; 
+        }
+        .comp-table th { background: #2d3a4f; padding: 20px; text-align: left; color: #ffcc00; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .comp-table td { padding: 20px; border-bottom: 1px solid #334155; color: white; vertical-align: middle; }
+        .comp-table tr:last-child td { border-bottom: none; }
+        
+        .peel-btn { 
+            background: #ffcc00; 
+            color: #0f172a; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+        .peel-btn:hover { background: white; transform: translateY(-2px); }
+        
+        .annual-save { color: #00ff88; font-weight: bold; font-size: 1.1rem; }
+        .tariff-type { color: #94a3b8; font-size: 0.85rem; }
+
+        @media (max-width: 768px) { .hero-mascot { display: none; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 40px 20px;">
+<section class="hero-area">
     <div class="hero-container">
-        <h1>Connect Your <span class="pop">Digital Bunch</span></h1>
-        <p>From lightning-fast fiber to unlimited mobile data, find the best connection for less.</p>
+        <div class="hero-text">
+            <h1>Optimise Your <span class="pop">Home Utilities.</span></h1>
+            <p>From Gas to Electricity, we've analysed the market to help you switch and save. Our AI specialises in finding the best rates for your household. <strong>Peel back the hidden costs.</strong></p>
+        </div>
+        <div class="hero-mascot">
+            <img src="../images/mascot.png" alt="Banana Mascot">
+        </div>
     </div>
 </section>
 
@@ -29,16 +65,19 @@
     <table class="comp-table">
         <thead>
             <tr>
-                <th>Provider</th>
-                <th>Monthly</th>
-                <th>Avg Speed / Data</th>
-                <th>Contract Type</th>
+                <th>Supplier</th>
+                <th>Monthly Est.</th>
+                <th>Annual Total</th>
+                <th>Tariff Details</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody id="dealsTableBody">
             <tr>
-                <td colspan="5" style="text-align:center; padding: 40px;">Searching for the best signals...</td>
+                <td colspan="5" style="text-align:center; padding: 60px;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🍌</div>
+                    Analysing the latest utility tariffs...
+                </td>
             </tr>
         </tbody>
     </table>
@@ -47,60 +86,53 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    // FIXED: Added /api to match your server routes
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
-    // 1. Load Nav & Footer
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center;">
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
-    });
+    // Component Loading
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
-
-    // 2. Load Live Data for Broadband & Mobile
+    // Fetch from Live API
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            // Fetching from the 'broadband' category in your DB
-            const response = await fetch(`${API_URL}/deals?category=broadband`);
+            // FIXED: Using 'utilities' category as defined in your Master Seeder
+            const response = await fetch(`${API_URL}/deals?category=utilities`);
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No tech deals found in the bunch yet.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">No utility deals found right now. Check back soon!</td></tr>';
                 return;
             }
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                const monthly = parseFloat(deal.price).toFixed(2);
+                const annual = parseFloat(deal.original_price).toFixed(2);
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>£${deal.price}</td>
-                        <td class="speed-txt">${deal.original_price}</td>
-                        <td>${deal.name}</td>
+                        <td>£${monthly}</td>
+                        <td class="annual-save">£${annual}</td>
+                        <td>
+                            <div style="font-weight: 600;">${deal.name}</div>
+                            <div class="tariff-type">${deal.source}</div>
+                        </td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
         } catch (err) {
-            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error.</td></tr>';
+            console.error("Connection Error:", err);
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">Connection to the Decision Engine timed out.</td></tr>';
         }
     }
 
-    // 3. Save to Dashboard
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Broadband & Mobile");
+        history.unshift(brand + " - Utility Switch");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
