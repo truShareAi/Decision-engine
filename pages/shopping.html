@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Deals | Banana</title>
+    <title>Shopping Deals | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         .deals-grid {
@@ -36,7 +36,7 @@
             color: #94a3b8;
             margin-right: 8px;
         }
-        .store-badge {
+        .brand-badge {
             background: #2d3a4f;
             padding: 5px 12px;
             border-radius: 20px;
@@ -63,64 +63,57 @@
 
 <section class="hero-area" style="padding: 40px 20px;">
     <div class="hero-container">
-        <h1>Fresh <span class="pop">Grocery Splits</span></h1>
-        <p>We've hunted down the biggest savings from the top supermarkets so you don't have to.</p>
+        <h1>Top <span class="pop">Shopping Picks</span></h1>
+        <p>From tech to trending fashion, we peel back the price tags on the best deals online.</p>
     </div>
 </section>
 
 <div class="container">
-    <div id="groceryGrid" class="deals-grid">
-        <p style="text-align:center; grid-column: 1/-1;">Peeling the freshest grocery deals...</p>
+    <div id="shoppingGrid" class="deals-grid">
+        <p style="text-align:center; grid-column: 1/-1;">Hunting for the best shopping deals...</p>
     </div>
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
-    // 1. Load Nav & Footer
+    // 1. Component Loading
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
         document.getElementById('mainFooter').innerHTML = data;
     });
 
-    // 2. Load Live Data for Groceries
+    // 2. Load Live Data for Shopping
     async function fetchLiveDeals() {
-        const grid = document.getElementById('groceryGrid');
+        const grid = document.getElementById('shoppingGrid');
         try {
-            const response = await fetch(`${API_URL}/deals?category=groceries`);
+            const response = await fetch(`${API_URL}/deals?category=shopping`);
             const deals = await response.json();
 
             if (deals.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No grocery deals in the bunch yet.</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No shopping deals in the bunch yet. Check back soon!</p>';
                 return;
             }
 
             grid.innerHTML = '';
             deals.forEach(deal => {
+                const price = parseFloat(deal.price).toFixed(2);
+                const original = parseFloat(deal.original_price).toFixed(2);
+                
                 grid.innerHTML += `
                     <div class="deal-card">
-                        <span class="store-badge">${deal.source}</span>
-                        <h3>${deal.brand} ${deal.name}</h3>
+                        <span class="brand-badge">${deal.brand}</span>
+                        <h3 style="margin-top:15px; color:white;">${deal.name}</h3>
                         <div class="price-tag">
-                            <span class="old-price">£${deal.original_price}</span>£${deal.price}
+                            <span class="old-price">£${original}</span>£${price}
                         </div>
-                        <p>Latest price drop at ${deal.source}.</p>
-                        <button class="peel-btn" onclick="saveAndGo('${deal.brand} ${deal.name}')">View Deal</button>
+                        <p style="color: #94a3b8; font-size: 0.9rem;">Available at ${deal.source}</p>
+                        <button class="peel-btn" onclick="saveAndGo('${deal.brand} ${deal.name}')">Peel the Deal</button>
                     </div>
                 `;
             });
@@ -129,10 +122,9 @@
         }
     }
 
-    // 3. Logic: Save to Dashboard
     function saveAndGo(item) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(item + " - Grocery Deal");
+        history.unshift(item + " - Shopping Deal");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
