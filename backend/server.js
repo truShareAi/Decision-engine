@@ -11,7 +11,7 @@ app.use(express.json());
 // --- DATABASE SEEDER & SCHEMA ---
 const seedDatabase = async () => {
   try {
-    // 1. Create Tables
+    // 1. Create Tables (Added grocery_rankings)
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -35,6 +35,14 @@ const seedDatabase = async () => {
         original_price DECIMAL(10, 2),
         affiliate_link TEXT,
         source VARCHAR(100)
+      );
+
+      CREATE TABLE IF NOT EXISTS grocery_rankings (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) UNIQUE NOT NULL,
+        basket_total DECIMAL(10, 2) NOT NULL,
+        status VARCHAR(255),
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
@@ -98,7 +106,7 @@ app.post('/api/register', async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(400).json({ error: "Registration failed. User may already exist." });
+    res.status(400).json({ error: "Registration failed." });
   }
 });
 
@@ -108,31 +116,41 @@ app.post('/api/login', async (req, res) => {
   try {
     const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (user.rows.length === 0) return res.status(400).json({ error: "Invalid credentials" });
-
     const validPass = await bcrypt.compare(password, user.rows[0].password_hash);
     if (!validPass) return res.status(400).json({ error: "Invalid credentials" });
-
     res.json({ id: user.rows[0].id, username: user.rows[0].username });
   } catch (err) {
     res.status(500).json({ error: "Login service unavailable" });
   }
 });
 
-// 3. Grocery Comparison Logic
-app.get('/api/grocery-comparison', (req, res) => {
-  const comparisonData = [
-    { name: 'Aldi', basket_total: 10.45, status: 'Market Leading Price' },
-    { name: 'Lidl', basket_total: 10.60, status: 'Highly Competitive' },
-    { name: 'ASDA', basket_total: 11.20, status: 'Competitive' },
-    { name: 'Morrisons', basket_total: 12.10, status: 'Standard Market Rate' },
-    { name: 'Tesco', basket_total: 12.80, status: 'Above Average' },
-    { name: 'Sainsburys', basket_total: 14.10, status: 'Premium Rate' },
-    { name: 'Waitrose', basket_total: 16.50, status: 'High Premium' }
-  ];
-  res.json(comparisonData);
+// 3. LIVE Grocery Comparison (FETCH FROM DB)
+app.get('/api/grocery-comparison', async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM grocery_rankings ORDER BY basket_total ASC");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: "Data retrieval error" });
+  }
 });
 
-// 4. General Deals
+// 4. Seeder Route: Receive data from your seed.js
+app.post('/api/grocery-comparison', async (req, res) => {
+  const { name, basket_total, status } = req.body;
+  try {
+    await db.query(
+      `INSERT INTO grocery_rankings (name, basket_total, status) 
+       VALUES ($1, $2, $3) 
+       ON CONFLICT (name) DO UPDATE SET basket_total = $2, status = $3, updated_at = NOW()`,
+      [name, basket_total, status]
+    );
+    res.json({ message: `Updated ${name}` });
+  } catch (err) {
+    res.status(400).json({ error: "Failed to update rankings" });
+  }
+});
+
+// 5. General Deals
 app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
   try {
