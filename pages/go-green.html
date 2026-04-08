@@ -32,12 +32,13 @@
             <tr>
                 <th>Service</th>
                 <th>Eco-Benefit</th>
+                <th>Estimated Cost</th>
                 <th>Potential Saving</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody id="dealsTableBody">
-            <tr><td colspan="4" style="text-align:center; padding: 40px;">Peeling the greenest deals...</td></tr>
+            <tr><td colspan="5" style="text-align:center; padding: 40px;">Peeling the greenest deals...</td></tr>
         </tbody>
     </table>
 </div>
@@ -45,40 +46,49 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
+    // 1. Component Loading
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `<a href="/pages/dashboard.html" style="color: #4ade80; text-decoration: none; font-weight: bold; border: 1px solid #4ade80; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>`;
-        }
     });
 
-    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { 
+        document.getElementById('mainFooter').innerHTML = data; 
+    });
 
+    // 2. Load Live Data for Go Green
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
             const response = await fetch(`${API_URL}/deals?category=go-green`);
             const deals = await response.json();
+            
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No green deals found yet.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No green deals found yet.</td></tr>';
                 return;
             }
+
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                const cost = parseFloat(deal.price).toLocaleString();
+                // For 'Go Green', we use original_price column to represent estimated annual savings
+                const saving = parseFloat(deal.original_price - deal.price).toFixed(2);
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong> <span class="green-badge">${deal.source}</span></td>
                         <td>${deal.name}</td>
-                        <td class="save-txt">£${deal.price} Saving</td>
+                        <td>£${cost}</td>
+                        <td class="save-txt">£${saving} Est. Save</td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
-        } catch (err) { tableBody.innerHTML = '<tr><td colspan="4">Connection error.</td></tr>'; }
+        } catch (err) { 
+            console.error(err);
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Connection error.</td></tr>'; 
+        }
     }
 
     function saveAndGo(brand) {
