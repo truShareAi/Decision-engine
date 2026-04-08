@@ -12,6 +12,10 @@
         .peel-btn { background: #ffcc00; color: black; border: none; padding: 8px 15px; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .peel-btn:hover { background: white; transform: scale(1.05); }
         .annual-price { color: #00ff88; font-weight: bold; }
+        
+        /* Refine Box Styling */
+        .refine-box { background: #1e293b; padding: 25px; border-radius: 15px; border: 1px solid #334155; margin-bottom: 30px; }
+        .refine-input { background: #0f172a; color: white; border: 1px solid #334155; padding: 10px; border-radius: 5px; width: 100%; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -21,17 +25,42 @@
 <section class="hero-area" style="padding: 40px 20px;">
     <div class="hero-container">
         <h1>Protect Your <span class="pop">Car Bunch</span></h1>
-        <p>Find the best deals for your set of wheels.</p>
+        <p>Find the best deals for your set of wheels. <br><small>*Prices shown are representative examples.</small></p>
     </div>
 </section>
 
 <div class="container">
+    <div class="refine-box">
+        <h3 style="color: #ffcc00; margin-top:0;">⚡ Sharpen Your Quote</h3>
+        <p style="font-size: 0.9rem; color: #94a3b8;">Adjust these to see how your profile affects the bunch:</p>
+        
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+            <div style="flex: 1; min-width: 200px;">
+                <label style="color:white; font-size: 0.8rem;">Age Bracket</label>
+                <select id="ageBracket" class="refine-input">
+                    <option value="1.0">25 - 50 (Standard)</option>
+                    <option value="2.2">17 - 24 (New Driver)</option>
+                    <option value="0.85">50+ (Experienced)</option>
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 200px;">
+                <label style="color:white; font-size: 0.8rem;">No Claims Bonus</label>
+                <select id="ncbYears" class="refine-input">
+                    <option value="1.0">5+ Years</option>
+                    <option value="1.3">1 - 4 Years</option>
+                    <option value="1.6">0 Years</option>
+                </select>
+            </div>
+            <button onclick="applyRefining()" class="peel-btn" style="align-self: flex-end; height: 42px; min-width: 150px;">Update Prices</button>
+        </div>
+    </div>
+
     <table class="comp-table">
         <thead>
             <tr>
                 <th>Provider</th>
-                <th>Monthly</th>
-                <th>Annual (Save!)</th>
+                <th>Est. Monthly</th>
+                <th>Est. Annual</th>
                 <th>Cover Type</th>
                 <th>Action</th>
             </tr>
@@ -47,58 +76,60 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    // FIXED: Added /api to match your server.js routes
     const API_URL = 'https://banana-api-engine.onrender.com/api';
-    const savedName = localStorage.getItem('bananaUser');
 
-    // 1. Load Nav & Footer
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-    });
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
-
-    // 2. Load Live Data from Render
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            // Fetching from your live engine
             const response = await fetch(`${API_URL}/deals?category=car-insurance`);
             const deals = await response.json();
 
             if (deals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No deals found right now.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No insurance deals found.</td></tr>';
                 return;
             }
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
-                // Ensure prices show two decimal places
-                const displayPrice = parseFloat(deal.price).toFixed(2);
-                const displayOriginal = parseFloat(deal.original_price).toFixed(2);
-
+                // We store the original values in data-attributes for the multiplier to work
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>£${displayPrice}</td>
-                        <td class="annual-price">£${displayOriginal}</td>
+                        <td class="monthly-price" data-base="${deal.price}">£${parseFloat(deal.price).toFixed(2)}</td>
+                        <td class="annual-price" data-base="${deal.original_price}">£${parseFloat(deal.original_price).toFixed(2)}</td>
                         <td>${deal.name}</td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
         } catch (err) {
-            console.error("Fetch Error:", err);
-            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error. Check your Render logs.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Connection error.</td></tr>';
         }
     }
 
-    // 3. Logic: Save to Dashboard
+    // Dynamic Multiplier Logic
+    function applyRefining() {
+        const ageMult = parseFloat(document.getElementById('ageBracket').value);
+        const ncbMult = parseFloat(document.getElementById('ncbYears').value);
+        const totalMult = ageMult * ncbMult;
+
+        document.querySelectorAll('.monthly-price').forEach(cell => {
+            const base = parseFloat(cell.getAttribute('data-base'));
+            cell.innerText = `£${(base * totalMult).toFixed(2)}`;
+        });
+
+        document.querySelectorAll('.annual-price').forEach(cell => {
+            const base = parseFloat(cell.getAttribute('data-base'));
+            cell.innerText = `£${(base * totalMult).toFixed(2)}`;
+        });
+    }
+
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history.unshift(brand + " - Car Insurance Deal");
+        history.unshift(brand + " - Insurance Estimate");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
     }
