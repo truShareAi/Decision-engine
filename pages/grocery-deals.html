@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Hub | Banana</title>
+    <title>Supermarket Price Comparison | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         .hub-grid { 
@@ -19,7 +19,6 @@
             border: 1px solid #374151; 
             border-radius: 12px; 
             padding: 20px; 
-            overflow: hidden;
         }
 
         /* Sector Tabs */
@@ -27,10 +26,8 @@
         .sector-btn { 
             background: transparent; border: none; color: #94a3b8; 
             cursor: pointer; font-weight: 700; font-size: 0.8rem; padding: 5px 10px;
-            transition: 0.3s;
         }
         .sector-btn.active { color: #ffcc00; border-bottom: 2px solid #ffcc00; }
-        .sector-btn:hover { color: white; }
 
         /* Item Rows */
         .hub-row { 
@@ -42,60 +39,65 @@
         .rank-tag { font-weight: 900; color: #ffcc00; margin-right: 10px; }
         .price-val { font-weight: 800; color: white; }
 
-        .big-total { font-size: 2.5rem; font-weight: 900; color: #ffcc00; display: block; margin: 10px 0; }
+        .big-total { font-size: 2.8rem; font-weight: 900; color: #ffcc00; display: block; margin: 10px 0; }
         
-        @media (max-width: 1200px) { 
-            .hub-grid { grid-template-columns: 1fr; } 
-        }
+        @media (max-width: 1200px) { .hub-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 30px 20px;">
+<section class="hero-area" style="padding: 40px 20px;">
     <div class="hero-container">
-        <h1 style="font-size: 2.5rem;">Market <span class="pop">Control Room</span></h1>
-        <p>Live morning audits across the UK's top 7 retailers.</p>
+        <h1 style="font-size: 2.5rem;">Supermarket <span class="pop">Price Comparison</span></h1>
+        <p style="max-width: 700px; margin: 10px auto; line-height: 1.5;">
+            Helping your bunch find the best value. We audit the UK's top 7 retailers every morning to cut through the noise and show you the real cost of your family essentials.
+        </p>
     </div>
 </section>
 
 <div class="container hub-grid">
     
     <div class="hub-card">
-        <h3 style="color: #ffcc00; margin-top:0;">Daily Index</h3>
-        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 15px;">5 Morning Essentials (Milk, Bread, Butter, Eggs, Pasta)</p>
+        <h3 style="color: #ffcc00; margin-top:0;">The Daily Index</h3>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 15px;">Combined cost of 5 basics: Milk, Bread, Butter, Eggs, and Pasta.</p>
         <div id="indexContainer">
-            <p style="font-size: 0.8rem;">Syncing ranks...</p>
+            <p style="font-size: 0.8rem;">Retrieving today's rankings...</p>
         </div>
         <div style="background: #1f2937; padding: 15px; margin-top: 20px; border-radius: 8px; border: 1px solid #374151;">
-            <span style="font-size: 0.65rem; color: #ffcc00; font-weight: bold; letter-spacing: 1px;">BIGGEST MOVER</span>
-            <p id="topMover" style="margin: 5px 0 0 0; font-weight: bold; color: #10b981;">Lidl (-2.4%)</p>
+            <span style="font-size: 0.7rem; color: #ffcc00; font-weight: 800; text-transform: uppercase;">Direct Savings Alert</span>
+            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #cbd5e1; line-height: 1.4;">
+                Switching your essentials to today's leader could reduce your monthly spend by up to 28%.
+            </p>
         </div>
     </div>
 
     <div class="hub-card">
         <div class="sector-nav" id="sectorTabs">
             <button class="sector-btn active" onclick="loadSector('dairy', this)">DAIRY</button>
-            <button class="sector-btn" onclick="loadSector('meats', this)">MEATS</button>
+            <button class="sector-btn" onclick="loadSector('meats', this)">MEAT & FISH</button>
             <button class="sector-btn" onclick="loadSector('frozen', this)">FROZEN</button>
-            <button class="sector-btn" onclick="loadSector('produce', this)">PRODUCE</button>
+            <button class="sector-btn" onclick="loadSector('produce', this)">FRESH PRODUCE</button>
         </div>
         <div id="sectorGrid">
             </div>
     </div>
 
     <div class="hub-card">
-        <h3 style="color: white; margin-top:0;">The Weekly Spend</h3>
-        <p style="font-size: 0.7rem; color: #94a3b8;">Average family basket (32 items).</p>
+        <h3 style="color: white; margin-top:0;">Estimated Family Shop</h3>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 10px;">Based on a standard 32-item weekly basket for a family of four.</p>
         <span class="big-total" id="weeklyTotal">£0.00</span>
-        <div id="weeklyStatus" style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px;">Identifying cheapest...</div>
+        <div id="weeklyStatus" style="font-weight: 700; color: #4ade80; margin-bottom: 20px;"></div>
         
-        <div style="margin-top: 25px;">
-            <h4 style="font-size: 0.8rem; color: #ffcc00; text-transform: uppercase;">Retailer Price Variance</h4>
-            <div id="varianceList">
-                </div>
-            <p style="font-size: 0.6rem; color: #6b7280; margin-top: 20px;">*Data updated daily at 04:00 AM GMT.</p>
+        <div style="margin-top: 25px; border-top: 1px solid #374151; padding-top: 20px;">
+            <h4 style="font-size: 0.8rem; color: #ffcc00; text-transform: uppercase;">Price Variance</h4>
+            <div id="varianceList" style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
+                Identifying the price gap between budget and premium retailers...
+            </div>
+            <p style="font-size: 0.65rem; color: #6b7280; margin-top: 20px; line-height: 1.3;">
+                *All data is audited at 04:00 AM daily to ensure the most accurate comparison for your morning shop.
+            </p>
         </div>
     </div>
 
@@ -104,15 +106,16 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://decision-engine-d9bs.onrender.com/api'; // Updated to your actual Render URL
+    const API_URL = 'https://decision-engine-d9bs.onrender.com/api';
 
     // 1. Component Injections
     fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
     fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    // 2. Load the Ranking Index (Left)
+    // 2. Load the Ranking Index
     async function loadIndex() {
         const container = document.getElementById('indexContainer');
+        const varianceList = document.getElementById('varianceList');
         try {
             const res = await fetch(`${API_URL}/grocery-comparison`);
             const data = await res.json();
@@ -128,22 +131,27 @@
                 `;
             });
             
-            // Update the Weekly Spend (Right) with the cheapest found
-            document.getElementById('weeklyTotal').innerText = `£${(data[0].basket_total * 6.5).toFixed(2)}`; // Estimate multiplier
-            document.getElementById('weeklyStatus').innerHTML = `Cheapest Today: <strong style="color:white;">${data[0].name}</strong>`;
-        } catch (err) { container.innerHTML = "Offline"; }
+            // Weekly Spend Logic
+            const cheapest = data[0];
+            const mostExpensive = data[data.length - 1];
+            const weeklyEstimate = (cheapest.basket_total * 6.8).toFixed(2);
+            const gap = ((mostExpensive.basket_total - cheapest.basket_total) * 6.8).toFixed(2);
+
+            document.getElementById('weeklyTotal').innerText = `£${weeklyEstimate}`;
+            document.getElementById('weeklyStatus').innerHTML = `Lowest Price: ${cheapest.name}`;
+            varianceList.innerHTML = `By shopping at <strong>${cheapest.name}</strong> instead of <strong>${mostExpensive.name}</strong>, your family could save roughly <strong>£${gap}</strong> this week.`;
+
+        } catch (err) { container.innerHTML = "Comparison system temporarily offline."; }
     }
 
-    // 3. Load Category Sectors (Center)
+    // 3. Load Category Sectors
     async function loadSector(category, btn) {
-        // Toggle Active Class
         document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
         const grid = document.getElementById('sectorGrid');
-        grid.innerHTML = `<p style="text-align:center; padding: 40px; color:#94a3b8;">Scanning ${category} prices...</p>`;
+        grid.innerHTML = `<p style="text-align:center; padding: 40px; color:#94a3b8;">Auditing ${category} prices...</p>`;
 
-        // Fetching specific sector data
         try {
             const res = await fetch(`${API_URL}/deals?category=groceries`);
             const deals = await res.json();
@@ -154,19 +162,18 @@
                     <div class="hub-row" style="padding: 15px 0;">
                         <div>
                             <strong style="color:white; display:block;">${deal.name}</strong>
-                            <span style="font-size:0.7rem; color:#94a3b8;">${deal.brand}</span>
+                            <span style="font-size:0.75rem; color:#94a3b8;">Available at ${deal.brand}</span>
                         </div>
                         <div style="text-align:right;">
                             <span class="price-val">£${deal.price}</span>
-                            <span style="display:block; font-size:0.6rem; color:#10b981;">-${Math.round((1 - deal.price/deal.original_price)*100)}% vs Avg</span>
+                            <span style="display:block; font-size:0.7rem; color:#4ade80;">£${(deal.original_price - deal.price).toFixed(2)} cheaper</span>
                         </div>
                     </div>
                 `;
             });
-        } catch (e) { grid.innerHTML = "Sector data currently unavailable."; }
+        } catch (e) { grid.innerHTML = "Category data currently unavailable."; }
     }
 
-    // Initial Launch
     loadIndex();
     loadSector('dairy', document.querySelector('.sector-btn'));
 </script>
