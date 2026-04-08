@@ -3,120 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Matters | Banana</title>
+    <title>Money Matters | Banana Advice</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .hub-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-top: 40px;
+        .advice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .info-card { background: #1a222f; padding: 25px; border-radius: 15px; border: 1px solid #334155; transition: 0.3s; }
+        .info-card:hover { border-color: #ffcc00; }
+        .info-card h3 { color: #ffcc00; margin-bottom: 10px; }
+        .info-card p { font-size: 0.95rem; line-height: 1.6; color: #cbd5e1; }
+        
+        /* Debt Support Section */
+        .support-banner { 
+            background: linear-gradient(90deg, #450a0a 0%, #1a222f 100%); 
+            padding: 40px; 
+            border-radius: 20px; 
+            margin-top: 50px; 
+            border: 1px solid #7f1d1d;
         }
-        .advice-card {
-            background: #1a222f;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid #ffcc00;
+        .support-flex { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .org-link { 
+            background: white; 
+            color: #7f1d1d; 
+            padding: 12px 20px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 0.9rem;
         }
-        .community-sidebar {
-            background: #111827;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px dashed #334155;
-            height: fit-content;
+
+        /* Community Section */
+        .community-box { 
+            background: #2d3a4f; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin-top: 40px; 
+            text-align: center; 
+            border: 2px dashed #ffcc00;
         }
-        .debt-emergency {
-            background: #7f1d1d;
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        .tag {
-            display: inline-block;
-            background: #2d3a4f;
-            color: #ffcc00;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            margin-bottom: 10px;
-        }
-        .forum-placeholder {
-            color: #94a3b8;
-            font-style: italic;
-            text-align: center;
-            padding: 20px 0;
-        }
-        .btn-outline {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            border: 2px solid #ffcc00;
-            color: #ffcc00;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn-outline:hover {
-            background: #ffcc00;
-            color: black;
-        }
-        @media (max-width: 768px) { .hub-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 60px 20px; text-align: center;">
+<section class="hero-area">
     <div class="hero-container">
         <h1>Money <span class="pop">Matters</span></h1>
-        <p>Expert advice, community wisdom, and support when you need it most.</p>
+        <p>Expert guides, simple hacks, and the support you need to keep your finances healthy. <strong>No jargon, just juice.</strong></p>
     </div>
 </section>
 
 <div class="container">
-    <div class="hub-grid">
-        <div class="advice-content">
-            <div class="advice-card">
-                <span class="tag">Saving Tips</span>
-                <h3>The "Banana Method" for Emergency Funds</h3>
-                <p>Learn how to squirrel away your first £1,000 without feeling the pinch on your weekly shop.</p>
-                <a href="#" class="btn-outline">Read Guide</a>
-            </div>
-
-            <div class="advice-card">
-                <span class="tag">Energy Advice</span>
-                <h3>Understanding Fixed vs Variable Tariffs</h3>
-                <p>Not sure if you should lock in your energy price? We break down the current market trends.</p>
-                <a href="#" class="btn-outline">Learn More</a>
-            </div>
-            
-            <div class="debt-emergency">
-                <h3>Struggling with Debt?</h3>
-                <p>You don't have to face it alone. There are amazing organisations that offer 100% free, confidential advice.</p>
-                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                    <a href="https://www.stepchange.org" target="_blank" class="peel-btn" style="text-decoration:none; background:white;">StepChange</a>
-                    <a href="https://www.nationaldebtline.org" target="_blank" class="peel-btn" style="text-decoration:none; background:white;">National Debtline</a>
-                </div>
-            </div>
+    <div class="advice-grid">
+        <div class="info-card">
+            <h3>Budgeting 101</h3>
+            <p>The "50/30/20" rule: 50% for needs, 30% for wants, and 20% for savings. We show you how to apply this to your monthly bunch of expenses.</p>
         </div>
-
-        <div class="community-sidebar">
-            <h3>Community Square</h3>
-            <p style="font-size: 0.9rem; color: #94a3b8;">Where the bunch shares their best money hacks.</p>
-            <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;">
-            
-            <div class="forum-placeholder">
-                <p>🍌 <strong>Forum Opening Soon!</strong></p>
-                <p style="font-size: 0.8rem;">We're currently prepping the soil for our community forums.</p>
-            </div>
-
-            <button class="peel-btn" style="width: 100%;" disabled>Join Waitlist</button>
+        <div class="info-card">
+            <h3>Credit Score Myths</h3>
+            <p>Does checking your score hurt it? (No). Does a high income mean a high score? (No). Get the facts on how to boost your borrowing power.</p>
         </div>
+        <div class="info-card">
+            <h3>The Savings Ladder</h3>
+            <p>From easy-access pots to ISAs and Bonds. Learn where to put your money based on how soon you'll need to peel it back out.</p>
+        </div>
+    </div>
+
+    <div class="support-banner">
+        <h2 style="color: #fecaca;">Need Support with Debt?</h2>
+        <p style="color: #fca5a5;">If you're feeling overwhelmed, these non-profit organisations offer free, confidential, and professional advice. You don't have to face it alone.</p>
+        <div class="support-flex">
+            <a href="https://www.stepchange.org" target="_blank" class="org-link">StepChange Debt Charity</a>
+            <a href="https://www.nationaldebtline.org" target="_blank" class="org-link">National Debtline</a>
+            <a href="https://www.citizensadvice.org.uk" target="_blank" class="org-link">Citizens Advice</a>
+            <a href="https://www.moneyhelper.org.uk" target="_blank" class="org-link">MoneyHelper</a>
+        </div>
+    </div>
+
+    <div class="community-box">
+        <h2 style="color: #ffcc00;">The Banana Forum</h2>
+        <p>A place for the bunch to share ideas, side hustles, and saving wins. <strong>Coming Q3 2026.</strong></p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #94a3b8;">Join 5,000+ others on the waitlist for early access.</p>
     </div>
 </div>
 
@@ -124,12 +91,8 @@
 
 <script>
     // Component Loading
-    fetch('../components/nav.html').then(res => res.text()).then(data => {
-        document.getElementById('mainNav').innerHTML = data;
-    });
-    fetch('../components/footer.html').then(res => res.text()).then(data => {
-        document.getElementById('mainFooter').innerHTML = data;
-    });
+    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
+    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 </script>
 </body>
 </html>
