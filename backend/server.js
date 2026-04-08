@@ -11,7 +11,7 @@ app.use(express.json());
 // --- DATABASE SEEDER & SCHEMA ---
 const seedDatabase = async () => {
   try {
-    // 1. Create Tables (Added Users table)
+    // 1. Create Tables
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -52,7 +52,7 @@ const seedDatabase = async () => {
       ('Full Fibre 100', 'BT', 'broadband'),
       ('Standard Variable', 'Octopus Energy', 'utilities'),
       ('Personal Loan', 'Tesco Bank', 'loans'),
-      ('Organic Banana Pack', 'Waitrose', 'groceries'),
+      ('Essential Grocery Basket', 'Banana Index', 'groceries'),
       ('Solar Panel Install', 'EcoSave', 'go-green')
       RETURNING id, category;
     `);
@@ -70,11 +70,11 @@ const seedDatabase = async () => {
       (${findId('broadband')}, 29.99, 100.00, 'https://bt.com', '100Mbps Avg'),
       (${findId('utilities')}, 155.00, 180.00, 'https://octopus.energy', 'Green Tariffs'),
       (${findId('loans')}, 210.00, 5.2, 'https://tescobank.com', '5.2% APR Fixed'),
-      (${findId('groceries')}, 1.25, 2.00, 'https://waitrose.com', 'Clubcard Price'),
+      (${findId('groceries')}, 10.45, 16.50, 'https://banana.co.uk', 'Market Average'),
       (${findId('go-green')}, 4500.00, 5500.00, 'https://ecosave.com', 'Gov Grant Avail');
     `);
 
-    console.log("✅ Database Synced: Users, Products, and Deals are Live!");
+    console.log("✅ Database Synced: Infrastructure Ready.");
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
@@ -84,9 +84,9 @@ seedDatabase();
 
 // --- ROUTES ---
 
-app.get('/', (req, res) => { res.send('Banana API is live and fully loaded 🍌'); });
+app.get('/', (req, res) => { res.send('Banana API is live 🍌'); });
 
-// 1. User Registration
+// 1. Auth: Register
 app.post('/api/register', async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -98,42 +98,41 @@ app.post('/api/register', async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(400).json({ error: "User already exists or data invalid" });
+    res.status(400).json({ error: "Registration failed. User may already exist." });
   }
 });
 
-// 2. User Login
+// 2. Auth: Login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
-    if (user.rows.length === 0) return res.status(400).json({ error: "User not found" });
+    if (user.rows.length === 0) return res.status(400).json({ error: "Invalid credentials" });
 
     const validPass = await bcrypt.compare(password, user.rows[0].password_hash);
-    if (!validPass) return res.status(400).json({ error: "Invalid password" });
+    if (!validPass) return res.status(400).json({ error: "Invalid credentials" });
 
     res.json({ id: user.rows[0].id, username: user.rows[0].username });
   } catch (err) {
-    res.status(500).json({ error: "Server error during login" });
+    res.status(500).json({ error: "Login service unavailable" });
   }
 });
 
-// 3. Grocery Price War Engine
-app.get('/api/grocery-war', (req, res) => {
-  // Static daily data (easily updatable for a weekly 'shame' list)
-  const warData = [
-    { name: 'Aldi', basket_total: 10.45, status: 'Cheapest of the Bunch' },
-    { name: 'Lidl', basket_total: 10.60, status: 'The Contender' },
-    { name: 'ASDA', basket_total: 11.20, status: 'Budget Friendly' },
-    { name: 'Morrisons', basket_total: 12.10, status: 'The Middle Ground' },
-    { name: 'Tesco', basket_total: 12.80, status: 'Overpriced Essentials' },
-    { name: 'Sainsburys', basket_total: 14.10, status: 'Brand Tax Alert' },
-    { name: 'Waitrose', basket_total: 16.50, status: 'Premium Penalty' }
+// 3. Grocery Comparison Logic
+app.get('/api/grocery-comparison', (req, res) => {
+  const comparisonData = [
+    { name: 'Aldi', basket_total: 10.45, status: 'Market Leading Price' },
+    { name: 'Lidl', basket_total: 10.60, status: 'Highly Competitive' },
+    { name: 'ASDA', basket_total: 11.20, status: 'Competitive' },
+    { name: 'Morrisons', basket_total: 12.10, status: 'Standard Market Rate' },
+    { name: 'Tesco', basket_total: 12.80, status: 'Above Average' },
+    { name: 'Sainsburys', basket_total: 14.10, status: 'Premium Rate' },
+    { name: 'Waitrose', basket_total: 16.50, status: 'High Premium' }
   ];
-  res.json(warData);
+  res.json(comparisonData);
 });
 
-// 4. Standard Deals Fetcher
+// 4. General Deals
 app.get('/api/deals', async (req, res) => {
   const { category } = req.query;
   try {
@@ -141,8 +140,8 @@ app.get('/api/deals', async (req, res) => {
       `SELECT p.name, p.brand, p.category, d.price, d.original_price, d.affiliate_link, d.source
       FROM products p JOIN deals d ON p.id = d.product_id WHERE p.category = $1`, [category]);
     res.json(result.rows);
-  } catch (err) { res.status(500).json({ error: err.message }); }
+  } catch (err) { res.status(500).json({ error: "Data retrieval error" }); }
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => { console.log(`🚀 Server live on ${PORT}`); });
+app.listen(PORT, () => { console.log(`🚀 Engine active on ${PORT}`); });
