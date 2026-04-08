@@ -7,17 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-/* --- FORCED SEEDER (Works on Free Tier) --- */
+/* --- CLEAN & FRESH SEEDER --- */
 const seedDatabase = async () => {
   try {
-    // 1. Create Tables
+    // Create Tables if they don't exist
     await db.query(`
       CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         brand VARCHAR(255),
-        category VARCHAR(100),
-        UNIQUE(brand, category)
+        category VARCHAR(100)
       );
 
       CREATE TABLE IF NOT EXISTS deals (
@@ -30,25 +29,33 @@ const seedDatabase = async () => {
       );
     `);
 
-    // 2. Insert Products (Using ON CONFLICT to avoid errors)
-    await db.query(`
+    // WIPE OLD DATA TO PREVENT CONFLICTS
+    await db.query('DELETE FROM deals');
+    await db.query('DELETE FROM products');
+
+    // INSERT FRESH DATA
+    const productResult = await db.query(`
       INSERT INTO products (name, brand, category) VALUES 
       ('Comprehensive Cover', 'Admiral', 'car-insurance'),
       ('Fixed Rate Mortgage', 'HSBC', 'mortgage'),
       ('Buildings & Contents', 'Aviva', 'home-insurance')
-      ON CONFLICT (brand, category) DO NOTHING;
+      RETURNING id, category;
     `);
 
-    // 3. Clear and Refresh Deals (Keep it simple for now)
-    await db.query('DELETE FROM deals');
+    // Map the IDs to the deals
+    const products = productResult.rows;
+    const carId = products.find(p => p.category === 'car-insurance').id;
+    const mortgageId = products.find(p => p.category === 'mortgage').id;
+    const homeId = products.find(p => p.category === 'home-insurance').id;
+
     await db.query(`
-      INSERT INTO deals (product_id, price, original_price, affiliate_link, source)
-      SELECT id, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct' FROM products WHERE brand = 'Admiral' UNION ALL
-      SELECT id, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank' FROM products WHERE brand = 'HSBC' UNION ALL
-      SELECT id, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct' FROM products WHERE brand = 'Aviva';
+      INSERT INTO deals (product_id, price, original_price, affiliate_link, source) VALUES 
+      (${carId}, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
+      (${mortgageId}, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank'),
+      (${homeId}, 22.50, 240.00, 'https://aviva.co.uk', 'Aviva Direct');
     `);
 
-    console.log("✅ Database Synced: Home Insurance is now live!");
+    console.log("✅ Database Synced Successfully!");
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
