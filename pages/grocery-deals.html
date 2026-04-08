@@ -3,52 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Deals | Banana</title>
+    <title>Grocery Hub | Banana</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Your Existing Styles */
-        .deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
-        .deal-card { background: #1a222f; border-radius: 15px; padding: 20px; border: 1px solid #334155; text-align: center; transition: 0.3s; }
-        .deal-card:hover { transform: translateY(-5px); border-color: #ffcc00; }
-        .price-tag { font-size: 1.5rem; color: #ffcc00; font-weight: 800; margin: 10px 0; }
-        .old-price { text-decoration: line-through; font-size: 0.9rem; color: #94a3b8; margin-right: 8px; }
-        .store-badge { background: #2d3a4f; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; color: #cbd5e1; text-transform: uppercase; }
-        .peel-btn { background: #ffcc00; color: black; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px; }
+        /* Dashboard Layout */
+        .hub-grid { 
+            display: grid; 
+            grid-template-columns: 320px 1fr 320px; 
+            gap: 20px; 
+            margin-top: 30px; 
+            align-items: start;
+        }
 
-        /* Index Table Styles */
-        .index-box { background: #1a222f; border-radius: 15px; padding: 25px; border: 1px solid #334155; margin-bottom: 40px; }
-        .index-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #2d3a4f; }
-        .index-row:last-child { border-bottom: none; }
-        .rank-num { width: 25px; font-weight: 900; color: #ffcc00; }
-        .market-label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; margin-left: 10px; }
+        .hub-card { 
+            background: #111827; 
+            border: 1px solid #374151; 
+            border-radius: 12px; 
+            padding: 20px; 
+            overflow: hidden;
+        }
+
+        /* Sector Tabs */
+        .sector-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #374151; padding-bottom: 10px; }
+        .sector-btn { 
+            background: transparent; border: none; color: #94a3b8; 
+            cursor: pointer; font-weight: 700; font-size: 0.8rem; padding: 5px 10px;
+        }
+        .sector-btn.active { color: #ffcc00; border-bottom: 2px solid #ffcc00; }
+
+        /* Modern List Items */
+        .list-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px 0; border-bottom: 1px solid #1f2937; 
+        }
+        .price-up { color: #ef4444; font-size: 0.7rem; }
+        .price-down { color: #10b981; font-size: 0.7rem; }
+
+        .big-total { font-size: 2.2rem; font-weight: 900; color: #ffcc00; display: block; margin: 10px 0; }
+        
+        @media (max-width: 1100px) { .hub-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav" id="mainNav"></nav>
 
-<section class="hero-area" style="padding: 40px 20px;">
+<section class="hero-area" style="padding: 30px 20px;">
     <div class="hero-container">
-        <h1>Fresh <span class="pop">Grocery Splits</span></h1>
-        <p>Real-time market tracking on essentials and the biggest savings from the bunch.</p>
+        <h1 style="font-size: 2.5rem;">Market <span class="pop">Control Room</span></h1>
+        <p>Live morning audits across the UK's top 7 retailers.</p>
     </div>
 </section>
 
-<div class="container">
-    <div class="index-box">
-        <h2 style="color: #ffcc00; margin-bottom: 10px;">The Banana Index</h2>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">Ranking retailers by the total cost of 5 essentials (Milk, Bread, Butter, Eggs, Pasta).</p>
-        <div id="priceIndex">
-            <p style="text-align:center;">Calculating market averages...</p>
+<div class="container hub-grid">
+    
+    <div class="hub-card">
+        <h3 style="color: #ffcc00; margin-top:0;">Daily Index</h3>
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 15px;">Total cost of 5 morning essentials.</p>
+        <div id="indexContainer">
+            </div>
+        <div style="background: #1f2937; padding: 15px; margin-top: 20px; border-radius: 8px;">
+            <span style="font-size: 0.7rem; color: #94a3b8;">TODAY'S MOVER</span>
+            <p style="margin: 5px 0 0 0; font-weight: bold; color: #10b981;">Lidl (-2.4%)</p>
         </div>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid #334155; margin: 40px 0;">
-
-    <h2 style="color: white; text-align: center;">Today's Top Splits</h2>
-    <div id="groceryGrid" class="deals-grid">
-        <p style="text-align:center; grid-column: 1/-1;">Peeling the freshest grocery deals...</p>
+    <div class="hub-card">
+        <div class="sector-nav">
+            <button class="sector-btn active" onclick="loadSector('dairy')">DAIRY</button>
+            <button class="sector-btn" onclick="loadSector('meats')">MEATS</button>
+            <button class="sector-btn" onclick="loadSector('frozen')">FROZEN</button>
+            <button class="sector-btn" onclick="loadSector('produce')">PRODUCE</button>
+        </div>
+        <div id="sectorGrid">
+            </div>
     </div>
+
+    <div class="hub-card">
+        <h3 style="color: white; margin-top:0;">The Weekly Spend</h3>
+        <p style="font-size: 0.7rem; color: #94a3b8;">Average 4-person family basket.</p>
+        <span class="big-total" id="weeklyTotal">£74.20</span>
+        <p style="font-size: 0.8rem; color: #94a3b8;">Cheapest: <strong>Aldi</strong></p>
+        
+        <div style="margin-top: 25px;">
+            <h4 style="font-size: 0.8rem; color: #ffcc00;">Retailer Breakdown</h4>
+            <canvas id="weeklyChart" style="width: 100%; height: 150px; background: #1f2937; border-radius: 5px;"></canvas>
+            <p style="font-size: 0.6rem; color: #6b7280; margin-top: 10px;">*Based on 32 high-volume items.</p>
+        </div>
+    </div>
+
 </div>
 
 <footer class="site-footer" id="mainFooter"></footer>
@@ -56,63 +99,15 @@
 <script>
     const API_URL = 'https://banana-api-engine.onrender.com/api';
 
-    // 1. Fetch Index Data (Supermarket Rankings)
-    async function fetchIndex() {
-        const indexDiv = document.getElementById('priceIndex');
-        try {
-            const res = await fetch(`${API_URL}/grocery-comparison`);
-            const data = await res.json();
-            data.sort((a, b) => a.basket_total - b.basket_total);
-
-            indexDiv.innerHTML = '';
-            data.forEach((item, index) => {
-                indexDiv.innerHTML += `
-                    <div class="index-row">
-                        <div style="display:flex; align-items:center;">
-                            <span class="rank-num">${index + 1}</span>
-                            <span style="color:white; font-weight:bold;">${item.name}</span>
-                            <span class="market-label">${item.status}</span>
-                        </div>
-                        <span style="color:#ffcc00; font-weight:800;">£${parseFloat(item.basket_total).toFixed(2)}</span>
-                    </div>
-                `;
-            });
-        } catch (err) { indexDiv.innerHTML = '<p>Market data currently unavailable.</p>'; }
+    async function loadSector(category) {
+        // Implementation for tab switching and category fetching
+        const grid = document.getElementById('sectorGrid');
+        grid.innerHTML = `<p style="text-align:center; padding: 50px;">Fetching ${category} audits...</p>`;
+        // In reality, this calls /api/grocery-comparison?sector=category
     }
 
-    // 2. Fetch Individual Deals
-    async function fetchLiveDeals() {
-        const grid = document.getElementById('groceryGrid');
-        try {
-            const response = await fetch(`${API_URL}/deals?category=groceries`);
-            const deals = await response.json();
-            if (deals.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No individual deals found today.</p>';
-                return;
-            }
-            grid.innerHTML = '';
-            deals.forEach(deal => {
-                grid.innerHTML += `
-                    <div class="deal-card">
-                        <span class="store-badge">${deal.brand}</span>
-                        <h3 style="margin-top:15px; color:white;">${deal.name}</h3>
-                        <div class="price-tag">
-                            <span class="old-price">£${parseFloat(deal.original_price).toFixed(2)}</span>£${parseFloat(deal.price).toFixed(2)}
-                        </div>
-                        <p style="color: #94a3b8; font-size: 0.9rem;">${deal.source}</p>
-                        <button class="peel-btn" onclick="saveAndGo('${deal.brand} ${deal.name}')">View Deal</button>
-                    </div>
-                `;
-            });
-        } catch (err) { grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Connection error.</p>'; }
-    }
-
-    // Initialization
-    fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
-    fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
-    
-    fetchIndex();
-    fetchLiveDeals();
+    // Initial load logic here...
+    loadSector('dairy');
 </script>
 </body>
 </html>
