@@ -18,18 +18,18 @@
             border-collapse: separate; 
             border-spacing: 0;
             margin: 40px 0; 
-            background: var(--card-bg); 
+            background: #1a222f; 
             border-radius: 15px; 
             border: 1px solid #334155;
             overflow: hidden; 
         }
-        .comp-table th { background: #2d3a4f; padding: 20px; text-align: left; color: var(--brand-yellow); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .comp-table th { background: #2d3a4f; padding: 20px; text-align: left; color: #ffcc00; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         .comp-table td { padding: 20px; border-bottom: 1px solid #334155; color: white; vertical-align: middle; }
         .comp-table tr:last-child td { border-bottom: none; }
         
         .peel-btn { 
-            background: var(--brand-yellow); 
-            color: var(--bg-dark); 
+            background: #ffcc00; 
+            color: #0f172a; 
             border: none; 
             padding: 10px 20px; 
             border-radius: 50px; 
@@ -86,19 +86,19 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    // FIXED: Added /api to match your server routes
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
     // Component Loading
     fetch('../components/nav.html').then(res => res.text()).then(data => { document.getElementById('mainNav').innerHTML = data; });
     fetch('../components/footer.html').then(res => res.text()).then(data => { document.getElementById('mainFooter').innerHTML = data; });
 
-    // Fetch from GitHub-backed Dummy API
+    // Fetch from Live API
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            // Keep category as 'energy' to pull the correct data from your dummy DB
-            const response = await fetch(`${API_URL}/deals?category=energy`);
+            // FIXED: Using 'utilities' category as defined in your Master Seeder
+            const response = await fetch(`${API_URL}/deals?category=utilities`);
             const deals = await response.json();
 
             if (deals.length === 0) {
@@ -108,27 +108,30 @@
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                const monthly = parseFloat(deal.price).toFixed(2);
+                const annual = parseFloat(deal.original_price).toFixed(2);
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>£${deal.price}</td>
-                        <td class="annual-save">£${deal.original_price}</td>
+                        <td>£${monthly}</td>
+                        <td class="annual-save">£${annual}</td>
                         <td>
                             <div style="font-weight: 600;">${deal.name}</div>
-                            <div class="tariff-type">Standard Variable or Fixed</div>
+                            <div class="tariff-type">${deal.source}</div>
                         </td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
         } catch (err) {
+            console.error("Connection Error:", err);
             tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">Connection to the Decision Engine timed out.</td></tr>';
         }
     }
 
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        // Updated label for the Dashboard history
         history.unshift(brand + " - Utility Switch");
         localStorage.setItem('searchHistory', JSON.stringify(history));
         window.location.href = 'dashboard.html';
