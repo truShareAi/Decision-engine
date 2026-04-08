@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- THE AUTO-SEEDER (Run once to build tables) ---
+/* --- AUTO-SEEDER --- */
 const seedDatabase = async () => {
   try {
     await db.query(`
@@ -17,6 +17,7 @@ const seedDatabase = async () => {
         brand VARCHAR(255),
         category VARCHAR(100)
       );
+
       CREATE TABLE IF NOT EXISTS deals (
         id SERIAL PRIMARY KEY,
         product_id INTEGER REFERENCES products(id),
@@ -26,45 +27,79 @@ const seedDatabase = async () => {
         source VARCHAR(100)
       );
     `);
-    
-    // Check if data already exists
+
     const check = await db.query('SELECT COUNT(*) FROM products');
+
     if (parseInt(check.rows[0].count) === 0) {
       await db.query(`
         INSERT INTO products (name, brand, category) VALUES 
         ('Comprehensive Cover', 'Admiral', 'car-insurance'),
         ('Fixed Rate Mortgage', 'HSBC', 'mortgage');
-        
+
         INSERT INTO deals (product_id, price, original_price, affiliate_link, source) VALUES 
         (1, 450.00, 520.00, 'https://admiral.com', 'Admiral Direct'),
         (2, 1200.00, 1350.00, 'https://hsbc.co.uk', 'HSBC Bank');
       `);
+
       console.log("✅ Database Seeded Successfully!");
     }
   } catch (err) {
     console.error("❌ Seeding Error:", err.message);
   }
 };
+
 seedDatabase();
-// ------------------------------------------------
 
-app.get('/', (req, res) => res.send('Banana API is peeling along nicely! 🍌'));
+/* --- BASIC CHECK --- */
+app.get('/', (req, res) => {
+  res.send('Banana API is live 🍌');
+});
 
-app.get('/deals', async (req, res) => {
-  const { category } = req.query;
+/* --- NEW: CATEGORIES ENDPOINT --- */
+app.get('/api/categories', async (req, res) => {
   try {
-    const result = await db.query(
-      `SELECT p.name, p.brand, d.price, d.original_price, d.affiliate_link, d.source 
-       FROM products p 
-       JOIN deals d ON p.id = d.product_id 
-       WHERE p.category = $1`,
-      [category]
-    );
+    const result = await db.query(`
+      SELECT DISTINCT category FROM products
+    `);
+
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+/* --- UPDATED: DEALS WITH SCORE --- */
+app.get('/api/deals', async (req, res) => {
+  const { category } = req.query;
+
+  try {
+    const result = await db.query(
+      `SELECT 
+        p.name,
+        p.brand,
+        p.category,
+        d.price,
+        d.original_price,
+        d.affiliate_link,
+        d.source,
+        (d.original_price - d.price) AS savings,
+        ((d.original_price - d.price) / d.price) AS score
+      FROM products p
+      JOIN deals d ON p.id = d.product_id
+      WHERE p.category = $1
+      ORDER BY score DESC`,
+      [category]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* --- START SERVER --- */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server live on ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server live on ${PORT}`);
+});
