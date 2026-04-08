@@ -47,21 +47,11 @@
 <footer class="site-footer" id="mainFooter"></footer>
 
 <script>
-    const API_URL = 'https://banana-api-engine.onrender.com';
-    const savedName = localStorage.getItem('bananaUser');
+    const API_URL = 'https://banana-api-engine.onrender.com/api';
 
     // 1. Load Nav & Footer
     fetch('../components/nav.html').then(res => res.text()).then(data => {
         document.getElementById('mainNav').innerHTML = data;
-        const authArea = document.getElementById('navAuthSection');
-        if (savedName && authArea) {
-            authArea.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <a href="/index.html" style="color: white; text-decoration: none; font-size: 0.9rem;">Home</a>
-                    <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 5px 12px; border-radius: 20px;">Hi, ${savedName}</a>
-                </div>
-            `;
-        }
     });
 
     fetch('../components/footer.html').then(res => res.text()).then(data => {
@@ -72,7 +62,8 @@
     async function fetchLiveDeals() {
         const tableBody = document.getElementById('dealsTableBody');
         try {
-            const response = await fetch(`${API_URL}/deals?category=mortgages`);
+            // Updated to 'mortgage' (singular) to match your server.js seeder
+            const response = await fetch(`${API_URL}/deals?category=mortgage`);
             const deals = await response.json();
 
             if (deals.length === 0) {
@@ -82,22 +73,26 @@
 
             tableBody.innerHTML = '';
             deals.forEach(deal => {
+                // In mortgages, price is the % rate, original_price is the setup fee
+                const rate = parseFloat(deal.price).toFixed(2);
+                const fee = parseFloat(deal.original_price).toLocaleString();
+
                 tableBody.innerHTML += `
                     <tr>
                         <td><strong>${deal.brand}</strong></td>
-                        <td>${deal.price}%</td>
-                        <td class="fee-highlight">£${deal.original_price}</td>
+                        <td>${rate}%</td>
+                        <td class="fee-highlight">£${fee}</td>
                         <td>${deal.name}</td>
                         <td><button class="peel-btn" onclick="saveAndGo('${deal.brand}')">Peel the Deal</button></td>
                     </tr>
                 `;
             });
         } catch (err) {
+            console.error("Connection Error:", err);
             tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Engine connection error.</td></tr>';
         }
     }
 
-    // 3. Logic: Save to Dashboard
     function saveAndGo(brand) {
         let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
         history.unshift(brand + " - Mortgage Rate");
