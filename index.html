@@ -152,6 +152,7 @@
         
         /* Navbar & Footer Styles */
         .top-nav {
+            min-height: 80px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -195,15 +196,7 @@
 </head>
 <body style="background-color: #0f172a; color: white; font-family: system-ui, sans-serif; margin: 0;">
 
-    <nav class="top-nav" id="mainNav">
-        <div class="nav-logo">🍌 Banana</div>
-        <ul class="nav-links">
-            <li><a href="/">Search</a></li>
-            <li><a href="/deals">Deals</a></li>
-            <li><a href="/pantry">Pantry</a></li>
-            <li><a href="/dairy">Dairy</a></li>
-        </ul>
-    </nav>
+    <nav class="top-nav" id="mainNav"></nav>
 
     <section class="hero-area">
         <div class="hero-text">
@@ -242,9 +235,9 @@
         <p>Sponsored</p>
     </div>
 
-    <footer class="site-footer" id="mainFooter">
-        <p>&copy; 2026 Banana. All rights reserved.</p>
-    </footer>
+    <footer class="site-footer" id="mainFooter"></footer>
+
+    <script src="js/app.js"></script>
 
 </body>
 </html>
