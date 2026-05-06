@@ -149,51 +149,102 @@
             border-radius: 10px;
             opacity: 0.7;
         }
+        
+        /* Navbar & Footer Styles */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+        
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #38bdf8;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+        
+        .site-footer {
+            text-align: center;
+            padding: 30px;
+            background: #0f172a;
+            color: #94a3b8;
+            border-top: 1px solid #1e293b;
+            margin-top: 40px;
+        }
     </style>
 </head>
+<body style="background-color: #0f172a; color: white; font-family: system-ui, sans-serif; margin: 0;">
 
-<body>
+    <nav class="top-nav" id="mainNav">
+        <div class="nav-logo">🍌 Banana</div>
+        <ul class="nav-links">
+            <li><a href="/">Search</a></li>
+            <li><a href="/deals">Deals</a></li>
+            <li><a href="/pantry">Pantry</a></li>
+            <li><a href="/dairy">Dairy</a></li>
+        </ul>
+    </nav>
 
-<nav class="top-nav" id="mainNav"></nav>
-
-<!-- HERO -->
-<section class="hero-area">
-    <div class="hero-text">
-        <h1>Describe it.<br><span class="pop">We’ll find it.</span></h1>
-        <p>Weird problems, smart products. Just type what you need.</p>
-    </div>
-
-    <div class="search-container">
-        <div class="search-wrap">
-            <input type="text" id="mainSearchInput" placeholder="e.g. tool to rip weeds out of garden">
-            <button onclick="handleSearch()">Search</button>
+    <section class="hero-area">
+        <div class="hero-text">
+            <h1>Describe it.<br><span class="pop">We’ll find it.</span></h1>
+            <p>Weird problems, smart products. Just type what you need.</p>
         </div>
 
-        <div class="suggestions">
-            <span onclick="quickSearch('cheap home gym setup')">Home gym</span>
-            <span onclick="quickSearch('cable organiser for desk')">Cable mess</span>
-            <span onclick="quickSearch('tool to remove weeds')">Garden</span>
-            <span onclick="quickSearch('budget gaming setup')">Gaming</span>
+        <div class="search-container">
+            <div class="search-wrap">
+                <input type="text" id="mainSearchInput" placeholder="e.g. tool to rip weeds out of garden">
+                <button onclick="handleSearch()">Search</button>
+            </div>
+
+            <div class="suggestions">
+                <span onclick="quickSearch('cheap home gym setup')">Home gym</span>
+                <span onclick="quickSearch('cable organiser for desk')">Cable mess</span>
+                <span onclick="quickSearch('tool to remove weeds')">Garden</span>
+                <span onclick="quickSearch('budget gaming setup')">Gaming</span>
+            </div>
         </div>
+
+        <div class="hero-mascot">
+            <img src="images/mascot.png" alt="Banana Mascot">
+        </div>
+    </section>
+
+    <section class="results">
+        <div id="loadingState" class="loading" style="display:none;">
+            <p>🍌 Finding the best stuff...</p>
+        </div>
+
+        <div id="resultsSection"></div>
+    </section>
+
+    <div class="ad-banner">
+        <p>Sponsored</p>
     </div>
 
-    <div class="hero-mascot">
-        <img src="images/mascot.png" alt="Banana Mascot">
-    </div>
-</section>
+    <footer class="site-footer" id="mainFooter">
+        <p>&copy; 2026 Banana. All rights reserved.</p>
+    </footer>
 
-<!-- RESULTS -->
-<section class="results">
-    <div id="loadingState" class="loading" style="display:none;">
-        <p>🍌 Finding the best stuff...</p>
-    </div>
-
-    <div id="resultsSection"></div>
-</section>
-
-<!-- AD -->
-<div class="ad-banner">
-    <p>Sponsored</p>
-</div>
-
-<footer class="site-footer" id="mainFooter
+</body>
+</html>
