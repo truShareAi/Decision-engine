@@ -1,15 +1,15 @@
 <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box;">
-    <div class="nav-logo" onclick="window.location.href='/index.html'" style="cursor: pointer; font-weight: 900; color: #ffcc00; font-size: 1.2rem; white-space: nowrap; display: flex; align-items: center; flex-shrink: 0;">
-        <img src="images/mascot.png" alt="Banana Mascot" style="height: 105px; margin-right: 12px;">
+    <div class="nav-logo" onclick="window.location.href='/index.html'" style="cursor: pointer; font-weight: 900; color: #ffcc00; font-size: 1.1rem; white-space: nowrap; display: flex; align-items: center; flex-shrink: 0;">
+        <img src="images/mascot.png" alt="Banana Mascot" style="height: 100px; margin-right: 10px;">
         BANANA
     </div>
     
-    <div class="nav-links" style="display: flex; gap: 0.4vw; align-items: center; flex-shrink: 1; overflow: hidden;">
+    <div class="nav-links" style="display: flex; gap: 0.3vw; align-items: center; flex-shrink: 1; overflow: hidden;">
         <style>
             .nav-links a {
                 color: white;
                 text-decoration: none;
-                font-size: 0.65rem; 
+                font-size: 0.62rem; 
                 font-weight: 700;
                 transition: 0.3s;
                 white-space: nowrap;
@@ -18,10 +18,15 @@
             .nav-links a.green-link { color: #4ade80; }
             .nav-links a.green-link:hover { color: white; }
 
-            /* Responsive shrink for the full bunch of 12 */
+            /* Responsive shrink for tablet viewports */
             @media (max-width: 1300px) {
-                .nav-links a { font-size: 0.56rem; }
-                .nav-links { gap: 5px; }
+                .nav-links a { font-size: 0.52rem; }
+                .nav-links { gap: 4px; }
+            }
+            
+            @media (max-width: 1024px) {
+                .nav-links a { font-size: 0.42rem; }
+                .nav-links { gap: 2px; }
             }
         </style>
         <a href="/pages/car-insurance.html">Car</a>
@@ -39,7 +44,7 @@
     </div>
 
     <div class="nav-auth" id="navAuthSection" style="white-space: nowrap; margin-left: 10px; flex-shrink: 0;">
-        <a href="/pages/signin.html" class="sign-in-btn" style="font-size: 0.72rem; background: #ffcc00; color: black; padding: 5px 12px; border-radius: 20px; font-weight: 800; text-decoration: none;">Sign in</a>
+        <a href="/pages/signin.html" class="sign-in-btn" style="font-size: 0.68rem; background: #ffcc00; color: black; padding: 5px 10px; border-radius: 20px; font-weight: 800; text-decoration: none;">Sign in</a>
     </div>
 </div>
 
@@ -52,7 +57,7 @@
             if (user && target) {
                 target.innerHTML = `
                     <div style="display: flex; align-items: center;">
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.72rem; font-weight: bold; border: 1px solid #ffcc00; padding: 4px 10px; border-radius: 20px;">Hi, ${user}</a>
+                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.68rem; font-weight: bold; border: 1px solid #ffcc00; padding: 4px 8px; border-radius: 20px;">Hi, ${user}</a>
                     </div>
                 `;
             }
