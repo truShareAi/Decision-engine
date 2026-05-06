@@ -11,7 +11,7 @@
             padding: 20px 20px 40px;
             text-align: center;
             position: relative;
-            margin-top: 145px; /* Matches the navbar's min-height exactly */
+            margin-top: 145px; /* Matches the navbar's height exactly */
             background-color: #1e293b; /* Lighter slate-blue background to create a break in color */
         }
 
@@ -142,14 +142,16 @@
         
         /* Navbar & Footer Styles */
         .top-nav {
-            min-height: 145px; 
+            min-height: 145px !important; 
+            height: 145px !important;
+            max-height: 145px !important;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 10px 20px !important;
             background: #0f172a;
-            border-bottom: none; 
-            margin-bottom: 0;
+            border-bottom: none !important; 
+            margin-bottom: 0 !important;
             box-sizing: border-box;
             position: fixed;
             top: 0;
