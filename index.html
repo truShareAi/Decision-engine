@@ -11,7 +11,8 @@
             padding: 20px 20px 40px;
             text-align: center;
             position: relative;
-            margin-top: 165px; /* Pushes content down to clear the 145px navbar */
+            margin-top: 145px; /* Matches the navbar's min-height exactly */
+            background-color: #0f172a; /* Explicit background color to prevent double color mismatch */
         }
 
         .hero-text h1 {
@@ -147,8 +148,8 @@
             align-items: center;
             padding: 10px 20px;
             background: #0f172a;
-            border-bottom: 1px solid #1e293b;
-            margin-bottom: 20px;
+            border-bottom: none; /* Removed border */
+            margin-bottom: 0;
             box-sizing: border-box;
             position: fixed;
             top: 0;
