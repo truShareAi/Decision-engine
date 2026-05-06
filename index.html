@@ -242,6 +242,32 @@
 
     <footer class="site-footer" id="mainFooter"></footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Load Navigation
+            fetch('components/nav.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Could not load nav.html');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('mainNav').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading navigation:', error));
+
+            // Load Footer
+            fetch('components/footer.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Could not load footer.html');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('mainFooter').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        });
+    </script>
+
     <script src="js/app.js"></script>
 
 </body>
