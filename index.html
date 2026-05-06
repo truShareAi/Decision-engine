@@ -11,7 +11,7 @@
             padding: 20px 20px 40px;
             text-align: center;
             position: relative;
-            margin-top: 20px;
+            margin-top: 165px; /* Pushes content down to clear the 145px navbar */
         }
 
         .hero-text h1 {
@@ -150,6 +150,11 @@
             border-bottom: 1px solid #1e293b;
             margin-bottom: 20px;
             box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
         }
         
         .nav-logo {
