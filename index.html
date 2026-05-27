@@ -3,267 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana | Find Anything</title>
+    <title>AXIOS | Premium Sports & Casual Wear</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
     <style>
-        .hero-area {
-            padding: 20px 20px 40px;
-            text-align: center;
-            position: relative;
-            margin-top: 145px; /* Matches the navbar's height exactly */
-            background-color: #1e293b; /* Lighter slate-blue background to create a break in color */
+        /* --- AXIOS BRAND COLOR OVERRIDES --- */
+        :root {
+            --bg-dark: #0a0a0a;       /* Deep matte black */
+            --card-bg: #1a1a1a;       /* Dark charcoal gray */
+            --text-main: #f3f4f6;     /* Light gray crisp text */
+            --text-muted: #9ca3af;    /* Mid gray text */
+            --axios-green: #22c55e;   /* Vibrant statement green accent */
+            --nav-bg: #000000;        /* Pure black nav */
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            line-height: 1.2;
+            padding-top: 70px;
+            overflow-x: hidden;
         }
 
-        .hero-text p {
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-
-        .pop {
-            color: #fde047;
-        }
-
-        /* SEARCH */
-        .search-container {
-            max-width: 600px;
-            margin: 30px auto 10px;
-        }
-
-        .search-wrap {
-            display: flex;
-            background: white;
-            border-radius: 50px;
-            overflow: hidden;
-        }
-
-        .search-wrap input {
-            flex: 1;
-            border: none;
-            padding: 15px;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .search-wrap button {
-            background: #38bdf8;
-            border: none;
-            color: white;
-            padding: 15px 25px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* SUGGESTIONS */
-        .suggestions {
-            margin-top: 15px;
-        }
-
-        .suggestions span {
-            display: inline-block;
-            margin: 5px;
-            padding: 6px 12px;
-            background: #0f172a; /* Dark navy contrast inside suggestions */
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .suggestions span:hover {
-            background: #38bdf8;
-        }
-
-        /* RESULTS */
-        .results {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .result-main {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 2px solid #fde047;
-        }
-
-        .result-main h2 {
-            margin: 0 0 10px;
-        }
-
-        .result-main p {
-            opacity: 0.8;
-        }
-
-        .result-main button {
-            margin-top: 10px;
-            background: #fde047;
-            border: none;
-            padding: 10px 20px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .result-list {
-            display: grid;
-            gap: 10px;
-        }
-
-        .result-card {
-            background: #1e293b;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        /* LOADING */
-        .loading {
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        /* AD */
-        .ad-banner {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #1e293b;
-            text-align: center;
-            border-radius: 10px;
-            opacity: 0.7;
-        }
-        
-        /* Navbar & Footer Styles */
+        /* --- FIXED NAVBAR DESIGN --- */
         .top-nav {
-            min-height: 145px !important; 
-            height: 145px !important;
-            max-height: 145px !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px !important;
-            background: #0f172a;
-            border-bottom: none !important; 
-            margin-bottom: 0 !important;
-            box-sizing: border-box;
+            background: var(--nav-bg) !important;
+            border-bottom: 1px solid #262626 !important;
+            height: 70px !important;
+            min-height: 70px !important;
+            max-height: 70px !important;
+            width: 100%;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
             z-index: 1000;
-        }
-        
-        .nav-logo {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: #38bdf8;
-        }
-        
-        .nav-links {
             display: flex;
-            gap: 20px;
-            list-style: none;
+            align-items: center;
+            box-sizing: border-box;
         }
-        
-        .nav-links a {
-            color: #fff;
+
+        /* --- MIDDLE SEGMENT: HERO CAROUSEL --- */
+        .hero-slider-section {
+            background: linear-gradient(180deg, #111111 0%, var(--bg-dark) 100%);
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .slider-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            align-items: center;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .slider-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        .hero-headline h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.05;
+            text-transform: uppercase;
+            margin: 0 0 15px 0;
+            letter-spacing: -1px;
+        }
+
+        .hero-headline h1 span {
+            color: var(--axios-green);
+        }
+
+        .hero-headline p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin: 0 0 30px 0;
+            line-height: 1.6;
+        }
+
+        .axios-btn {
+            display: inline-block;
+            background: var(--text-main);
+            color: var(--bg-dark);
+            padding: 14px 36px;
+            border-radius: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
+            transition: all 0.2s ease;
+            border: 2px solid var(--text-main);
         }
-        
-        .nav-links a:hover {
-            color: #38bdf8;
+
+        .axios-btn:hover {
+            background: transparent;
+            color: var(--axios-green);
+            border-color: var(--axios-green);
         }
-        
+
+        /* RIGHT-TO-LEFT INFINITE IMAGE SLIDER */
+        .slider-viewscreen {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            border-radius: 12px;
+            background: #121212;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .image-track {
+            display: flex;
+            width: calc(320px * 6); /* Width of image cards x total count including duplicates */
+            animation: scrollRightToLeft 25s linear infinite;
+        }
+
+        .image-track:hover {
+            animation-play-state: paused;
+        }
+
+        .slide-card {
+            width: 320px;
+            height: 420px;
+            flex-shrink: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .slide-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            filter: grayscale(15%);
+            transition: filter 0.3s ease;
+        }
+
+        .slide-card img:hover {
+            filter: grayscale(0%);
+        }
+
+        @keyframes scrollRightToLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-320px * 3)); } /* Loops cleanly at halfway mark */
+        }
+
+        /* --- MIDDLE SEGMENT: NEW ARRIVALS --- */
+        .new-arrivals-section {
+            max-width: 1200px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--axios-green);
+            padding-left: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            margin: 5px 0 0 0;
+            font-size: 0.95rem;
+        }
+
+        /* Product Grid Setup */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #262626;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-color: #404040;
+        }
+
+        .product-image-wrap {
+            width: 100%;
+            height: 360px;
+            position: relative;
+            background: #1f1f1f;
+            overflow: hidden;
+        }
+
+        .product-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--axios-green);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .product-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #262626;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .add-to-cart-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--axios-green);
+            border-color: var(--axios-green);
+            color: #000;
+        }
+
+        /* --- FOOTER MODIFICATIONS --- */
         .site-footer {
-            text-align: center;
-            padding: 30px;
-            background: #0f172a;
-            color: #94a3b8;
-            border-top: 1px solid #1e293b;
-            margin-top: 40px;
+            background-color: #000000 !important;
+            border-top: 1px solid #262626;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        .footer-links a {
+            color: var(--text-muted) !important;
+        }
+        .footer-links a:hover {
+            color: var(--axios-green) !important;
+        }
+        .back-to-top {
+            color: var(--text-main) !important;
+            border-color: #262626 !important;
+        }
+        .back-to-top:hover {
+            background: var(--axios-green) !important;
+            color: #000 !important;
         }
     </style>
 </head>
-<body style="background-color: #0f172a; color: white; font-family: system-ui, sans-serif; margin: 0;">
+<body>
 
     <nav class="top-nav" id="mainNav"></nav>
 
-    <section class="hero-area">
-        <div class="hero-text">
-            <h1>Describe it.<br><span class="pop">We’ll find it.</span></h1>
-            <p>Weird problems, smart products. Just type what you need.</p>
-        </div>
-
-        <div class="search-container">
-            <div class="search-wrap">
-                <input type="text" id="mainSearchInput" placeholder="e.g. tool to rip weeds out of garden">
-                <button onclick="handleSearch()">Search</button>
+    <section class="hero-slider-section">
+        <div class="slider-layout">
+            
+            <div class="hero-headline">
+                <h1>Comfort Fit<br><span>Performance</span></h1>
+                <p>Engineered for high-intensity training. Tailored for premium, everyday casual street wear.</p>
+                <a href="#shop-new" class="axios-btn">Explore Range</a>
             </div>
 
-            <div class="suggestions">
-                <span onclick="quickSearch('cheap home gym setup')">Home gym</span>
-                <span onclick="quickSearch('cable organiser for desk')">Cable mess</span>
-                <span onclick="quickSearch('tool to remove weeds')">Garden</span>
-                <span onclick="quickSearch('budget gaming setup')">Gaming</span>
+            <div class="slider-viewscreen">
+                <div class="image-track">
+                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Casual Gym Wear"></div>
+                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Training Gear"></div>
+                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Performance Accessories"></div>
+                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Casual Gym Wear"></div>
+                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Training Gear"></div>
+                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Performance Accessories"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="new-arrivals-section" id="shop-new">
+        <div class="section-header">
+            <div>
+                <h2>New Arrivals</h2>
+                <p>Premium essentials dropped fresh for the season.</p>
             </div>
         </div>
-    </section>
 
-    <section class="results">
-        <div id="loadingState" class="loading" style="display:none;">
-            <p>🍌 Finding the best stuff...</p>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <div class="product-image-wrap">
+                    <span class="badge-tag">New</span>
+                    <img src="images/product-1.jpg" alt="Axios Comfort Fit Tee">
+                </div>
+                <div class="product-details">
+                    <span class="product-category">Gym & Casual Wear</span>
+                    <h3 class="product-title">Comfort Fit Active Tee</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">£34.99</span>
+                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image-wrap">
+                    <span class="badge-tag">New</span>
+                    <img src="images/product-2.jpg" alt="Axios Premium Shorts Set">
+                </div>
+                <div class="product-details">
+                    <span class="product-category">Athletic Sets</span>
+                    <h3 class="product-title">Premium Charcoal Training Shorts Set</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">£48.00</span>
+                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image-wrap">
+                    <span class="badge-tag">Hot</span>
+                    <img src="images/product-3.jpg" alt="Axios Matte Water Bottle">
+                </div>
+                <div class="product-details">
+                    <span class="product-category">Gear & Accessories</span>
+                    <h3 class="product-title">Matte Charcoal Insulated Bottle</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">£22.00</span>
+                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div id="resultsSection"></div>
     </section>
-
-    <section class="results">
-        <h2 style="margin-bottom: 20px; color: #fde047;">Today's Top Deals</h2>
-        <div id="dealsContainer" class="result-list"></div>
-    </section>
-
-    <div class="ad-banner">
-        <p>Sponsored</p>
-    </div>
 
     <footer class="site-footer" id="mainFooter"></footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Load Navigation
+            // Dynamic Header Injection
             fetch('components/nav.html')
-                .then(response => {
-                    if (!response.ok) throw new Error('Could not load nav.html');
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('mainNav').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading navigation:', error));
+                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
+                .then(data => { document.getElementById('mainNav').innerHTML = data; })
+                .catch(err => console.error('Error loading navigation block'));
 
-            // Load Footer
+            // Dynamic Footer Injection
             fetch('components/footer.html')
-                .then(response => {
-                    if (!response.ok) throw new Error('Could not load footer.html');
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('mainFooter').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading footer:', error));
+                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
+                .then(data => { document.getElementById('mainFooter').innerHTML = data; })
+                .catch(err => console.error('Error loading footer block'));
         });
     </script>
-
     <script src="js/app.js"></script>
-
 </body>
 </html>
