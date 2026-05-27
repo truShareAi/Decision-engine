@@ -1,423 +1,397 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXIOS | Premium Sports & Casual Wear</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+/* =========================================
+   AXIOS — LUXURY PERFORMANCE SYSTEM
+========================================= */
 
-    <style>
-        /* --- AXIOS BRAND COLOR OVERRIDES --- */
-        :root {
-            --bg-dark: #0a0a0a;       /* Deep matte black */
-            --card-bg: #1a1a1a;       /* Dark charcoal gray */
-            --text-main: #f3f4f6;     /* Light gray crisp text */
-            --text-muted: #9ca3af;    /* Mid gray text */
-            --axios-green: #22c55e;   /* Vibrant statement green accent */
-            --nav-bg: #000000;        /* Pure black nav */
-        }
+:root{
+    --bg:#070707;
+    --bg-soft:#111111;
+    --panel:#151515;
+    --line:#232323;
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding-top: 70px;
-            overflow-x: hidden;
-        }
+    --text:#ffffff;
+    --text-soft:#d1d1d1;
+    --text-muted:#7a7a7a;
 
-        /* --- FIXED FIXED NAVBAR (OVERRIDE) --- */
-        .top-nav {
-            background: var(--nav-bg) !important;
-            border-bottom: 1px solid #262626 !important;
-            height: 70px !important;
-            min-height: 70px !important;
-            max-height: 70px !important;
-        }
+    --accent:#22c55e;
 
-        .nav-logo {
-            font-weight: 900;
-            font-size: 1.6rem;
-            letter-spacing: 2px;
-            color: var(--text-main) !important;
-        }
+    --transition:all .45s cubic-bezier(.22,.61,.36,1);
+}
 
-        .nav-logo span {
-            color: var(--axios-green);
-        }
+/* =========================================
+   GLOBAL RESET
+========================================= */
 
-        /* --- MIDDLE SECTION: HERO CAROUSEL --- */
-        .hero-slider-section {
-            background: linear-gradient(180deg, #111111 0%, var(--bg-dark) 100%);
-            padding: 60px 20px;
-            position: relative;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .slider-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            align-items: center;
-            gap: 40px;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        @media (max-width: 900px) {
-            .slider-layout {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    letter-spacing:-0.02em;
+}
 
-        .hero-headline h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.05;
-            text-transform: uppercase;
-            margin: 0 0 15px 0;
-            letter-spacing: -1px;
-        }
+/* =========================================
+   NAVBAR
+========================================= */
 
-        .hero-headline h1 span {
-            color: var(--axios-green);
-        }
+.top-nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:80px;
 
-        .hero-headline p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin: 0 0 30px 0;
-            line-height: 1.6;
-        }
+    display:flex;
+    align-items:center;
 
-        .axios-btn {
-            display: inline-block;
-            background: var(--text-main);
-            color: var(--bg-dark);
-            padding: 14px 36px;
-            border-radius: 4px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border: 2px solid var(--text-main);
-        }
+    z-index:1000;
 
-        .axios-btn:hover {
-            background: transparent;
-            color: var(--axios-green);
-            border-color: var(--axios-green);
-        }
+    transition:var(--transition);
 
-        /* RIGHT-TO-LEFT INFINITE IMAGE SLIDER */
-        .slider-viewscreen {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            border-radius: 12px;
-            background: #121212;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-        }
+    background:rgba(0,0,0,0.15);
+    backdrop-filter:blur(0px);
 
-        .image-track {
-            display: flex;
-            width: calc(320px * 6); /* Width of image cards x total count including duplicates */
-            animation: scrollRightToLeft 20s linear infinite;
-        }
+    border-bottom:1px solid transparent;
+}
 
-        .image-track:hover {
-            animation-play-state: paused;
-        }
+.top-nav.scrolled{
+    background:rgba(10,10,10,0.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+}
 
-        .slide-card {
-            width: 320px;
-            height: 420px;
-            flex-shrink: 0;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+/* =========================================
+   HERO SECTION
+========================================= */
 
-        .slide-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-            filter: grayscale(20%);
-            transition: filter 0.3s ease;
-        }
+.hero-section{
+    width:100%;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+}
 
-        .slide-card img:hover {
-            filter: grayscale(0%);
-        }
+.hero-slider{
+    width:100%;
+    height:100%;
+    position:relative;
+}
 
-        @keyframes scrollRightToLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-320px * 3)); } /* Loops exactly at half point */
-        }
+.hero-slide{
+    position:absolute;
+    inset:0;
 
-        /* --- MIDDLE SECTION: NEW ARRIVALS --- */
-        .new-arrivals-section {
-            max-width: 1200px;
-            margin: 40px auto 80px;
-            padding: 0 20px;
-        }
+    opacity:0;
+    transition:opacity 1.8s ease;
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--axios-green);
-            padding-left: 15px;
-        }
+    overflow:hidden;
+}
 
-        .section-header h2 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: 1px;
-        }
+.hero-slide.active{
+    opacity:1;
+    z-index:2;
+}
 
-        .section-header p {
-            color: var(--text-muted);
-            margin: 5px 0 0 0;
-            font-size: 0.95rem;
-        }
+.hero-slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 
-        /* Product Grid Architecture */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
+    filter:brightness(65%) grayscale(10%);
 
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #262626;
-        }
+    transform:scale(1);
+    transition:transform 7s ease;
+}
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            border-color: #404040;
-        }
+.hero-slide.active img{
+    transform:scale(1.06);
+}
 
-        .product-image-wrap {
-            width: 100%;
-            height: 360px;
-            position: relative;
-            background: #1f1f1f;
-            overflow: hidden;
-        }
+.hero-overlay{
+    position:absolute;
+    inset:0;
 
-        .product-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    background:
+    linear-gradient(
+        to right,
+        rgba(0,0,0,.72),
+        rgba(0,0,0,.25),
+        rgba(0,0,0,.15)
+    );
 
-        .badge-new {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--axios-green);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 900;
-            padding: 4px 10px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            letter-spacing: 0.5px;
-        }
+    z-index:3;
+}
 
-        .product-details {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
+.hero-content{
+    position:absolute;
+    z-index:5;
 
-        .product-category {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
+    bottom:12%;
+    left:8%;
 
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--text-main);
-        }
+    max-width:700px;
+}
 
-        .product-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 15px;
-            border-top: 1px solid #262626;
-        }
+.hero-subtitle{
+    font-size:.85rem;
+    text-transform:uppercase;
+    letter-spacing:4px;
+    color:var(--accent);
 
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
+    margin-bottom:18px;
+}
 
-        .add-to-cart-btn {
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
+.hero-title{
+    font-size:clamp(4rem,8vw,7rem);
+    line-height:.92;
+    font-weight:900;
 
-        .add-to-cart-btn:hover {
-            background: var(--axios-green);
-            border-color: var(--axios-green);
-            color: #000;
-        }
+    margin-bottom:28px;
+}
 
-        /* --- FOOTER MODIFICATIONS --- */
-        .site-footer {
-            background-color: #000000 !important;
-            border-top: 1px solid #262626;
-        }
-        .footer-links a {
-            color: var(--text-muted) !important;
-        }
-        .footer-links a:hover {
-            color: var(--axios-green) !important;
-        }
-        .back-to-top {
-            color: var(--text-main) !important;
-            border-color: #262626 !important;
-        }
-        .back-to-top:hover {
-            background: var(--axios-green) !important;
-            color: #000 !important;
-        }
-    </style>
-</head>
-<body>
+.hero-description{
+    max-width:520px;
 
-    <nav class="top-nav" id="mainNav"></nav>
+    color:var(--text-soft);
 
-    <section class="hero-slider-section">
-        <div class="slider-layout">
-            
-            <div class="hero-headline">
-                <h1>Comfort Fit<br><span>Performance</span></h1>
-                <p>Engineered for the high-intensity gym session. Crafted for modern, premium casual street wear.</p>
-                <a href="#shop-new" class="axios-btn">Explore Range</a>
-            </div>
+    font-size:1.05rem;
+    line-height:1.8;
 
-            <div class="slider-viewscreen">
-                <div class="image-track">
-                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Menswear Full Set"></div>
-                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Womenswear Premium"></div>
-                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Fitness Accessories"></div>
-                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Menswear Full Set"></div>
-                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Womenswear Premium"></div>
-                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Fitness Accessories"></div>
-                </div>
-            </div>
+    margin-bottom:36px;
+}
 
-        </div>
-    </section>
+.hero-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-    <section class="new-arrivals-section" id="shop-new">
-        <div class="section-header">
-            <div>
-                <h2>New Arrivals</h2>
-                <p>The freshest cuts drop right here.</p>
-            </div>
-        </div>
+    height:54px;
+    padding:0 34px;
 
-        <div class="product-grid">
-            
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-new">New</span>
-                    <img src="images/product-1.jpg" alt="Axios Comfort Fit Tee">
-                </div>
-                <div class="product-details">
-                    <span class="product-category">Gym & Casual</span>
-                    <h3 class="product-title">Comfort Fit Active Tee</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£34.99</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
-                    </div>
-                </div>
-            </div>
+    border:1px solid rgba(255,255,255,.18);
 
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-new">New</span>
-                    <img src="images/product-2.jpg" alt="Axios Womens Performance Set">
-                </div>
-                <div class="product-details">
-                    <span class="product-category">Womenswear</span>
-                    <h3 class="product-title">Premium Elite Training Shorts Set</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£48.00</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
-                    </div>
-                </div>
-            </div>
+    color:var(--text);
 
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-new">Hot</span>
-                    <img src="images/product-3.jpg" alt="Axios Matte Water Bottle">
-                </div>
-                <div class="product-details">
-                    <span class="product-category">Accessories</span>
-                    <h3 class="product-title">Matte Charcoal Insulated Flask</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£22.00</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
-                    </div>
-                </div>
-            </div>
+    text-decoration:none;
 
-        </div>
-    </section>
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:.8rem;
+    font-weight:700;
 
-    <footer class="site-footer" id="mainFooter"></footer>
+    transition:var(--transition);
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Async Component Loading Structure
-            fetch('components/nav.html')
-                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
-                .then(data => { document.getElementById('mainNav').innerHTML = data; })
-                .catch(err => console.error('Error loading navigation block'));
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(10px);
+}
 
-            fetch('components/footer.html')
-                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
-                .then(data => { document.getElementById('mainFooter').innerHTML = data; })
-                .catch(err => console.error('Error loading footer block'));
-        });
-    </script>
-    <script src="js/app.js"></script>
-</body>
-</html>
+.hero-button:hover{
+    background:var(--accent);
+    color:#000;
+    border-color:var(--accent);
+
+    transform:translateY(-2px);
+}
+
+/* =========================================
+   COLLECTION SECTION
+========================================= */
+
+.collection-section{
+    padding:120px 6vw;
+}
+
+.section-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+
+    margin-bottom:60px;
+
+    border-bottom:1px solid var(--line);
+    padding-bottom:22px;
+}
+
+.section-heading h2{
+    font-size:2rem;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:3px;
+}
+
+.section-heading p{
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:.75rem;
+}
+
+/* =========================================
+   PRODUCT GRID
+========================================= */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:40px;
+}
+
+.product-card{
+    transition:var(--transition);
+}
+
+.product-image{
+    position:relative;
+
+    height:520px;
+
+    overflow:hidden;
+
+    background:var(--bg-soft);
+
+    border:1px solid var(--line);
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    transition:
+    transform 1s ease,
+    filter .6s ease;
+
+    filter:grayscale(15%);
+}
+
+.product-card:hover img{
+    transform:scale(1.04);
+    filter:grayscale(0%);
+}
+
+.product-meta{
+    padding-top:24px;
+}
+
+.product-category{
+    color:var(--text-muted);
+
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    margin-bottom:10px;
+}
+
+.product-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    gap:20px;
+}
+
+.product-title{
+    font-size:1.15rem;
+    font-weight:500;
+    color:var(--text-soft);
+}
+
+.product-price{
+    font-weight:700;
+    transition:var(--transition);
+}
+
+.product-card:hover .product-price{
+    color:var(--accent);
+}
+
+/* =========================================
+   FEATURE BANNER
+========================================= */
+
+.feature-banner{
+    height:80vh;
+    position:relative;
+
+    margin-top:100px;
+    overflow:hidden;
+}
+
+.feature-banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    filter:brightness(55%);
+}
+
+.feature-banner-content{
+    position:absolute;
+    left:8%;
+    bottom:12%;
+
+    max-width:600px;
+}
+
+.feature-banner-content h2{
+    font-size:clamp(3rem,6vw,5rem);
+    line-height:1;
+    margin-bottom:24px;
+}
+
+.feature-banner-content p{
+    color:var(--text-soft);
+    line-height:1.8;
+    max-width:480px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.site-footer{
+    border-top:1px solid var(--line);
+
+    padding:80px 6vw;
+
+    background:#050505;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:900px){
+
+    .hero-content{
+        left:7%;
+        right:7%;
+        bottom:10%;
+    }
+
+    .hero-title{
+        font-size:3.5rem;
+    }
+
+    .collection-section{
+        padding:90px 24px;
+    }
+
+    .product-image{
+        height:420px;
+    }
+
+    .feature-banner{
+        height:60vh;
+    }
+}
