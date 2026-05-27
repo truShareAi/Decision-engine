@@ -1,30 +1,151 @@
-// 1. Point this to your NEW Render URL
+// =========================================
+// AXIOS — LUXURY FRONTEND SYSTEM
+// =========================================
+
+// OPTIONAL API CONNECTION
+// Keep for future product/deal integration
+
 const API_URL = 'https://banana-api-engine.onrender.com';
 
+
+// =========================================
+// NAVBAR SCROLL EFFECT
+// =========================================
+
+window.addEventListener('scroll', () => {
+
+    const nav = document.querySelector('.top-nav');
+
+    if (!nav) return;
+
+    if (window.scrollY > 40) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+
+});
+
+
+// =========================================
+// HERO CINEMATIC SLIDER
+// =========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slides = document.querySelectorAll('.hero-slide');
+
+    if (!slides.length) return;
+
+    let currentSlide = 0;
+
+    function changeSlide() {
+
+        slides[currentSlide].classList.remove('active');
+
+        currentSlide++;
+
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
+
+        slides[currentSlide].classList.add('active');
+
+    }
+
+    setInterval(changeSlide, 5000);
+
+});
+
+
+// =========================================
+// PREMIUM IMAGE REVEAL ANIMATION
+// =========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const cards = document.querySelectorAll('.product-card');
+
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add('visible');
+
+            }
+
+        });
+
+    }, {
+        threshold: 0.15
+    });
+
+    cards.forEach((card) => {
+        observer.observe(card);
+    });
+
+});
+
+
+// =========================================
+// OPTIONAL DEAL FETCHING SYSTEM
+// Future backend integration
+// =========================================
+
 async function displayDeals(category) {
+
     const container = document.getElementById('dealsContainer');
-    if (!container) return; // Only runs on pages that have a dealsContainer div
+
+    if (!container) return;
 
     try {
+
         const response = await fetch(`${API_URL}/deals?category=${category}`);
+
         const deals = await response.json();
 
-        // Clear the "Loading..." or dummy text
         container.innerHTML = '';
 
         deals.forEach(deal => {
-            // This injects the data into your existing CSS design
+
             container.innerHTML += `
-                <div class="product-card">
-                    <h3>${deal.brand} - ${deal.name}</h3>
-                    <p class="price">£${deal.price} <span class="old-price">£${deal.original_price}</span></p>
-                    <p class="source">Via: ${deal.source}</p>
-                    <a href="${deal.affiliate_link}" class="buy-btn">View Deal</a>
+
+                <div class="product-card dynamic-product">
+
+                    <div class="product-meta">
+
+                        <div class="product-category">
+                            ${deal.brand}
+                        </div>
+
+                        <div class="product-row">
+
+                            <div class="product-title">
+                                ${deal.name}
+                            </div>
+
+                            <div class="product-price">
+                                £${deal.price}
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             `;
+
         });
+
     } catch (err) {
-        console.error("Failed to fetch deals:", err);
-        container.innerHTML = '<p>Peeling the data... please refresh.</p>';
+
+        console.error('Failed to fetch deals:', err);
+
     }
+
 }
