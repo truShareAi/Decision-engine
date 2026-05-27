@@ -18,7 +18,7 @@
 }
 
 /* =========================================
-   GLOBAL RESET
+   RESET
 ========================================= */
 
 *{
@@ -55,6 +55,8 @@ body{
 
     z-index:1000;
 
+    padding:0 6vw;
+
     transition:var(--transition);
 
     background:rgba(0,0,0,0.15);
@@ -64,13 +66,13 @@ body{
 }
 
 .top-nav.scrolled{
-    background:rgba(10,10,10,0.82);
+    background:rgba(10,10,10,0.85);
     backdrop-filter:blur(18px);
     border-bottom:1px solid var(--line);
 }
 
 /* =========================================
-   HERO SECTION
+   HERO
 ========================================= */
 
 .hero-section{
@@ -91,7 +93,7 @@ body{
     inset:0;
 
     opacity:0;
-    transition:opacity 1.8s ease;
+    transition:opacity 1.6s ease;
 
     overflow:hidden;
 }
@@ -106,14 +108,14 @@ body{
     height:100%;
     object-fit:cover;
 
-    filter:brightness(65%) grayscale(10%);
+    filter:brightness(60%) grayscale(8%);
 
     transform:scale(1);
-    transition:transform 7s ease;
+    transition:transform 8s ease;
 }
 
 .hero-slide.active img{
-    transform:scale(1.06);
+    transform:scale(1.05);
 }
 
 .hero-overlay{
@@ -123,8 +125,8 @@ body{
     background:
     linear-gradient(
         to right,
-        rgba(0,0,0,.72),
-        rgba(0,0,0,.25),
+        rgba(0,0,0,.75),
+        rgba(0,0,0,.35),
         rgba(0,0,0,.15)
     );
 
@@ -135,17 +137,18 @@ body{
     position:absolute;
     z-index:5;
 
-    bottom:12%;
     left:8%;
+    bottom:12%;
 
-    max-width:700px;
+    max-width:720px;
 }
 
 .hero-subtitle{
-    font-size:.85rem;
-    text-transform:uppercase;
-    letter-spacing:4px;
     color:var(--accent);
+
+    font-size:.8rem;
+    letter-spacing:4px;
+    text-transform:uppercase;
 
     margin-bottom:18px;
 }
@@ -159,12 +162,12 @@ body{
 }
 
 .hero-description{
-    max-width:520px;
+    max-width:540px;
 
     color:var(--text-soft);
 
-    font-size:1.05rem;
     line-height:1.8;
+    font-size:1.05rem;
 
     margin-bottom:36px;
 }
@@ -175,29 +178,29 @@ body{
     justify-content:center;
 
     height:54px;
-    padding:0 34px;
+    padding:0 36px;
+
+    text-decoration:none;
 
     border:1px solid rgba(255,255,255,.18);
 
     color:var(--text);
-
-    text-decoration:none;
 
     text-transform:uppercase;
     letter-spacing:2px;
     font-size:.8rem;
     font-weight:700;
 
-    transition:var(--transition);
+    background:rgba(255,255,255,.05);
 
-    background:rgba(255,255,255,.04);
-    backdrop-filter:blur(10px);
+    transition:var(--transition);
 }
 
 .hero-button:hover{
     background:var(--accent);
-    color:#000;
     border-color:var(--accent);
+
+    color:#000;
 
     transform:translateY(-2px);
 }
@@ -218,20 +221,24 @@ body{
     margin-bottom:60px;
 
     border-bottom:1px solid var(--line);
+
     padding-bottom:22px;
 }
 
 .section-heading h2{
     font-size:2rem;
     font-weight:800;
+
     text-transform:uppercase;
     letter-spacing:3px;
 }
 
 .section-heading p{
     color:var(--text-muted);
+
     text-transform:uppercase;
     letter-spacing:2px;
+
     font-size:.75rem;
 }
 
@@ -266,14 +273,14 @@ body{
     height:100%;
     object-fit:cover;
 
+    filter:grayscale(15%);
+
     transition:
     transform 1s ease,
     filter .6s ease;
-
-    filter:grayscale(15%);
 }
 
-.product-card:hover img{
+.product-card:hover .product-image img{
     transform:scale(1.04);
     filter:grayscale(0%);
 }
@@ -303,11 +310,13 @@ body{
 .product-title{
     font-size:1.15rem;
     font-weight:500;
+
     color:var(--text-soft);
 }
 
 .product-price{
     font-weight:700;
+
     transition:var(--transition);
 }
 
@@ -321,10 +330,12 @@ body{
 
 .feature-banner{
     height:80vh;
+
     position:relative;
 
-    margin-top:100px;
     overflow:hidden;
+
+    margin-top:100px;
 }
 
 .feature-banner img{
@@ -337,22 +348,28 @@ body{
 
 .feature-banner-content{
     position:absolute;
+
     left:8%;
     bottom:12%;
 
-    max-width:600px;
+    max-width:620px;
+
+    z-index:2;
 }
 
 .feature-banner-content h2{
     font-size:clamp(3rem,6vw,5rem);
     line-height:1;
+
     margin-bottom:24px;
 }
 
 .feature-banner-content p{
     color:var(--text-soft);
+
     line-height:1.8;
-    max-width:480px;
+
+    max-width:500px;
 }
 
 /* =========================================
@@ -362,9 +379,9 @@ body{
 .site-footer{
     border-top:1px solid var(--line);
 
-    padding:80px 6vw;
-
     background:#050505;
+
+    padding:80px 6vw;
 }
 
 /* =========================================
@@ -393,5 +410,11 @@ body{
 
     .feature-banner{
         height:60vh;
+    }
+
+    .section-heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
     }
 }
