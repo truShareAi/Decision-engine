@@ -4,77 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AXIOS | Luxury Athletic Wear</title>
+    <title>AXIOS | Modern Luxury Activewear</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Archive&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- NAVIGATION -->
+    <!-- NAV -->
     <nav class="top-nav" id="mainNav"></nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero-section">
 
+        <!-- SLIDER -->
         <div class="hero-slider">
 
-            <!-- SLIDE 1 -->
             <div class="hero-slide active">
-                <img src="images/slider-1.jpg" alt="AXIOS Mens Performance Wear">
+                <img src="images/slider-1.jpg" alt="AXIOS Luxury Menswear">
             </div>
 
-            <!-- SLIDE 2 -->
             <div class="hero-slide">
-                <img src="images/slider-2.jpg" alt="AXIOS Womens Activewear">
+                <img src="images/slider-2.jpg" alt="AXIOS Womens Performance">
             </div>
 
-            <!-- SLIDE 3 -->
             <div class="hero-slide">
-                <img src="images/slider-3.jpg" alt="AXIOS Accessories">
+                <img src="images/slider-3.jpg" alt="AXIOS Essentials">
             </div>
 
         </div>
 
-        <!-- DARK OVERLAY -->
+        <!-- OVERLAY -->
         <div class="hero-overlay"></div>
 
-        <!-- HERO TEXT -->
+        <!-- CONTENT -->
         <div class="hero-content">
 
-            <div class="hero-subtitle">
-                AXIOS PERFORMANCE
+            <div class="hero-label">
+                AXIOS / PERFORMANCE LUXURY
             </div>
 
             <h1 class="hero-title">
-                Built For Motion.
+                Refined Motion.
             </h1>
 
-            <p class="hero-description">
-                Premium athletic wear engineered for modern training, recovery and elevated everyday movement.
+            <p class="hero-text">
+                Elevated activewear designed with architectural silhouettes, technical comfort and understated luxury.
             </p>
 
-            <a href="#collection" class="hero-button">
-                Explore Collection
-            </a>
+            <div class="hero-actions">
+                <a href="#collection" class="primary-btn">
+                    Discover Collection
+                </a>
+
+                <a href="#featured" class="secondary-btn">
+                    View Editorial
+                </a>
+            </div>
 
         </div>
 
     </section>
 
-    <!-- COLLECTION SECTION -->
+    <!-- FEATURE STRIP -->
+    <section class="feature-strip">
+
+        <div class="feature-item">
+            Technical Fabrication
+        </div>
+
+        <div class="feature-item">
+            Engineered Comfort
+        </div>
+
+        <div class="feature-item">
+            Minimalist Design
+        </div>
+
+        <div class="feature-item">
+            Everyday Performance
+        </div>
+
+    </section>
+
+    <!-- COLLECTION -->
     <section class="collection-section" id="collection">
 
-        <div class="section-heading">
+        <div class="section-header">
 
-            <h2>
-                Latest Collection
-            </h2>
+            <div>
+                <div class="section-label">
+                    New Season
+                </div>
+
+                <h2>
+                    Latest Collection
+                </h2>
+            </div>
 
             <p>
-                Drop 01 / Performance Luxury
+                Designed for movement, recovery and modern everyday wear.
             </p>
 
         </div>
@@ -88,17 +119,17 @@
                     <img src="images/product-1.jpg" alt="AXIOS Active Tee">
                 </div>
 
-                <div class="product-meta">
+                <div class="product-content">
 
                     <div class="product-category">
-                        Performance Essentials
+                        Essentials
                     </div>
 
                     <div class="product-row">
 
-                        <div class="product-title">
-                            Comfort Fit Active Tee
-                        </div>
+                        <h3 class="product-title">
+                            Comfort Active Tee
+                        </h3>
 
                         <div class="product-price">
                             £34
@@ -114,20 +145,20 @@
             <div class="product-card">
 
                 <div class="product-image">
-                    <img src="images/product-2.jpg" alt="AXIOS Elite Training Set">
+                    <img src="images/product-2.jpg" alt="AXIOS Womens Set">
                 </div>
 
-                <div class="product-meta">
+                <div class="product-content">
 
                     <div class="product-category">
-                        Womens Performance
+                        Womenswear
                     </div>
 
                     <div class="product-row">
 
-                        <div class="product-title">
+                        <h3 class="product-title">
                             Elite Training Set
-                        </div>
+                        </h3>
 
                         <div class="product-price">
                             £48
@@ -146,7 +177,7 @@
                     <img src="images/product-3.jpg" alt="AXIOS Flask">
                 </div>
 
-                <div class="product-meta">
+                <div class="product-content">
 
                     <div class="product-category">
                         Accessories
@@ -154,9 +185,9 @@
 
                     <div class="product-row">
 
-                        <div class="product-title">
-                            Matte Steel Flask
-                        </div>
+                        <h3 class="product-title">
+                            Stainless Steel Flask
+                        </h3>
 
                         <div class="product-price">
                             £22
@@ -172,20 +203,30 @@
 
     </section>
 
-    <!-- FEATURE BANNER -->
-    <section class="feature-banner">
+    <!-- EDITORIAL -->
+    <section class="editorial-section" id="featured">
 
-        <img src="images/slider-2.jpg" alt="AXIOS Performance Lifestyle">
+        <div class="editorial-image">
+            <img src="images/slider-2.jpg" alt="AXIOS Editorial">
+        </div>
 
-        <div class="feature-banner-content">
+        <div class="editorial-content">
+
+            <div class="section-label">
+                Editorial
+            </div>
 
             <h2>
                 Precision In Every Layer.
             </h2>
 
             <p>
-                Elevated silhouettes, technical materials and understated luxury designed for high performance environments.
+                Contemporary athletic wear with a softer luxury aesthetic. Technical construction meets clean modern tailoring.
             </p>
+
+            <a href="#" class="primary-btn">
+                Explore Editorial
+            </a>
 
         </div>
 
@@ -194,7 +235,7 @@
     <!-- FOOTER -->
     <footer class="site-footer" id="mainFooter"></footer>
 
-    <!-- COMPONENT LOADING -->
+    <!-- COMPONENT LOADER -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
