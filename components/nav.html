@@ -1,67 +1,263 @@
-<div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box; background-color: #0f172a;">
-    <div class="nav-logo" onclick="window.location.href='/index.html'" style="cursor: pointer; font-weight: 900; color: #ffcc00; font-size: 1.1rem; white-space: nowrap; display: flex; align-items: center; flex-shrink: 0;">
-        <img src="images/mascot.png" alt="Banana Mascot" style="height: 100px; margin-right: 10px;">
-        BANANA
-    </div>
-    
-    <div class="nav-links" style="display: flex; gap: 0.3vw; align-items: center; flex-shrink: 1; overflow: hidden;">
-        <style>
-            .nav-links a {
-                color: white;
-                text-decoration: none;
-                font-size: 0.62rem; 
-                font-weight: 700;
-                transition: 0.3s;
-                white-space: nowrap;
-            }
-            .nav-links a:hover { color: #ffcc00; }
-            .nav-links a.green-link { color: #4ade80; }
-            .nav-links a.green-link:hover { color: white; }
+<div class="nav-shell">
 
-            @media (max-width: 1300px) {
-                .nav-links a { font-size: 0.52rem; }
-                .nav-links { gap: 4px; }
-            }
-            
-            @media (max-width: 1024px) {
-                .nav-links a { font-size: 0.42rem; }
-                .nav-links { gap: 2px; }
-            }
-        </style>
-        <a href="/pages/car-insurance.html">Car</a>
-        <a href="/pages/home-insurance.html">Home</a>
-        <a href="/pages/pet-insurance.html">Pet</a>
-        <a href="/pages/life-insurance.html">Life</a>
-        <a href="/pages/utilities.html">Energy</a>
-        <a href="/pages/broadband.html">Broadband & Mobile</a>
-        <a href="/pages/mortgages.html">Mortgages</a>
-        <a href="/pages/loans.html">Loans</a>
-        <a href="/pages/grocery-deals.html">Groceries</a>
-        <a href="/pages/shopping.html">Shopping</a>
-        <a href="/pages/go-green.html" class="green-link">Go Green</a>
-        <a href="/pages/money-matters.html">Money Matters</a>
+    <div class="nav-left">
+
+        <a href="/index.html" class="brand-logo">
+
+            <img src="/images/axios.jpg" alt="AXIOS Logo">
+
+            <span>AXIOS</span>
+
+        </a>
+
     </div>
 
-    <div class="nav-auth" id="navAuthSection" style="white-space: nowrap; margin-left: 10px; flex-shrink: 0;">
-        <a href="/pages/signin.html" class="sign-in-btn" style="font-size: 0.68rem; background: #ffcc00; color: black; padding: 5px 10px; border-radius: 20px; font-weight: 800; text-decoration: none;">Sign in</a>
+    <div class="nav-center">
+
+        <a href="/pages/mens.html">Mens</a>
+
+        <a href="/pages/womens.html">Womens</a>
+
+        <a href="/pages/accessories.html">Accessories</a>
+
+        <a href="/pages/hydrate.html">Hydrate</a>
+
     </div>
+
+    <div class="nav-right" id="navAuthSection">
+
+        <a href="/pages/signin.html" class="nav-signin">
+            Sign In
+        </a>
+
+    </div>
+
 </div>
 
+<style>
+
+/* =========================================
+   NAV LAYOUT
+========================================= */
+
+.top-nav{
+    width:100%;
+    height:82px;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    z-index:1000;
+
+    background:rgba(24,26,31,0.88);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.nav-shell{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 40px;
+}
+
+/* =========================================
+   LEFT
+========================================= */
+
+.nav-left{
+    display:flex;
+    align-items:center;
+}
+
+.brand-logo{
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    text-decoration:none;
+
+    color:#f3f4f6;
+}
+
+.brand-logo img{
+    width:42px;
+    height:42px;
+
+    object-fit:cover;
+
+    border-radius:4px;
+}
+
+.brand-logo span{
+    font-size:1rem;
+    font-weight:800;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+}
+
+/* =========================================
+   CENTER LINKS
+========================================= */
+
+.nav-center{
+    display:flex;
+    align-items:center;
+    gap:42px;
+}
+
+.nav-center a{
+    position:relative;
+
+    color:#d2d7df;
+
+    text-decoration:none;
+
+    font-size:.78rem;
+    font-weight:600;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    transition:all .3s ease;
+}
+
+.nav-center a:hover{
+    color:#ffffff;
+}
+
+.nav-center a::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-8px;
+
+    width:0%;
+    height:1px;
+
+    background:#ffffff;
+
+    transition:all .35s ease;
+}
+
+.nav-center a:hover::after{
+    width:100%;
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+}
+
+.nav-signin{
+    height:42px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 22px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.03);
+
+    color:#f3f4f6;
+
+    text-decoration:none;
+
+    font-size:.75rem;
+    font-weight:700;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    transition:all .35s ease;
+}
+
+.nav-signin:hover{
+    background:#f3f4f6;
+    color:#181a1f;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:900px){
+
+    .nav-shell{
+        padding:0 20px;
+    }
+
+    .nav-center{
+        gap:20px;
+    }
+
+    .nav-center a{
+        font-size:.62rem;
+        letter-spacing:1px;
+    }
+
+    .brand-logo span{
+        display:none;
+    }
+
+    .nav-signin{
+        padding:0 14px;
+        font-size:.65rem;
+    }
+}
+
+@media(max-width:700px){
+
+    .nav-center{
+        display:none;
+    }
+}
+
+</style>
+
 <script>
-    (function() {
-        function updateNav() {
-            const user = localStorage.getItem('bananaUser');
-            const target = document.getElementById('navAuthSection');
-            
-            if (user && target) {
-                target.innerHTML = `
-                    <div style="display: flex; align-items: center;">
-                        <a href="/pages/dashboard.html" style="color: #ffcc00; text-decoration: none; font-size: 0.68rem; font-weight: bold; border: 1px solid #ffcc00; padding: 4px 8px; border-radius: 20px;">Hi, ${user}</a>
-                    </div>
-                `;
-            }
+
+(function(){
+
+    function updateNav(){
+
+        const user = localStorage.getItem('bananaUser');
+
+        const target = document.getElementById('navAuthSection');
+
+        if(user && target){
+
+            target.innerHTML = `
+                <a href="/pages/dashboard.html" class="nav-signin">
+                    ${user}
+                </a>
+            `;
         }
-        updateNav();
-        setTimeout(updateNav, 100);
-    })();
+    }
+
+    updateNav();
+
+    setTimeout(updateNav,100);
+
+})();
+
 </script>
