@@ -19,289 +19,186 @@
             --axios-neon: #22c55e;     /* Sharp energetic accent green */
         }
 
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-pure);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding-top: 70px;
-            overflow-x: hidden;
-            letter-spacing: -0.02em;
-        }
-
-        /* --- THE HERO VIEWPORT (FULL ROW CINEMATIC SLIDER) --- */
-        .premium-hero-viewport {
-            width: 100vw;
-            height: 75vh; /* Large cinematic height, no text distraction */
-            overflow: hidden;
-            position: relative;
-            background: var(--bg-deep);
-            border-bottom: 1px solid var(--border-gray);
-        }
-
-        /* Continuous Right-to-Left Infinite Landscape Track */
-        .infinite-image-conveyor {
-            display: flex;
-            height: 100%;
-            /* Calculated dynamic width based on 4 ultra-wide luxury panels + duplicates */
-            width: calc(55vw * 8); 
-            animation: cinematicPan 32s linear infinite;
-        }
-
-        .infinite-image-conveyor:hover {
-            animation-play-state: paused; /* Allows users to admire the shot */
-        }
-
-        .cinematic-panel {
-            width: 55vw;
-            height: 100%;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid var(--bg-deep);
-        }
-
-        .cinematic-panel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 20%;
-            filter: grayscale(35%) brightness(90%);
-            transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        /* Subtle luxury parallax effect on hover */
-        .cinematic-panel:hover img {
-            filter: grayscale(0%) brightness(100%);
-            transform: scale(1.03);
-        }
-
-        @keyframes cinematicPan {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-55vw * 4)); } /* Seamless looping position */
-        }
-
-        /* --- NEW ARRIVALS: MINIMALIST LUXURY SHOWCASE --- */
-        .premium-showroom {
-            max-width: 1400px;
-            margin: 80px auto 120px;
-            padding: 0 40px;
-        }
-
-        .showroom-title-block {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--border-gray);
-            padding-bottom: 20px;
-        }
-
-        .showroom-title-block h2 {
-            font-size: 1.75rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin: 0;
-        }
-
-        .showroom-title-block p {
-            color: var(--text-dim);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0;
-        }
-
-        /* High-End Product Layout Architecture */
-        .premium-product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-        }
-
-        .boutique-card {
-            background: transparent;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s ease;
-        }
-
-        .boutique-img-frame {
-            width: 100%;
-            height: 480px; /* Tall editorial frame ratio */
-            background: var(--bg-charcoal);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border-gray);
-        }
-
-        .boutique-img-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%);
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
-        }
-
-        /* Minimalist Editorial Floating Tags */
-        .editorial-tag {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(4px);
-            color: var(--text-pure);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Smooth card activations */
-        .boutique-card:hover .boutique-img-frame img {
-            transform: scale(1.04);
-            filter: grayscale(0%);
-        }
-
-        .boutique-card:hover .boutique-img-frame {
-            border-color: #333333;
-        }
-
-        /* Minimalist Typography Meta Information */
-        .boutique-meta {
-            padding: 20px 0 0 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .boutique-tagline {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .boutique-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .boutique-item-title {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--text-premium);
-            margin: 0;
-            letter-spacing: -0.01em;
-        }
-
-        .boutique-price {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-pure);
-            transition: color 0.3s ease;
-        }
-
-        /* The single green interaction point when hovering over an item */
-        .boutique-card:hover .boutique-price {
-            color: var(--axios-green);
-        }
-    </style>
-</head>
-<body>
+   <body>
 
     <nav class="top-nav" id="mainNav"></nav>
 
-    <section class="premium-hero-viewport">
-        <div class="infinite-image-conveyor">
-            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Premium Menswear Workout Set"></div>
-            <div class="cinematic-panel"><img src="images/slider-2.jpg" alt="Axios Premium Compression Womenswear"></div>
-            <div class="cinematic-panel"><img src="images/slider-3.jpg" alt="Axios Matte Metal Hydration Flask"></div>
-            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Street Casual Overcoat Ensemble"></div>
-            
-            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Premium Menswear Workout Set"></div>
-            <div class="cinematic-panel"><img src="images/slider-2.jpg" alt="Axios Premium Compression Womenswear"></div>
-            <div class="cinematic-panel"><img src="images/slider-3.jpg" alt="Axios Matte Metal Hydration Flask"></div>
-            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Street Casual Overcoat Ensemble"></div>
+    <!-- HERO -->
+    <section class="hero-section">
+
+        <div class="hero-slider">
+
+            <div class="hero-slide active">
+                <img src="images/slider-1.jpg" alt="AXIOS Mens Performance Wear">
+            </div>
+
+            <div class="hero-slide">
+                <img src="images/slider-2.jpg" alt="AXIOS Womens Activewear">
+            </div>
+
+            <div class="hero-slide">
+                <img src="images/slider-3.jpg" alt="AXIOS Accessories">
+            </div>
+
         </div>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-subtitle">
+                AXIOS PERFORMANCE
+            </div>
+
+            <h1 class="hero-title">
+                Built For Motion.
+            </h1>
+
+            <p class="hero-description">
+                Premium athletic wear engineered for modern training, recovery and elevated everyday movement.
+            </p>
+
+            <a href="#collection" class="hero-button">
+                Explore Collection
+            </a>
+        </div>
+
     </section>
 
-    <section class="premium-showroom">
-        <div class="showroom-title-block">
-            <div>
-                <h2>New Arrivals</h2>
-            </div>
-            <div>
-                <p>Drop 01 / Essentials</p>
-            </div>
+    <!-- COLLECTION -->
+    <section class="collection-section" id="collection">
+
+        <div class="section-heading">
+            <h2>Latest Collection</h2>
+            <p>Drop 01 / Performance Luxury</p>
         </div>
 
-        <div class="premium-product-grid">
-            
-            <div class="boutique-card">
-                <div class="boutique-img-frame">
-                    <span class="editorial-tag">New Entry</span>
-                    <img src="images/product-1.jpg" alt="Axios Active Tee">
+        <div class="product-grid">
+
+            <!-- PRODUCT 1 -->
+            <div class="product-card">
+
+                <div class="product-image">
+                    <img src="images/product-1.jpg" alt="AXIOS Active Tee">
                 </div>
-                <div class="boutique-meta">
-                    <span class="boutique-tagline">Gym & Casual Wear</span>
-                    <div class="boutique-title-row">
-                        <h3 class="boutique-item-title">Comfort Fit Active Tee</h3>
-                        <span class="boutique-price">£34.99</span>
+
+                <div class="product-meta">
+
+                    <div class="product-category">
+                        Performance Essentials
                     </div>
+
+                    <div class="product-row">
+                        <div class="product-title">
+                            Comfort Fit Active Tee
+                        </div>
+
+                        <div class="product-price">
+                            £34
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
-            <div class="boutique-card">
-                <div class="boutique-img-frame">
-                    <span class="editorial-tag">New Entry</span>
-                    <img src="images/product-2.jpg" alt="Axios Elite Set">
+            <!-- PRODUCT 2 -->
+            <div class="product-card">
+
+                <div class="product-image">
+                    <img src="images/product-2.jpg" alt="AXIOS Elite Shorts Set">
                 </div>
-                <div class="boutique-meta">
-                    <span class="boutique-tagline">Athletic Sets</span>
-                    <div class="boutique-title-row">
-                        <h3 class="boutique-item-title">Premium Elite Shorts Set</h3>
-                        <span class="boutique-price">£48.00</span>
+
+                <div class="product-meta">
+
+                    <div class="product-category">
+                        Womens Performance
                     </div>
+
+                    <div class="product-row">
+                        <div class="product-title">
+                            Elite Training Set
+                        </div>
+
+                        <div class="product-price">
+                            £48
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
-            <div class="boutique-card">
-                <div class="boutique-img-frame">
-                    <span class="editorial-tag">Limited</span>
-                    <img src="images/product-3.jpg" alt="Axios Core Flask">
+            <!-- PRODUCT 3 -->
+            <div class="product-card">
+
+                <div class="product-image">
+                    <img src="images/product-3.jpg" alt="AXIOS Flask">
                 </div>
-                <div class="boutique-meta">
-                    <span class="boutique-tagline">Gear & Accessories</span>
-                    <div class="boutique-title-row">
-                        <h3 class="boutique-item-title">Matte Charcoal Insulated Flask</h3>
-                        <span class="boutique-price">£22.00</span>
+
+                <div class="product-meta">
+
+                    <div class="product-category">
+                        Accessories
                     </div>
+
+                    <div class="product-row">
+                        <div class="product-title">
+                            Matte Steel Flask
+                        </div>
+
+                        <div class="product-price">
+                            £22
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
         </div>
+
+    </section>
+
+    <!-- FEATURE BANNER -->
+    <section class="feature-banner">
+
+        <img src="images/slider-2.jpg" alt="AXIOS Performance Lifestyle">
+
+        <div class="feature-banner-content">
+
+            <h2>
+                Precision In Every Layer.
+            </h2>
+
+            <p>
+                Elevated silhouettes, technical materials and understated luxury designed for high performance environments.
+            </p>
+
+        </div>
+
     </section>
 
     <footer class="site-footer" id="mainFooter"></footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Asynchronous Components Injection
+        document.addEventListener("DOMContentLoaded", function () {
+
             fetch('components/nav.html')
-                .then(r => r.text())
-                .then(d => { document.getElementById('mainNav').innerHTML = d; });
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('mainNav').innerHTML = data;
+                });
 
             fetch('components/footer.html')
-                .then(r => r.text())
-                .then(d => { document.getElementById('mainFooter').innerHTML = d; });
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('mainFooter').innerHTML = data;
+                });
+
         });
     </script>
+
     <script src="js/app.js"></script>
+
 </body>
 </html>
