@@ -3,316 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXIOS | Premium Sports & Casual Wear</title>
+    <title>AXIOS | Luxury Athletic Wear</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archive&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- AXIOS BRAND COLOR OVERRIDES --- */
+        /* --- HIGH-END COLD LUXURY PALETTE --- */
         :root {
-            --bg-dark: #0a0a0a;       /* Deep matte black */
-            --card-bg: #1a1a1a;       /* Dark charcoal gray */
-            --text-main: #f3f4f6;     /* Light gray crisp text */
-            --text-muted: #9ca3af;    /* Mid gray text */
-            --axios-green: #22c55e;   /* Vibrant statement green accent */
-            --nav-bg: #000000;        /* Pure black nav */
+            --bg-deep: #080808;        /* True deep rich black */
+            --bg-charcoal: #121212;    /* Sleek dark gray panels */
+            --border-gray: #1f1f1f;    /* Razor-thin structural borders */
+            --text-pure: #ffffff;      /* High contrast white */
+            --text-premium: #e5e5e5;   /* Premium light gray text */
+            --text-dim: #666666;       /* Industrial muted gray */
+            --axios-neon: #22c55e;     /* Sharp energetic accent green */
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-deep);
+            color: var(--text-pure);
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding-top: 70px;
             overflow-x: hidden;
+            letter-spacing: -0.02em;
         }
 
-        /* --- FIXED NAVBAR DESIGN --- */
-        .top-nav {
-            background: var(--nav-bg) !important;
-            border-bottom: 1px solid #262626 !important;
-            height: 70px !important;
-            min-height: 70px !important;
-            max-height: 70px !important;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            box-sizing: border-box;
-        }
-
-        /* --- MIDDLE SEGMENT: HERO CAROUSEL --- */
-        .hero-slider-section {
-            background: linear-gradient(180deg, #111111 0%, var(--bg-dark) 100%);
-            padding: 60px 20px;
-            position: relative;
-        }
-
-        .slider-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            align-items: center;
-            gap: 40px;
-        }
-
-        @media (max-width: 900px) {
-            .slider-layout {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
-
-        .hero-headline h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.05;
-            text-transform: uppercase;
-            margin: 0 0 15px 0;
-            letter-spacing: -1px;
-        }
-
-        .hero-headline h1 span {
-            color: var(--axios-green);
-        }
-
-        .hero-headline p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin: 0 0 30px 0;
-            line-height: 1.6;
-        }
-
-        .axios-btn {
-            display: inline-block;
-            background: var(--text-main);
-            color: var(--bg-dark);
-            padding: 14px 36px;
-            border-radius: 4px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border: 2px solid var(--text-main);
-        }
-
-        .axios-btn:hover {
-            background: transparent;
-            color: var(--axios-green);
-            border-color: var(--axios-green);
-        }
-
-        /* RIGHT-TO-LEFT INFINITE IMAGE SLIDER */
-        .slider-viewscreen {
-            width: 100%;
+        /* --- THE HERO VIEWPORT (FULL ROW CINEMATIC SLIDER) --- */
+        .premium-hero-viewport {
+            width: 100vw;
+            height: 75vh; /* Large cinematic height, no text distraction */
             overflow: hidden;
             position: relative;
-            border-radius: 12px;
-            background: #121212;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            background: var(--bg-deep);
+            border-bottom: 1px solid var(--border-gray);
         }
 
-        .image-track {
+        /* Continuous Right-to-Left Infinite Landscape Track */
+        .infinite-image-conveyor {
             display: flex;
-            width: calc(320px * 6); /* Width of image cards x total count including duplicates */
-            animation: scrollRightToLeft 25s linear infinite;
+            height: 100%;
+            /* Calculated dynamic width based on 4 ultra-wide luxury panels + duplicates */
+            width: calc(55vw * 8); 
+            animation: cinematicPan 32s linear infinite;
         }
 
-        .image-track:hover {
-            animation-play-state: paused;
+        .infinite-image-conveyor:hover {
+            animation-play-state: paused; /* Allows users to admire the shot */
         }
 
-        .slide-card {
-            width: 320px;
-            height: 420px;
+        .cinematic-panel {
+            width: 55vw;
+            height: 100%;
             flex-shrink: 0;
-            padding: 10px;
-            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid var(--bg-deep);
         }
 
-        .slide-card img {
+        .cinematic-panel img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 8px;
-            filter: grayscale(15%);
-            transition: filter 0.3s ease;
+            object-position: center 20%;
+            filter: grayscale(35%) brightness(90%);
+            transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .slide-card img:hover {
-            filter: grayscale(0%);
+        /* Subtle luxury parallax effect on hover */
+        .cinematic-panel:hover img {
+            filter: grayscale(0%) brightness(100%);
+            transform: scale(1.03);
         }
 
-        @keyframes scrollRightToLeft {
+        @keyframes cinematicPan {
             0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-320px * 3)); } /* Loops cleanly at halfway mark */
+            100% { transform: translateX(calc(-55vw * 4)); } /* Seamless looping position */
         }
 
-        /* --- MIDDLE SEGMENT: NEW ARRIVALS --- */
-        .new-arrivals-section {
-            max-width: 1200px;
-            margin: 40px auto 80px;
-            padding: 0 20px;
+        /* --- NEW ARRIVALS: MINIMALIST LUXURY SHOWCASE --- */
+        .premium-showroom {
+            max-width: 1400px;
+            margin: 80px auto 120px;
+            padding: 0 40px;
         }
 
-        .section-header {
+        .showroom-title-block {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--axios-green);
-            padding-left: 15px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-gray);
+            padding-bottom: 20px;
         }
 
-        .section-header h2 {
-            font-size: 2rem;
-            text-transform: uppercase;
+        .showroom-title-block h2 {
+            font-size: 1.75rem;
             font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
             margin: 0;
-            letter-spacing: 1px;
         }
 
-        .section-header p {
-            color: var(--text-muted);
-            margin: 5px 0 0 0;
-            font-size: 0.95rem;
+        .showroom-title-block p {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
         }
 
-        /* Product Grid Setup */
-        .product-grid {
+        /* High-End Product Layout Architecture */
+        .premium-product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
         }
 
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .boutique-card {
+            background: transparent;
             display: flex;
             flex-direction: column;
-            border: 1px solid #262626;
+            transition: all 0.4s ease;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            border-color: #404040;
-        }
-
-        .product-image-wrap {
+        .boutique-img-frame {
             width: 100%;
-            height: 360px;
+            height: 480px; /* Tall editorial frame ratio */
+            background: var(--bg-charcoal);
             position: relative;
-            background: #1f1f1f;
             overflow: hidden;
+            border: 1px solid var(--border-gray);
         }
 
-        .product-image-wrap img {
+        .boutique-img-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: grayscale(20%);
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
         }
 
-        .badge-tag {
+        /* Minimalist Editorial Floating Tags */
+        .editorial-tag {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--axios-green);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 900;
-            padding: 4px 10px;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            color: var(--text-pure);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 6px 14px;
             text-transform: uppercase;
-            border-radius: 2px;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .product-details {
-            padding: 20px;
+        /* Smooth card activations */
+        .boutique-card:hover .boutique-img-frame img {
+            transform: scale(1.04);
+            filter: grayscale(0%);
+        }
+
+        .boutique-card:hover .boutique-img-frame {
+            border-color: #333333;
+        }
+
+        /* Minimalist Typography Meta Information */
+        .boutique-meta {
+            padding: 20px 0 0 0;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
         }
 
-        .product-category {
+        .boutique-tagline {
             font-size: 0.75rem;
             text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            color: var(--text-dim);
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: 500;
         }
 
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--text-main);
-        }
-
-        .product-bottom {
+        .boutique-title-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 15px;
-            border-top: 1px solid #262626;
+            align-items: flex-start;
         }
 
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-main);
+        .boutique-item-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-premium);
+            margin: 0;
+            letter-spacing: -0.01em;
         }
 
-        .add-to-cart-btn {
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
+        .boutique-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-pure);
+            transition: color 0.3s ease;
         }
 
-        .add-to-cart-btn:hover {
-            background: var(--axios-green);
-            border-color: var(--axios-green);
-            color: #000;
-        }
-
-        /* --- FOOTER MODIFICATIONS --- */
-        .site-footer {
-            background-color: #000000 !important;
-            border-top: 1px solid #262626;
-            padding: 40px 20px;
-            margin-top: 60px;
-        }
-        .footer-links a {
-            color: var(--text-muted) !important;
-        }
-        .footer-links a:hover {
-            color: var(--axios-green) !important;
-        }
-        .back-to-top {
-            color: var(--text-main) !important;
-            border-color: #262626 !important;
-        }
-        .back-to-top:hover {
-            background: var(--axios-green) !important;
-            color: #000 !important;
+        /* The single green interaction point when hovering over an item */
+        .boutique-card:hover .boutique-price {
+            color: var(--axios-green);
         }
     </style>
 </head>
@@ -320,80 +217,70 @@
 
     <nav class="top-nav" id="mainNav"></nav>
 
-    <section class="hero-slider-section">
-        <div class="slider-layout">
+    <section class="premium-hero-viewport">
+        <div class="infinite-image-conveyor">
+            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Premium Menswear Workout Set"></div>
+            <div class="cinematic-panel"><img src="images/slider-2.jpg" alt="Axios Premium Compression Womenswear"></div>
+            <div class="cinematic-panel"><img src="images/slider-3.jpg" alt="Axios Matte Metal Hydration Flask"></div>
+            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Street Casual Overcoat Ensemble"></div>
             
-            <div class="hero-headline">
-                <h1>Comfort Fit<br><span>Performance</span></h1>
-                <p>Engineered for high-intensity training. Tailored for premium, everyday casual street wear.</p>
-                <a href="#shop-new" class="axios-btn">Explore Range</a>
-            </div>
-
-            <div class="slider-viewscreen">
-                <div class="image-track">
-                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Casual Gym Wear"></div>
-                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Training Gear"></div>
-                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Performance Accessories"></div>
-                    <div class="slide-card"><img src="images/slider-1.jpg" alt="Axios Casual Gym Wear"></div>
-                    <div class="slide-card"><img src="images/slider-2.jpg" alt="Axios Training Gear"></div>
-                    <div class="slide-card"><img src="images/slider-3.jpg" alt="Axios Performance Accessories"></div>
-                </div>
-            </div>
-
+            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Premium Menswear Workout Set"></div>
+            <div class="cinematic-panel"><img src="images/slider-2.jpg" alt="Axios Premium Compression Womenswear"></div>
+            <div class="cinematic-panel"><img src="images/slider-3.jpg" alt="Axios Matte Metal Hydration Flask"></div>
+            <div class="cinematic-panel"><img src="images/slider-1.jpg" alt="Axios Street Casual Overcoat Ensemble"></div>
         </div>
     </section>
 
-    <section class="new-arrivals-section" id="shop-new">
-        <div class="section-header">
+    <section class="premium-showroom">
+        <div class="showroom-title-block">
             <div>
                 <h2>New Arrivals</h2>
-                <p>Premium essentials dropped fresh for the season.</p>
+            </div>
+            <div>
+                <p>Drop 01 / Essentials</p>
             </div>
         </div>
 
-        <div class="product-grid">
+        <div class="premium-product-grid">
             
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-tag">New</span>
-                    <img src="images/product-1.jpg" alt="Axios Comfort Fit Tee">
+            <div class="boutique-card">
+                <div class="boutique-img-frame">
+                    <span class="editorial-tag">New Entry</span>
+                    <img src="images/product-1.jpg" alt="Axios Active Tee">
                 </div>
-                <div class="product-details">
-                    <span class="product-category">Gym & Casual Wear</span>
-                    <h3 class="product-title">Comfort Fit Active Tee</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£34.99</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                <div class="boutique-meta">
+                    <span class="boutique-tagline">Gym & Casual Wear</span>
+                    <div class="boutique-title-row">
+                        <h3 class="boutique-item-title">Comfort Fit Active Tee</h3>
+                        <span class="boutique-price">£34.99</span>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-tag">New</span>
-                    <img src="images/product-2.jpg" alt="Axios Premium Shorts Set">
+            <div class="boutique-card">
+                <div class="boutique-img-frame">
+                    <span class="editorial-tag">New Entry</span>
+                    <img src="images/product-2.jpg" alt="Axios Elite Set">
                 </div>
-                <div class="product-details">
-                    <span class="product-category">Athletic Sets</span>
-                    <h3 class="product-title">Premium Charcoal Training Shorts Set</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£48.00</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                <div class="boutique-meta">
+                    <span class="boutique-tagline">Athletic Sets</span>
+                    <div class="boutique-title-row">
+                        <h3 class="boutique-item-title">Premium Elite Shorts Set</h3>
+                        <span class="boutique-price">£48.00</span>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image-wrap">
-                    <span class="badge-tag">Hot</span>
-                    <img src="images/product-3.jpg" alt="Axios Matte Water Bottle">
+            <div class="boutique-card">
+                <div class="boutique-img-frame">
+                    <span class="editorial-tag">Limited</span>
+                    <img src="images/product-3.jpg" alt="Axios Core Flask">
                 </div>
-                <div class="product-details">
-                    <span class="product-category">Gear & Accessories</span>
-                    <h3 class="product-title">Matte Charcoal Insulated Bottle</h3>
-                    <div class="product-bottom">
-                        <span class="product-price">£22.00</span>
-                        <button class="add-to-cart-btn" title="Add to Basket">+</button>
+                <div class="boutique-meta">
+                    <span class="boutique-tagline">Gear & Accessories</span>
+                    <div class="boutique-title-row">
+                        <h3 class="boutique-item-title">Matte Charcoal Insulated Flask</h3>
+                        <span class="boutique-price">£22.00</span>
                     </div>
                 </div>
             </div>
@@ -405,17 +292,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Dynamic Header Injection
+            // Asynchronous Components Injection
             fetch('components/nav.html')
-                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
-                .then(data => { document.getElementById('mainNav').innerHTML = data; })
-                .catch(err => console.error('Error loading navigation block'));
+                .then(r => r.text())
+                .then(d => { document.getElementById('mainNav').innerHTML = d; });
 
-            // Dynamic Footer Injection
             fetch('components/footer.html')
-                .then(response => { if (!response.ok) throw new Error(); return response.text(); })
-                .then(data => { document.getElementById('mainFooter').innerHTML = data; })
-                .catch(err => console.error('Error loading footer block'));
+                .then(r => r.text())
+                .then(d => { document.getElementById('mainFooter').innerHTML = d; });
         });
     </script>
     <script src="js/app.js"></script>
