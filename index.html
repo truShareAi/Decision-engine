@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +9,19 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- NAV -->
+    <!-- NAVIGATION -->
     <nav class="top-nav" id="mainNav"></nav>
 
     <!-- HERO -->
     <section class="hero-section">
 
-        <!-- SLIDER -->
-        <div class="hero-slider">
-
-            <div class="hero-slide active">
-                <img src="images/slider-1.jpg" alt="AXIOS Luxury Menswear">
-            </div>
-
-            <div class="hero-slide">
-                <img src="images/slider-2.jpg" alt="AXIOS Womens Performance">
-            </div>
-
-            <div class="hero-slide">
-                <img src="images/slider-3.jpg" alt="AXIOS Essentials">
-            </div>
-
-        </div>
-
-        <!-- OVERLAY -->
-        <div class="hero-overlay"></div>
-
-        <!-- CONTENT -->
-        <div class="hero-content">
+        <!-- HERO HEADER -->
+        <div class="hero-header">
 
             <div class="hero-label">
                 AXIOS / PERFORMANCE LUXURY
@@ -54,15 +35,55 @@
                 Elevated activewear designed with architectural silhouettes, technical comfort and understated luxury.
             </p>
 
-            <div class="hero-actions">
-                <a href="#collection" class="primary-btn">
-                    Discover Collection
-                </a>
+        </div>
 
-                <a href="#featured" class="secondary-btn">
-                    View Editorial
-                </a>
+        <!-- HERO SLIDER -->
+        <div class="hero-slider-wrapper">
+
+            <div class="hero-slider-track">
+
+                <!-- SLIDE 1 -->
+                <div class="hero-slide">
+                    <img src="images/slider-1.jpg" alt="AXIOS Menswear">
+                </div>
+
+                <!-- SLIDE 2 -->
+                <div class="hero-slide">
+                    <img src="images/slider-2.jpg" alt="AXIOS Womenswear">
+                </div>
+
+                <!-- SLIDE 3 -->
+                <div class="hero-slide">
+                    <img src="images/slider-3.jpg" alt="AXIOS Accessories">
+                </div>
+
+                <!-- DUPLICATES -->
+                <div class="hero-slide">
+                    <img src="images/slider-1.jpg" alt="AXIOS Menswear">
+                </div>
+
+                <div class="hero-slide">
+                    <img src="images/slider-2.jpg" alt="AXIOS Womenswear">
+                </div>
+
+                <div class="hero-slide">
+                    <img src="images/slider-3.jpg" alt="AXIOS Accessories">
+                </div>
+
             </div>
+
+        </div>
+
+        <!-- HERO BUTTONS -->
+        <div class="hero-actions">
+
+            <a href="#collection" class="primary-btn">
+                Discover Collection
+            </a>
+
+            <a href="#editorial" class="secondary-btn">
+                View Editorial
+            </a>
 
         </div>
 
@@ -95,6 +116,7 @@
         <div class="section-header">
 
             <div>
+
                 <div class="section-label">
                     New Season
                 </div>
@@ -102,6 +124,7 @@
                 <h2>
                     Latest Collection
                 </h2>
+
             </div>
 
             <p>
@@ -204,7 +227,7 @@
     </section>
 
     <!-- EDITORIAL -->
-    <section class="editorial-section" id="featured">
+    <section class="editorial-section" id="editorial">
 
         <div class="editorial-image">
             <img src="images/slider-2.jpg" alt="AXIOS Editorial">
@@ -258,4 +281,5 @@
     <script src="js/app.js"></script>
 
 </body>
+
 </html>
