@@ -1,110 +1,267 @@
-<div class="axios-footer">
+<div class="nav-shell">
 
-    <!-- TOP -->
-    <div class="footer-top">
+    <div class="nav-left">
 
-        <!-- BRAND -->
-        <div class="footer-brand">
+        <a href="/index.html" class="brand-logo">
 
-            <div class="footer-logo" onclick="window.location.href='/index.html'">
+            <img src="/images/axios.png" alt="Logo">
 
-                <img src="/images/axios.jpg" alt="AXIOS Logo">
+            <span></span>
 
-                <span>AXIOS</span>
-
-            </div>
-
-            <p class="footer-description">
-                Elevated activewear engineered for movement, recovery and modern performance.
-            </p>
-
-        </div>
-
-        <!-- LINKS -->
-        <div class="footer-links-grid">
-
-            <!-- SHOP -->
-            <div class="footer-column">
-
-                <h4>Shop</h4>
-
-                <a href="/pages/mens.html">Mens</a>
-                <a href="/pages/womens.html">Womens</a>
-                <a href="/pages/accessories.html">Accessories</a>
-                <a href="/pages/hydrate.html">Hydrate</a>
-
-            </div>
-
-            <!-- SUPPORT -->
-            <div class="footer-column">
-
-                <h4>Support</h4>
-
-                <a href="/pages/contact.html">Contact</a>
-                <a href="/pages/shipping.html">Shipping</a>
-                <a href="/pages/returns.html">Returns</a>
-                <a href="/pages/faqs.html">FAQs</a>
-
-            </div>
-
-            <!-- COMPANY -->
-            <div class="footer-column">
-
-                <h4>Company</h4>
-
-                <a href="/pages/about.html">About</a>
-                <a href="/pages/editorial.html">Editorial</a>
-                <a href="/pages/privacy.html">Privacy</a>
-                <a href="/pages/terms.html">Terms</a>
-
-            </div>
-
-        </div>
-
-        <!-- NEWSLETTER -->
-        <div class="footer-newsletter">
-
-            <h4>Newsletter</h4>
-
-            <p>
-                Receive early access to drops, editorials and limited releases.
-            </p>
-
-            <form class="newsletter-form">
-
-                <input 
-                    type="email" 
-                    placeholder="Enter your email"
-                    required
-                >
-
-                <button type="submit">
-                    Join
-                </button>
-
-            </form>
-
-        </div>
+        </a>
 
     </div>
 
-    <!-- DIVIDER -->
-    <div class="footer-divider"></div>
+    <div class="nav-center">
 
-    <!-- BOTTOM -->
-    <div class="footer-bottom">
+        <a href="/pages/mens.html">Mens</a>
 
-        <div class="footer-copy">
-            © AXIOS 2026. All Rights Reserved.
-        </div>
+        <a href="/pages/womens.html">Womens</a>
 
-        <button 
-            class="footer-top-btn"
-            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-        >
-            Back To Top ↑
-        </button>
+        <a href="/pages/accessories.html">Accessories</a>
+
+        <a href="/pages/hydrate.html">Hydrate</a>
+
+    </div>
+
+    <div class="nav-right" id="navAuthSection">
+
+        <a href="/pages/signin.html" class="nav-signin">
+            Sign In
+        </a>
 
     </div>
 
 </div>
+
+<style>
+
+/* =========================================
+   NAV LAYOUT
+========================================= */
+
+.top-nav{
+    width:100%;
+    height:82px;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    z-index:1000;
+
+    background:rgba(24,26,31,0.88);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.nav-shell{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 40px;
+}
+
+/* =========================================
+   LEFT
+========================================= */
+
+.nav-left{
+    display:flex;
+    align-items:center;
+}
+
+.brand-logo{
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    text-decoration:none;
+
+    color:#f3f4f6;
+    
+    /* Shift logo 20px to the right */
+    margin-left: 20px;
+}
+
+.brand-logo img{
+    width:100px;
+    height:42px;
+
+    /* Changed from cover to contain so the full logo is visible */
+    object-fit:contain;
+
+    border-radius:4px;
+}
+
+.brand-logo span{
+    font-size:1rem;
+    font-weight:800;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+}
+
+/* =========================================
+   CENTER LINKS
+========================================= */
+
+.nav-center{
+    display:flex;
+    align-items:center;
+    gap:42px;
+}
+
+.nav-center a{
+    position:relative;
+
+    color:#d2d7df;
+
+    text-decoration:none;
+
+    font-size:.78rem;
+    font-weight:600;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    transition:all .3s ease;
+}
+
+.nav-center a:hover{
+    color:#ffffff;
+}
+
+.nav-center a::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-8px;
+
+    width:0%;
+    height:1px;
+
+    background:#ffffff;
+
+    transition:all .35s ease;
+}
+
+.nav-center a:hover::after{
+    width:100%;
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+}
+
+.nav-signin{
+    height:42px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 22px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    background:rgba(255,255,255,.03);
+
+    color:#f3f4f6;
+
+    text-decoration:none;
+
+    font-size:.75rem;
+    font-weight:700;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    transition:all .35s ease;
+}
+
+.nav-signin:hover{
+    background:#f3f4f6;
+    color:#181a1f;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:900px){
+
+    .nav-shell{
+        padding:0 20px;
+    }
+
+    .nav-center{
+        gap:20px;
+    }
+
+    .nav-center a{
+        font-size:.62rem;
+        letter-spacing:1px;
+    }
+
+    .brand-logo span{
+        display:none;
+    }
+
+    .nav-signin{
+        padding:0 14px;
+        font-size:.65rem;
+    }
+}
+
+@media(max-width:700px){
+
+    .nav-center{
+        display:none;
+    }
+}
+
+</style>
+
+<script>
+
+(function(){
+
+    function updateNav(){
+
+        const user = localStorage.getItem('bananaUser');
+
+        const target = document.getElementById('navAuthSection');
+
+        if(user && target){
+
+            target.innerHTML = `
+                <a href="/pages/dashboard.html" class="nav-signin">
+                    ${user}
+                </a>
+            `;
+        }
+    }
+
+    updateNav();
+
+    setTimeout(updateNav,100);
+
+})();
+
+</script>
