@@ -4,9 +4,9 @@
 
         <a href="/index.html" class="brand-logo">
 
-            <img src="/images/axios.png" alt="AXIOS Logo">
+            <img src="/images/axios.png" alt="Logo">
 
-            <span>AXIOS</span>
+            <span></span>
 
         </a>
 
@@ -86,13 +86,17 @@
     text-decoration:none;
 
     color:#f3f4f6;
+    
+    /* Shift logo 20px to the right */
+    margin-left: 20px;
 }
 
 .brand-logo img{
     width:100px;
     height:42px;
 
-    object-fit:cover;
+    /* Changed from cover to contain so the full logo is visible */
+    object-fit:contain;
 
     border-radius:4px;
 }
